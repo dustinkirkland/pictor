@@ -1,0 +1,96 @@
+#!/usr/bin/perl
+
+sub get_owner() {
+	`id apache &> /dev/null`;
+	$rc = $?;
+	if ($rc == 0) {
+		return "apache:apache";
+	} 
+	`id www-data &> /dev/null`;
+	$rc = $?;
+	if ($rc == 0) {
+		return "www-data:www-data";
+	}
+	print("ERROR: could not find web user\n");
+	exit 1;
+}
+
+sub thumbs($) {
+	my $dir = shift;
+	my $dh;
+	if ( -d $dir ) {
+		if ( ! -f "$dir/description.txt" ) {
+			if ($VERBOSE) {
+				print("Creating '$dir/description.txt'\n");
+			}
+			`touch "$dir/description.txt"; chown $OWNER "$dir/description.txt"; chmod 644 "$dir/description.txt"`;
+			
+		}
+		opendir($dh, $dir);
+		while ( my $obj = readdir($dh) ) {
+			if ( $obj !~ /^\./ ) {
+				if ( -d "$dir/$obj" ) {
+					thumbs("$dir/$obj");
+				} elsif ( -f "$dir/$obj" && $obj =~ /\.jp[e]{0,1}g$/i ) {
+					if ( ! -d "$dir/.thumbnails" ) {
+						mkdir("$dir/.thumbnails");
+					}
+					if ( ! -e "$dir/.thumbnails/$obj" || $FORCE ) {
+						$geometry = $WIDTH . "x" .$WIDTH;
+						if ($VERBOSE) {
+							print("convert -thumbnail $geometry \"$dir/$obj\" \"$dir/.thumbnails/$obj\"\n");
+						}
+						`convert -thumbnail $geometry "$dir/$obj" "$dir/.thumbnails/$obj"`;
+					}
+				}
+			}
+		}
+		closedir($dh)
+	}
+	return 0;
+}
+
+sub contains(@) {
+	my @array = @_;
+	my $element = pop(@array);
+	foreach my $i (@array) {
+		if ($i eq $element) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+sub perms($) {
+	my $dir = shift;
+	`find "$dir" -type f -name description.txt | xargs -i chown $OWNER "{}"`;
+	`find "$dir" -type f -name description.txt | xargs -i chmod 644 "{}"`;
+}
+
+########
+# main #
+########
+
+$FORCE = 0;
+$VERBOSE = 0;
+$WIDTH = 150;
+
+$OWNER = get_owner();
+
+if (@ARGV == 0) {
+	print("Usage: thumbs [-f|--force] [-v|--verbose] DIRECTORY\n");
+	print("\tThis program recursively generates thumbnail jpg images.\n");
+	print("\tOnly one DIRECTORY accepted.\n");
+	print("\tAny other parameters will be ignored\n");
+	exit 0;
+}
+
+if ( contains(@ARGV, "-f") ) { $FORCE = 1; }
+if ( contains(@ARGV, "--force") ) { $FORCE = 1; }
+if ( contains(@ARGV, "-v") ) { $VERBOSE = 1; }
+if ( contains(@ARGV, "--verbose") ) { $VERBOSE = 1; }
+
+my $dir = "$ARGV[scalar(@ARGV)-1]";
+thumbs($dir);
+perms($dir);
+
