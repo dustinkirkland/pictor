@@ -1,8 +1,8 @@
 <?php
 
-$TITLE = "pictures.dustinkirkland.com";
-$PHOTOGRAPHER = "Dustin Kirkland";
-$PHOTOGRAPHER_EMAIL = "dustin.kirkland@gmail.com";
-$RAND_ALBUMS = array("pictures/Weddings/Kirkland-Gros/Rehearsal/slideshow");
+$TITLE = "Tux's Photo Collection";
+$PHOTOGRAPHER = "Tux Himself";
+$PHOTOGRAPHER_EMAIL = "tux@example.com";
+$RAND_ALBUMS = array("pictures/Wedding", "pictures/Birthdays");
 
 ?>
