@@ -32,7 +32,7 @@ $random	   = sanity_check($_REQUEST["random"]);
 $edit	   = sanity_check($_REQUEST["edit"]);
 
 $EDIT = 0;
-if ($edit == $EDIT_PW) {
+if (isset($edit) && ($edit == $EDIT_PW)) {
 	$EDIT = 1;
 }
 
