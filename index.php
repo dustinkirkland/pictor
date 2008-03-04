@@ -29,7 +29,12 @@ $write	   = sanity_check($_REQUEST["write"]);
 $file	   = sanity_check_array($_REQUEST["file"]);
 $desc	   = sanity_check_array($_REQUEST["desc"]);
 $random	   = sanity_check($_REQUEST["random"]);
-$EDIT	   = sanity_check($_REQUEST["edit"]);
+$edit	   = sanity_check($_REQUEST["edit"]);
+
+$EDIT = 0;
+if ($edit == $EDIT_PW) {
+	$EDIT = 1;
+}
 
 /* check for malicious .. in $base input */
 $PICTURE_ROOT = "pictures";
@@ -483,7 +488,7 @@ function print_thumbnails($album) {
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
 	print("<table width=100%><tr><td><center>\n");
-	if ($EDIT == $EDIT_PW) {
+	if ($EDIT == 1) {
 		print("<table><form method=post><input type=hidden name=write value=1>\n");
 		$i = sizeof($pictures);
 		print("<tr><td><b>Title</b><td><input type=hidden name=file[$i] value=description><input type=text size=30 name=desc[$i] value='$description[description]' tabindex=$tab></td></tr>\n"); $tab++;
@@ -501,16 +506,16 @@ function print_thumbnails($album) {
 	for ($i=0; $i<sizeof($pictures); $i++) {
 		$desc = $description[$pictures[$i]];
 		if ($i % $THUMB_COLUMNS == 0) { print("<tr>"); }
-		if ($EDIT == $EDIT_PW) {
+		if ($EDIT == 1) {
 			$edit = "<br><input type=hidden name=file[$i] value='$pictures[$i]'><input type=text size=20 value='$desc' name=desc[$i] tabindex=$tab>"; $tab++;
 		}
 		print("<td align=center>");
-		print_thumbnail($album, $pictures[$i], $EDIT ? "" : $desc);
+		print_thumbnail($album, $pictures[$i], $EDIT ? 0 : $desc);
 		print("$edit</td>");
 		if ($i % $THUMB_COLUMNS == ($THUMB_COLUMNS-1)) { print("</tr>"); }
 	}
 	print("</table>");
-	if ($EDIT == $EDIT_PW) {
+	if ($EDIT == 1) {
 		print("<input type=submit value=Submit tabindex=$tab></form>");
 	}
 	print("</center></td></tr></table>");
