@@ -544,7 +544,7 @@ function do_write_descriptions($album, $file, $desc) {
 	}
 	fclose($fh);
 	print("</pre></td></tr></table>");
-	print("<br><a href=index.html>index</a> | <a href=?thumbs=1&album=". urlencode($album) . ">thumbs</a> | <a href=?album=" . urlencode($album) . ">flipbook</a><br><br>");
+	print("<br><a href=?>index</a> | <a href=?thumbs=1&album=". urlencode($album) . ">thumbs</a> | <a href=?album=" . urlencode($album) . ">flipbook</a><br><br>");
 }
 /****************************************************************************/
 
