@@ -1,12 +1,12 @@
 #!/usr/bin/perl
 
 sub get_owner() {
-	`id apache &> /dev/null`;
+	`id apache`;
 	$rc = $?;
 	if ($rc == 0) {
 		return "apache:apache";
 	} 
-	`id www-data &> /dev/null`;
+	`id www-data`;
 	$rc = $?;
 	if ($rc == 0) {
 		return "www-data:www-data";
