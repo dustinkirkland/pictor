@@ -40,6 +40,7 @@ sub thumbs($) {
 						if ($VERBOSE) {
 							print("convert -thumbnail $geometry \"$dir/$obj\" \"$dir/.thumbnails/$obj\"\n");
 						}
+						`jhead -autorot "$dir/$obj"`;
 						`convert -thumbnail $geometry "$dir/$obj" "$dir/.thumbnails/$obj"`;
 					}
 				}
