@@ -1,16 +1,18 @@
 #!/usr/bin/perl
 
+use Getopt::Long;
+
 sub get_owner() {
-	`id apache`;
-	$rc = $?;
-	if ($rc == 0) {
-		return "apache:apache";
-	} 
 	`id www-data`;
 	$rc = $?;
 	if ($rc == 0) {
 		return "www-data:www-data";
 	}
+	`id apache`;
+	$rc = $?;
+	if ($rc == 0) {
+		return "apache:apache";
+	} 
 	print("ERROR: could not find web user\n");
 	exit 1;
 }
@@ -32,16 +34,16 @@ sub thumbs($) {
 				if ( -d "$dir/$obj" ) {
 					thumbs("$dir/$obj");
 				} elsif ( -f "$dir/$obj" && $obj =~ /\.jp[e]{0,1}g$/i ) {
-					if ( ! -d "$dir/.thumbnails" ) {
-						mkdir("$dir/.thumbnails");
+					if ( ! -d "$DESTDIR$dir/.thumbnails" ) {
+						`mkdir -p "$DESTDIR$dir/.thumbnails"`;
 					}
-					if ( ! -e "$dir/.thumbnails/$obj" || $FORCE ) {
+					if ( ! -e "$DESTDIR$dir/.thumbnails/$obj" || $FORCE ) {
 						$geometry = $WIDTH . "x" .$WIDTH;
 						if ($VERBOSE) {
-							print("convert -thumbnail $geometry \"$dir/$obj\" \"$dir/.thumbnails/$obj\"\n");
+							print("convert -thumbnail $geometry \"$dir/$obj\" \"$DESTDIR$dir/.thumbnails/$obj\"\n");
 						}
 						`jhead -autorot "$dir/$obj"`;
-						`convert -thumbnail $geometry "$dir/$obj" "$dir/.thumbnails/$obj"`;
+						`convert -thumbnail $geometry "$dir/$obj" "$DESTDIR$dir/.thumbnails/$obj"`;
 					}
 				}
 			}
@@ -68,6 +70,14 @@ sub perms($) {
 	`find "$dir" -type f -name description.txt | xargs -i chmod 644 "{}"`;
 }
 
+sub usage() {
+	print("Usage: thumbs [-f|--force] [-v|--verbose] [-d|--dest DEST] DIRECTORY\n");
+	print("\tThis program recursively generates thumbnail jpg images.\n");
+	print("\tOnly one DIRECTORY accepted.\n");
+	print("\tAny other parameters will be ignored\n");
+	exit 0;
+}
+
 ########
 # main #
 ########
@@ -78,20 +88,22 @@ $WIDTH = 150;
 
 $OWNER = get_owner();
 
-if (@ARGV == 0) {
-	print("Usage: thumbs [-f|--force] [-v|--verbose] DIRECTORY\n");
-	print("\tThis program recursively generates thumbnail jpg images.\n");
-	print("\tOnly one DIRECTORY accepted.\n");
-	print("\tAny other parameters will be ignored\n");
-	exit 0;
+$opt = GetOptions ("force" => \$FORCE,
+		   "verbose"   => \$VERBOSE,
+		   "dest=s" => \$DESTDIR,
+		   "width=s" => \$WIDTH);
+
+my $dir = $ARGV[@ARGV-1];
+
+if (!$dir) {
+	usage();
 }
 
-if ( contains(@ARGV, "-f") ) { $FORCE = 1; }
-if ( contains(@ARGV, "--force") ) { $FORCE = 1; }
-if ( contains(@ARGV, "-v") ) { $VERBOSE = 1; }
-if ( contains(@ARGV, "--verbose") ) { $VERBOSE = 1; }
+if (!$DESTDIR) {
+	$DESTDIR = "";
+} else {
+	$DESTDIR = "$DESTDIR/";
+}
 
-my $dir = "$ARGV[scalar(@ARGV)-1]";
 thumbs($dir);
 perms($dir);
-
