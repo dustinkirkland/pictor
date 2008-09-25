@@ -1,5 +1,7 @@
 <?php
 
+// Edit this file and rename to settings.php
+
 $TITLE = "Tux's Photo Collection";
 $PHOTOGRAPHER = "Tux Himself";
 $PHOTOGRAPHER_EMAIL = "tux@example.com";
