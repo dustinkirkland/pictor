@@ -252,7 +252,7 @@ body {
 </head>
 <body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#DDDDDD>
 <table width=100% height=100%><tr><td align=center valign=center>
-		<table width=600 border=1 cellspacing=0>
+		<table width=600 border=0 cellspacing=0>
 		  <tr>
 		    <td bgcolor=#FFFFFF align=center>
 <a href=/><big><b>$TITLE</b><big></a>
@@ -269,7 +269,7 @@ body {
 function print_footer() {
 	global $PHOTOGRAPHER, $PHOTOGRAPHER_EMAIL;
 	print("
-		<table width=600 border=1 cellspacing=0>
+		<table width=600 border=0 cellspacing=0>
 		  <tr>
 		    <td bgcolor=#FFFFFF align=center>
 All images are &copy;1997-2008 <a href=mailto:$PHOTOGRAPHER_EMAIL>$PHOTOGRAPHER</a><br>
@@ -390,7 +390,7 @@ function print_thumbnail($path, $file, $desc) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
-	print("<table border=1 height=100 width=100 bgcolor=white><tr><td align=center valign=center><a href='$href'>");
+	print("<table border=0 height=100 width=100 bgcolor=white><tr><td align=center valign=center><a href='$href'>");
 	if (is_image($file)) {
 		print("<img border=0 src='$THUMB_ROOT/$path/.thumbnails/$file'>");
 	} elseif (is_video($file)) {
@@ -426,10 +426,10 @@ function do_list_albums($base) {
 			$header = "All Albums";
 		}
 		print("
-<table border=2 cellspacing=0 cellpadding=10 align=center>
+<table border=0 cellspacing=0 cellpadding=10 align=center>
   <tr>
     <td bgcolor=#EEEEEE>
-      <table border=2 cellspacing=4 cellpadding=2 align=center width=90%>
+      <table border=0 cellspacing=4 cellpadding=2 align=center width=90%>
         <tr>
           <th colspan=$COLUMNS bgcolor=#DDDDDD>$header</th>
         </tr>
@@ -530,7 +530,7 @@ function print_thumbnails($album) {
    description.txt which must be chowned to apache:apache
 */
 function do_write_descriptions($album, $file, $desc) {
-	print("<table bgcolor=white border=1><tr><td align=left><pre>\n");
+	print("<table bgcolor=white border=0><tr><td align=left><pre>\n");
 	print("FILENAME: $album/description.txt<br><br>\n");
 	if (!$fh = fopen("pictures/$BASEDIR/$album/description.txt", "w")) {
 		print("Cannot open [$BASEDIR/$album/description.txt]\n");
@@ -632,7 +632,7 @@ function get_next_link($album, $width, $pictures, $currentindex, $slideshow) {
 	if ($slideshow > 0) {
 		print("<meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'>\n");
 	}
-	$next = "<table border=1 cellspacing=0 bgcolor=white><tr><td><a href='$url'><b>Next &gt;</b></a></td></tr></table>";
+	$next = "<table border=0 cellspacing=0 bgcolor=white><tr><td><a href='$url'><b>Next &gt;</b></a></td></tr></table>";
 	return $next;
 }
 
@@ -640,7 +640,7 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 	if ($currentindex != 0) {
 		$back = $pictures[$currentindex-1];
 		$url = "?album=" . urlencode($album) . "&picture=" . urlencode($back) . "&width=$width";
-		$back = "<table border=1 cellspacing=0 bgcolor=white><tr><td><a href='$url'><b>&lt; Back</b></a></td></tr></table>";
+		$back = "<table border=0 cellspacing=0 bgcolor=white><tr><td><a href='$url'><b>&lt; Back</b></a></td></tr></table>";
 		return $back;
 	} else {
 		return "&nbsp;";
@@ -697,13 +697,13 @@ function print_exif_data($path_to_picture, $description) {
 //	array_push($keys, "Weather"); array_push($values, get_weather($date, $city, $state, $country));
 	
 	print("<table border=0 cellspacing=5><tr valign=top><td>");
-	print("<table border=1 cellspacing=0>");
+	print("<table border=0 cellspacing=2>");
 	for ($i=0; $i<sizeof($keys); $i++) {
 		print_data_cell($keys[$i], $values[$i]);
 	}
 	print("</table></td><td>");
 	$keys = array("Flash used", "Focal length", "Exposure time", "Aperture", "ISO equiv.", "Whitebalance", "Metering Mode", "Exposure");
-	print("<table border=1 cellspacing=0>");
+	print("<table border=0 cellspacing=2>");
 	for ($i=0; $i<sizeof($keys); $i++) {
 		print_data_cell($keys[$i], $exif[$keys[$i]]);
 	}
@@ -765,7 +765,7 @@ function print_upper_banner($album, $description, $width) {
 		$descr .= " - $description";
 	}
 	print("
-		<table border=1 cellspacing=0 align=center width=$width bgcolor=#FFFFFF>
+		<table border=0 cellpadding=0 cellspacing=0 align=center width=$width bgcolor=#FFFFFF>
 		  <tr align=center>
 		    <td><b>$descr</b></td>
 		  </tr>
@@ -780,10 +780,10 @@ function print_upper_banner($album, $description, $width) {
 function print_upper_toolbar($album, $description, $back, $next, $width) {
 	print_upper_banner($album, $description, $width);
 	print("
-		<table border=0 align=center width=100% bgcolor=#DDDDDD>
+		<table border=0 cellspacing=0 cellpadding=0 align=center width=100% bgcolor=#DDDDDD>
 		  <tr align=center>
 		    <td width=33%>$back</td>
-		    <td width=34%><table border=1 bgcolor=white width=100% cellspacing=0><tr><td align=center>
+		    <td width=34%><table border=0 bgcolor=white width=100% cellspacing=0><tr><td align=center>
 		      <a href=" . $_SERVER[PHP_SELF] . ">index</a> | 
 		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> | 
 		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a>
@@ -817,7 +817,7 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 /* Print picture img */
 function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 	print("
-		<table border=0 bgcolor=#DDDDDD width=100%><tr><td><table border=10 cellspacing=0 cellpadding=0 align=center>
+		<table border=0 bgcolor=#DDDDDD width=100%><tr><td><table border=0 cellspacing=0 cellpadding=0 align=center>
 		  <tr>
 		    <td>
 	");
