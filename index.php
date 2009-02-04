@@ -2,7 +2,7 @@
 
 /*
  * Pictor 1.1
- * Copyright (C) 2000-2008 Dustin Kirkland
+ * Copyright (C) 2000-2009 Dustin Kirkland
  * Author: Dustin Kirkland <dustin.kirkland@gmail.com>
  * Pictor is released under the GNU Public License V3
  *
@@ -782,14 +782,14 @@ function print_upper_toolbar($album, $description, $back, $next, $width) {
 	print("
 		<table border=0 cellspacing=0 cellpadding=0 align=center width=100% bgcolor=#DDDDDD>
 		  <tr align=center>
-		    <td width=33%>$back</td>
-		    <td width=34%><table border=0 bgcolor=white width=100% cellspacing=0><tr><td align=center>
+		    <td width=20% align=right>$back</td>
+		    <td width=60%><table border=0 bgcolor=white width=100% cellspacing=0><tr><td align=center>
 		      <a href=" . $_SERVER[PHP_SELF] . ">index</a> | 
 		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> | 
 		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a>
 		      </td></tr></table>
 		    </td>
-		    <td width=33%>$next</td>
+		    <td width=20% align=left>$next</td>
 		  </tr>
 		</table>
 	");
