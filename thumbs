@@ -29,7 +29,7 @@ sub get_owner() {
 	$rc = $?;
 	if ($rc == 0) {
 		return "apache:apache";
-	} 
+	}
 	print("ERROR: could not find web user\n");
 	exit 1;
 }
@@ -43,7 +43,7 @@ sub thumbs($) {
 				print("Creating '$dir/description.txt'\n");
 			}
 			`touch "$dir/description.txt"; chown $OWNER "$dir/description.txt"; chmod 644 "$dir/description.txt"`;
-			
+
 		}
 		opendir($dh, $dir);
 		while ( my $obj = readdir($dh) ) {

@@ -97,7 +97,7 @@ function has_subdir($dir) {
 			return 0;
 		}
 		return 0;
-	}	
+	}
 	return 0;
 }
 /****************************************************************************/
@@ -127,9 +127,9 @@ function get_description($path) {
 /****************************************************************************/
 /* Given a filename, return true if has an image file extension */
 function is_image($file) {
-	if (	!preg_match("/^[\._]/", $file) && 
+	if (	!preg_match("/^[\._]/", $file) &&
 		( preg_match("/\.jpg$/i", $file) ||
-		preg_match("/\.jpeg$/i", $file) ) 
+		preg_match("/\.jpeg$/i", $file) )
 	) {
 		return 1;
 	}
@@ -141,7 +141,7 @@ function is_image($file) {
 /****************************************************************************/
 /* Given a filename, return true if has a video file extension */
 function is_video($file) {
-	if (	!preg_match("/^[\._]/", $file) && 
+	if (	!preg_match("/^[\._]/", $file) &&
 		(preg_match("/\.mpg$/i", $file) ||
 		preg_match("/\.mpeg$/i", $file) ||
 		preg_match("/\.mov$/i", $file) ||
@@ -176,15 +176,15 @@ function get_pictures_from_album($album) {
 /****************************************************************************/
 /* Remove temporary images older than 15 minutes */
 function clean_tmp($dirname) {
-	$dir = opendir($dirname);	
+	$dir = opendir($dirname);
 	while (($file = readdir($dir)) !== false) {
 	// delete temp images that have not been accessed in the last 15 minutes
-		if ( 
-			is_file("tmp/$file") && 
+		if (
+			is_file("tmp/$file") &&
 			is_image($file) &&
-			(date("U") - date("U", fileatime("tmp/$file")) > 15*60) 
+			(date("U") - date("U", fileatime("tmp/$file")) > 15*60)
 		   ) {
-			unlink("tmp/$file");	
+			unlink("tmp/$file");
 		}
 	}
 	closedir($dir);
@@ -236,20 +236,20 @@ function surf(form) {
 </script>
 <style>
 td {
-	text-decoration: none; 
+	text-decoration: none;
 	font-size: 10px
 }
 a {
-	text-decoration: none; 
+	text-decoration: none;
 	font-size: 10px
 }
 a:hover {
-	text-decoration: underline; 
+	text-decoration: underline;
 }
 body {
-	font-size: 10px; 
-	font-family: verdana,arial,helvetica,sans-serif; 
-	font-weight: 400; 
+	font-size: 10px;
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-weight: 400;
 	color: #000000;
 }
 </style>
@@ -443,10 +443,10 @@ function do_list_albums($base) {
 		for ($i=0; $i<sizeof($files); $i++) {
 			$file = $files[$i];
 			if (
-					is_dir("$BASEDIR/$file") && 
+					is_dir("$BASEDIR/$file") &&
 					(!preg_match("/^[_\.]/", $file))
 			   ) {
-				if (has_subdir("$BASEDIR/$file")) { 
+				if (has_subdir("$BASEDIR/$file")) {
 					$href = "?base=" . urlencode("$base/$file");
 				} else {
 					$href = "?album=" . urlencode("$base/$file") . "&thumbs=1";
@@ -476,7 +476,7 @@ function do_list_albums($base) {
 	}
 	print_search_form();
 	// if only one option, go straight to it
-	if ($count == 1) 
+	if ($count == 1)
 		print("<meta http-equiv='refresh' content='0;url=$href'>");
 }
 /****************************************************************************/
@@ -578,7 +578,7 @@ function build_rotate_form($album, $picture, $width, $rotate) {
 function build_resize_form($path_to_picture, $album, $picture, $width, $rotate) {
 	list($thiswidth, $thisheight, $thistype, $thisattr) = getimagesize($path_to_picture);
 	$sizearray = array("160", "400", "640", "800", "1024", "1280", $thiswidth);
-	$form = "<form name=resizeform><select name=dest onchange=javascript:surf(this.form)>\n"; 
+	$form = "<form name=resizeform><select name=dest onchange=javascript:surf(this.form)>\n";
 	for ($i=0; $i<sizeof($sizearray); $i++) {
 		$thiswidth = $sizearray[$i];
 		$height = $thiswidth * 3 / 4;
@@ -663,7 +663,7 @@ function get_exif_hash($path_to_picture) {
 	$exif_hash = array();
 	for ($i=0; $i<sizeof($lines); $i++) {
 		list($key, $value) = preg_split("/\s*:\s*/", $lines[$i], 2);
-		$exif_hash["$key"] = "$value"; 
+		$exif_hash["$key"] = "$value";
 	}
 	return $exif_hash;
 }
@@ -700,7 +700,7 @@ function print_exif_data($path_to_picture, $description) {
 	array_push($keys, "Location"); array_push($values, $loc);
 //	array_push($keys, "Airport"); array_push($values, get_airport($city, $state, $country));
 //	array_push($keys, "Weather"); array_push($values, get_weather($date, $city, $state, $country));
-	
+
 	print("<table border=0 cellspacing=5><tr valign=top><td>");
 	print("<table border=0 cellspacing=2>");
 	for ($i=0; $i<sizeof($keys); $i++) {
@@ -713,7 +713,7 @@ function print_exif_data($path_to_picture, $description) {
 		print_data_cell($keys[$i], $exif[$keys[$i]]);
 	}
 	print("</table></td></tr></table>");
-}	
+}
 /****************************************************************************/
 
 function get_airport($city, $state="", $country="") {
@@ -789,8 +789,8 @@ function print_upper_toolbar($album, $description, $back, $next, $width) {
 		  <tr align=center>
 		    <td width=20% align=right>$back</td>
 		    <td width=60%><table border=0 bgcolor=white width=100% cellspacing=0><tr><td align=center>
-		      <a href=" . $_SERVER[PHP_SELF] . ">index</a> | 
-		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> | 
+		      <a href=" . $_SERVER[PHP_SELF] . ">index</a> |
+		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> |
 		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a>
 		      </td></tr></table>
 		    </td>
@@ -809,7 +809,7 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 		$temp = $path_to_picture;
 	}
 	print("<a href='$path_to_picture'>");
-	if (is_image($path_to_picture)) { 
+	if (is_image($path_to_picture)) {
 		print("<img border=0 src='$temp' height=$height alt='$alt'>");
 	} elseif (is_video($path_to_picture)) {
 		print("<embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
@@ -857,11 +857,11 @@ function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 /* Display the flipbook page with the picture and all navigation tools */
 function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	global $_SERVER, $BASEDIR;
-	if (!$width) { 
+	if (!$width) {
 		if ( $_SERVER["HTTP_UA_PIXELS"] ) {
 			list ($width, $trash) = preg_split("/x/", $_SERVER["HTTP_UA_PIXELS"], 2);
 		} else {
-			$width = "640"; 
+			$width = "640";
 		}
 	}
 	$height = 3/4 * $width;
@@ -934,7 +934,7 @@ function do_random() {
 		}
 		closedir($dh);
 	}
-	print("http://" . $_SERVER["HTTP_HOST"] . 
+	print("http://" . $_SERVER["HTTP_HOST"] .
 		"/" . $pictures[array_rand($pictures)]. "\n");
 }
 /****************************************************************************/
