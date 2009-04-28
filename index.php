@@ -1,15 +1,20 @@
 <?php
 
 /*
- * Pictor 1.1
- * Copyright (C) 2000-2009 Dustin Kirkland
- * Author: Dustin Kirkland <dustin.kirkland@gmail.com>
- * Pictor is released under the GNU Public License V3
+ *  pictor: a web application for sharing, viewing, and organizing pictures
+ *  Copyright (C) 2000-2009 Dustin Kirkland <dustin.kirkland@gmail.com>
  *
- *  Pictor is a  free web-based tool for sharing, viewing, and 
- *  organizing pictures through a web browser over the internet.  The intention 
- *  is provide a very light weight framework, a single php file, for
- *  accomplishing this goal.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published by
+ *  the Free Software Foundation, version 3 of the License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -272,8 +277,8 @@ function print_footer() {
 		<table width=600 border=0 cellspacing=0>
 		  <tr>
 		    <td bgcolor=#FFFFFF align=center>
-All images are &copy;1997-2008 <a href=mailto:$PHOTOGRAPHER_EMAIL>$PHOTOGRAPHER</a><br>
-Copyright &copy; 2000-2008 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>, the <a href=https://launchpad.net/pictor>Pictor Web Application</a> is free software under the <a href=gpl.txt>GPLv3</a>
+All images are &copy;1997-2009 <a href=mailto:$PHOTOGRAPHER_EMAIL>$PHOTOGRAPHER</a><br>
+Copyright &copy; 2000-2008 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>, the <a href=https://launchpad.net/pictor>Pictor Web Application</a> is free software under the <a href=agpl-3.0.txt>GNU AGPLv3</a>
 		  </tr>
 		</table>
 </td></tr></table>
