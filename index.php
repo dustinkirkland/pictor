@@ -200,7 +200,7 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 		$size = $width . "x" . $height;
 		$input = escapeshellarg($path_to_picture);
 		$img = new Imagick($path_to_picture);
-		$img->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
+		$img->scaleImage($width, $height, 1);
 		if ($rotate != 0) {
 			$img->rotateImage(new ImagickPixel(), $rotate);
 		}
@@ -827,7 +827,7 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 /* Print picture img */
 function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 	print("
-		<table border=0 width=100%><tr><td><table border=0 cellspacing=0 cellpadding=6 align=center>
+		<table border=0><tr><td><table border=0 cellspacing=0 cellpadding=6 align=center>
 		  <tr>
 		    <td bgcolor=#000000>
 	");
@@ -845,13 +845,13 @@ function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 /* Print lower toolbar */
 function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 	print("
-		<table border=0 align=center width=$width bgcolor=#DDDDDD>
+		<table><tr><td bgcolor=#FFFFFF><table border=0 align=center width=$width>
 		  <tr align=center>
-		    <td>$resizeform</td>
-		    <td>$picform</td>
-		    <td>$rotateform</td>
+		    <td width=33%>$resizeform</td>
+		    <td width=34%>$picform</td>
+		    <td width=33%>$rotateform</td>
 		  </tr>
-		</table>
+		</table></td></tr></table>
 	");
 }
 
