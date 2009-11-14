@@ -172,18 +172,17 @@ function get_pictures_from_album($album) {
 }
 /****************************************************************************/
 
-
 /****************************************************************************/
 /* Remove temporary images older than 15 minutes */
 function clean_tmp($dirname) {
 	$dir = opendir($dirname);
 	while (($file = readdir($dir)) !== false) {
-	// delete temp images that have not been accessed in the last 15 minutes
+		// delete temp images that have not been accessed in the last 15 minutes
 		if (
 			is_file("tmp/$file") &&
 			is_image($file) &&
 			(date("U") - date("U", fileatime("tmp/$file")) > 15*60)
-		   ) {
+		) {
 			unlink("tmp/$file");
 		}
 	}
@@ -191,9 +190,8 @@ function clean_tmp($dirname) {
 }
 /****************************************************************************/
 
-
 /****************************************************************************/
-/* Make the shell call to create a resized tmp image, depends on convert */
+/* Resize an image, returns temp file name, depends on php5-imagick */
 function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 	$path_parts = preg_split("/\//", $path_to_picture);
 	$file = array_pop($path_parts);
@@ -201,7 +199,13 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 	if ( ! file_exists($tempfilename) && is_image($path_to_picture) ) {
 		$size = $width . "x" . $height;
 		$input = escapeshellarg($path_to_picture);
-		`convert -size $size -resize x$height -rotate $rotate $input "$tempfilename"`;
+		$img = new Imagick($path_to_picture);
+		$img->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1);
+		if ($rotate != 0) {
+			$img->rotateImage(new ImagickPixel(), $rotate);
+		}
+		$img->writeImage($tempfilename);
+		$img->destroy();
 	}
 	return $tempfilename;
 }
@@ -803,7 +807,6 @@ function print_upper_toolbar($album, $description, $back, $next, $width) {
 }
 /****************************************************************************/
 
-
 /****************************************************************************/
 /* Print picture img */
 function print_picture($path_to_picture, $temp, $height, $alt) {
@@ -824,9 +827,9 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 /* Print picture img */
 function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 	print("
-		<table border=0 bgcolor=#DDDDDD width=100%><tr><td><table border=0 cellspacing=0 cellpadding=0 align=center>
+		<table border=0 width=100%><tr><td><table border=0 cellspacing=0 cellpadding=6 align=center>
 		  <tr>
-		    <td>
+		    <td bgcolor=#000000>
 	");
 	print_picture($path_to_picture, $temp, $height, $alt);
 	print("
