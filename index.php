@@ -499,7 +499,7 @@ function print_thumbnails($album) {
 	$pictures = get_pictures_from_album($album);
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
-	print("<table width=100%><tr><td><center>\n");
+	print("<table><tr><td bgcolor=#EEEEEE><center>\n");
 	if ($EDIT == 1) {
 		print("<table><form method=post><input type=hidden name=write value=1>\n");
 		$i = sizeof($pictures);
