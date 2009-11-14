@@ -389,7 +389,7 @@ function do_search($search) {
 		}
 	}
 	print("</table></td></tr></table>");
-	print_search_form();
+	//print_search_form();
 }
 /****************************************************************************/
 
@@ -477,7 +477,7 @@ function do_list_albums($base) {
 </table>
 		");
 	}
-	print_search_form();
+	//print_search_form();
 	// if only one option, go straight to it
 	if ($count == 1)
 		print("<meta http-equiv='refresh' content='0;url=$href'>");
