@@ -2,7 +2,7 @@ Source: pictor
 Section: web
 Priority: optional
 Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
-Standards-Version: 3.8.0
+Standards-Version: 3.8.3
 Build-Depends: debhelper (>= 6.0)
 Homepage: http://launchpad.net/pictor
 Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/pictor/main
