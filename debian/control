@@ -9,7 +9,7 @@ Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/pictor/main
 
 Package: pictor
 Architecture: all
-Depends: debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5
+Depends: ${misc:Depends}, debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5
 Description: a web application for browsing your pictures
  Pictor is a simple web application for browsing your pictures in a
  in a filesystem (without a complicated database schema).  Pictures
