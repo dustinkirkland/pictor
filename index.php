@@ -402,10 +402,19 @@ function do_search($search) {
 function print_thumbnail($path, $file, $desc) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
+	$filename = "$PICTURE_ROOT/$path/$file";
+	$thumbnail_name = "tmp/" . md5($filename) . ".jpg";
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<table cellpadding=4><tr><td bgcolor=#000000 align=center><a href='$href'>");
 	if (is_image($file)) {
-		print("<img border=0 src='$THUMB_ROOT/$path/.thumbnails/$file'>");
+		if (! file_exists($thumbnail_name)) {
+			//$img = new Imagick($filename);
+			//$img->scaleImage(150, 150, 1);
+			//$img->writeImage($thumbnail_name);
+			//$img->destroy();
+			system("convert -thumbnail 150x150 \"$filename\" \"$thumbnail_name\"");
+		}
+		print("<img border=0 src='$thumbnail_name'>");
 	} elseif (is_video($file)) {
 		print("<big>video clip</big><br>" . round(filesize("$PICTURE_ROOT/$path/$file")/1024) . " KB");
 	}
@@ -432,7 +441,7 @@ function do_list_albums($base) {
 		sort($files);
 		if ($base) {
 			$header = preg_replace("/^\//", "", $base);
-			$header = preg_replace("/\//", " | ", $header);
+			$header = preg_replace("/\//", " - ", $header);
 		} else {
 			$header = "All Albums";
 		}
@@ -440,7 +449,7 @@ function do_list_albums($base) {
 <table border=0 cellspacing=0 cellpadding=10 align=center>
   <tr>
     <td bgcolor=#EEEEEE>
-      <table border=0 cellspacing=4 cellpadding=2 align=center width=90%>
+      <table border=0 cellspacing=4 cellpadding=2 align=center>
         <tr>
           <td colspan=$COLUMNS bgcolor=#DDDDDD align='center'><b>$header</b></td>
         </tr>
