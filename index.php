@@ -431,7 +431,7 @@ function print_thumbnail($path, $file, $desc) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
 	$filename = "$PICTURE_ROOT/$path/$file";
-	$thumbnail_name = get_cache_filename($filename, "thumbnail");
+	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<table cellpadding=4><tr><td bgcolor=#000000 align=center><a href='$href'>");
 	if (is_image($file)) {
