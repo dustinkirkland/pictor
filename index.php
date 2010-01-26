@@ -285,7 +285,7 @@ function print_footer() {
 		  <tr>
 		    <td bgcolor=#FFFFFF align=center><small>
 $LICENSE<br>
-<small>The <a href=https://launchpad.net/pictor>Pictor Album Viewer</a> is free software under the <a href=agpl-3.0.txt>GNU AGPLv3</a>, Copyright &copy; 1997-2010 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>.</small>
+<small><a href=https://launchpad.net/pictor>Pictor</a> is free software under the <a href=agpl-3.0.txt>AGPLv3</a>, Copyright &copy; 1997-2010 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
@@ -403,7 +403,10 @@ function print_thumbnail($path, $file, $desc) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
 	$filename = "$PICTURE_ROOT/$path/$file";
-	$thumbnail_name = "tmp/" . md5($filename) . ".jpg";
+	$md5 = md5($filename);
+	$thumbnail_name = "tmp/" . substr($md5, 0, 2);
+	@mkdir($thumbnail_name);
+	$thumbnail_name = "$thumbnail_name/$md5.jpg";
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<table cellpadding=4><tr><td bgcolor=#000000 align=center><a href='$href'>");
 	if (is_image($file)) {
@@ -675,6 +678,8 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 /* Get exif data */
 function get_exif_hash($path_to_picture) {
 	$shell_arg = escapeshellarg($path_to_picture);
+	// BUG: Would be nice to have exif support directly in PHP, to get rid
+	//      of this shell call.
 	$exif = shell_exec("jhead $shell_arg");
 	$lines = preg_split("/\n/", $exif);
 	$exif_hash = array();
