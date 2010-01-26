@@ -19,4 +19,5 @@ Description: a web application for browsing your pictures
  .
  Pictor is useful as for low-traffic browsing of your pictures on
  a local webserver, but is not necessarily recommended for high
- traffic picture sharing.
+ traffic picture sharing, as Pictor's dynamic image scaling can
+ be cpu-intensive.
