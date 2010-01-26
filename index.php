@@ -403,17 +403,18 @@ function do_search($search) {
 /****************************************************************************/
 
 function rotate_if_necessary($input, $output) {
-	$exif = exif_read_data($input);
-	if ($exif["Orientation"] == 6 || $exif["Orientation"] == 8) {
-		$img = new Imagick($output);
-		switch($exif["Orientation"]) {
-			case 6: $rotate = 90; break;
-			case 8: $rotate = -90; break;
-			default: $rotate = 0; break;
+	if ($exif = @exif_read_data($input)) {
+		if ($exif["Orientation"] == 6 || $exif["Orientation"] == 8) {
+			$img = new Imagick($output);
+			switch($exif["Orientation"]) {
+				case 6: $rotate = 90; break;
+				case 8: $rotate = -90; break;
+				default: $rotate = 0; break;
+			}
+			$img->rotateImage(new ImagickPixel(), $rotate);
+			$img->writeImage($output);
+			$img->destroy();
 		}
-		$img->rotateImage(new ImagickPixel(), $rotate);
-		$img->writeImage($output);
-		$img->destroy();
 	}
 }
 
@@ -837,7 +838,7 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 	}
 	print("<a href='$path_to_picture'>");
 	if (is_image($path_to_picture)) {
-		print("<img border=0 src='$temp' height=$height alt='$alt'>");
+		print("<img border=0 src='$temp' alt='$alt'>");
 	} elseif (is_video($path_to_picture)) {
 		print("<embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
 	}

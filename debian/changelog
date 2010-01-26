@@ -12,6 +12,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - use php's exif extractor
     - get auto-rotate working for thumbnails and generated images
     - add 1920x1080 size
+    - don't force size on image display
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:
