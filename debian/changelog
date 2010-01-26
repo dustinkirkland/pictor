@@ -8,5 +8,6 @@ pictor (2.0) UNRELEASED; urgency=low
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control: bump standards ver
+  * debian/rules: install changelog
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 26 Jan 2010 23:40:48 -0600
