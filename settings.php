@@ -15,8 +15,8 @@ $RAND_ALBUMS = array();
 // Choose a password to edit picture descriptions
 //$EDIT_PW = "s0me_passw0rd";
 
-// Set the default columns in the thumbnail viewer
-$COLUMNS = 6;
+// Set the default columns
+$ALBUM_COLUMNS = 6;
 $THUMB_COLUMNS = 4;
 
 ?>

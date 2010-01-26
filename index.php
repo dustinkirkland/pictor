@@ -433,7 +433,7 @@ function print_thumbnail($path, $file, $desc) {
 /* List albums */
 function do_list_albums($base) {
 	global $BASEDIR;
-	global $COLUMNS;
+	global $ALBUM_COLUMNS;
 
 	if ($dir = @opendir("$BASEDIR")) {
 		$i = 0;
@@ -454,7 +454,7 @@ function do_list_albums($base) {
     <td bgcolor=#EEEEEE>
       <table border=0 cellspacing=4 cellpadding=2 align=center>
         <tr>
-          <td colspan=$COLUMNS bgcolor=#DDDDDD align='center'><b>$header</b></td>
+          <td colspan=$ALBUM_COLUMNS bgcolor=#DDDDDD align='center'><b>$header</b></td>
         </tr>
 		");
 		$count = 0;
@@ -469,7 +469,7 @@ function do_list_albums($base) {
 				} else {
 					$href = "?album=" . urlencode("$base/$file") . "&thumbs=1";
 				}
-				if ( ($count % $COLUMNS) == 0 ) {
+				if ( ($count % $ALBUM_COLUMNS) == 0 ) {
 					print("
         <tr>
 					");
@@ -477,7 +477,7 @@ function do_list_albums($base) {
 				print("
           <td bgcolor=#FFFFFF align=center><a href=$href>$file</a></td>
 				");
-				if ( (($count+1) % $COLUMNS) == 0 ) {
+				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
         </tr>
 					");
