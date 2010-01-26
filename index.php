@@ -317,6 +317,23 @@ function print_search_form() {
 }
 /****************************************************************************/
 
+function search_albums($dir, $str) {
+	$matches = array();
+	if (is_dir($dir)) {
+		if ($dh = @opendir($dir)) {
+			while ($i = readdir($dh)) {
+				if (is_dir("$dir/$i") && $i != "." && $i != "..") {
+					if (preg_match("/$str/", $i)) {
+						array_push($matches, "$dir/$i");
+					}
+					@array_combine($matches, match_dirs("$dir/$i", $str));
+				}
+			}
+		}
+	}
+	return $matches;
+}
+
 
 /****************************************************************************/
 /* Perform search and display results */
@@ -338,22 +355,10 @@ function do_search($search) {
 	// Find matches in paths
 
 	print("<hr><b>Matching Albums</b><br>\n");
-	$BASEDIR = escapeshellarg($BASEDIR);
-	$results = `find $BASEDIR -type d`;
-	$paths = array();
-	$paths = preg_split("/\n/", $results);
-	for ($i=0; $i<sizeof($paths); $i++) {
-		for ($j=0; $j<sizeof($terms); $j++) {
-			$path_match = 1;
-			if (!preg_match("/$terms[$j]/i", $paths[$i])) {
-				$path_match = 0;
-				break;
-			}
-		}
-		if ($path_match && !preg_match("/\.thumbnails/", $paths[$i])) {
-			$path = preg_replace("/^$PICTURE_ROOT\//", "", $paths[$i]);
-			print("<a href=?album=" . urlencode($path) . ">$path</a><br>\n");
-		}
+	$albums = search_albums($BASEDIR, $search);
+	for ($i=0; $i<sizeof($albums); $i++) {
+		$path = preg_replace("/^$PICTURE_ROOT\//", "", $albums[$i]);
+		print("<a href=?album=" . urlencode($path) . ">$path</a><br>\n");
 	}
 
 	// Find matches in descriptions

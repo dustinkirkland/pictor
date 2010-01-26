@@ -7,6 +7,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - print useful error message if no pictures are found
     - generate/cache thumbnails
     - add support to enable/disable search function
+    - replace album search with native php code, rather than shell find
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control: bump standards ver, misc depends
