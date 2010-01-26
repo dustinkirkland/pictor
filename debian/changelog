@@ -9,5 +9,6 @@ pictor (2.0) UNRELEASED; urgency=low
     cache dir
   * debian/control: bump standards ver, misc depends
   * debian/rules: install changelog
+  * debian/copyright: drop icons artifact from musica
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 26 Jan 2010 23:40:48 -0600
