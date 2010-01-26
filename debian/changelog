@@ -5,5 +5,7 @@ pictor (2.0) UNRELEASED; urgency=low
   * debian/install: fix install typo
   * index.php:
     - print useful error message if no pictures are found
+  * debian/rules, debian/dirs, debian/links: add support for a thumbnail
+    cache dir
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 26 Jan 2010 23:40:48 -0600
