@@ -7,7 +7,7 @@ webserver="apache2"
 
 case "$1" in
 	configure)
-		chown www-data:www-data /var/cache/$package
+		chown www-data:www-data /var/cache/$package /var/cache/$package/thumbnails
 		ln -sf /etc/$package/apache.conf /etc/$webserver/sites-available/$package
 		a2ensite $package
 		invoke-rc.d $webserver reload

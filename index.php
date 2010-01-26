@@ -409,18 +409,26 @@ function print_thumbnail($path, $file, $desc) {
 	global $PICTURE_ROOT;
 	$filename = "$PICTURE_ROOT/$path/$file";
 	$md5 = md5($filename);
-	$thumbnail_name = "tmp/" . substr($md5, 0, 2);
+	$thumbnail_name = "tmp/thumbnails/" . substr($md5, 0, 2);
 	@mkdir($thumbnail_name);
 	$thumbnail_name = "$thumbnail_name/$md5.jpg";
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<table cellpadding=4><tr><td bgcolor=#000000 align=center><a href='$href'>");
 	if (is_image($file)) {
 		if (! file_exists($thumbnail_name)) {
-			//$img = new Imagick($filename);
-			//$img->scaleImage(150, 150, 1);
-			//$img->writeImage($thumbnail_name);
-			//$img->destroy();
-			system("convert -thumbnail 150x150 \"$filename\" \"$thumbnail_name\"");
+			// No thumbnail in cache.
+			if ($img = @exif_thumbnail($filename)) {
+				// Try to extract thumbnail from the image.
+				$fh = fopen($thumbnail_name, "w");
+				fwrite($fh, $img);
+				fclose($fh);
+			} else {
+				// Otherwise, use Imagick.
+				$img = new Imagick($filename);
+				$img->scaleImage(150, 150, 1);
+				$img->writeImage($thumbnail_name);
+				$img->destroy();
+			}
 		}
 		print("<img border=0 src='$thumbnail_name'>");
 	} elseif (is_video($file)) {
@@ -680,24 +688,6 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 
 
 /****************************************************************************/
-/* Get exif data */
-function get_exif_hash($path_to_picture) {
-	$shell_arg = escapeshellarg($path_to_picture);
-	// BUG: Would be nice to have exif support directly in PHP, to get rid
-	//      of this shell call.
-	$exif = shell_exec("jhead $shell_arg");
-	$lines = preg_split("/\n/", $exif);
-	$exif_hash = array();
-	for ($i=0; $i<sizeof($lines); $i++) {
-		list($key, $value) = preg_split("/\s*:\s*/", $lines[$i], 2);
-		$exif_hash["$key"] = "$value";
-	}
-	return $exif_hash;
-}
-/****************************************************************************/
-
-
-/****************************************************************************/
 /* Print data cell */
 function print_data_cell($key, $value) {
 	if ($value) {
@@ -710,23 +700,18 @@ function print_data_cell($key, $value) {
 /****************************************************************************/
 /* Print exif data */
 function print_exif_data($path_to_picture, $description) {
-	$exif = array();
-	$exif = get_exif_hash($path_to_picture);
+	$exif = exif_read_data($path_to_picture, 0, false);
+//foreach ($exif as $key => $section) {
+//    echo "$key -- $section <br>";
+//}
+//return;
 	$keys = array();
 	$values = array();
 	array_push($keys, "File name"); array_push($values, basename($path_to_picture));
 	array_push($keys, "File size"); array_push($values, round(filesize($path_to_picture)/1024)." KB");
-	array_push($keys, "Resolution"); array_push($values, $exif["Resolution"]);
-	array_push($keys, "Date/Time"); array_push($values, $exif["Date/Time"]);
-	array_push($keys, "Camera model"); array_push($values, $exif["Camera model"]);
-	$city = $description[city];
-	$state = $description[state];
-	$country = $description[country];
-	$loc = "<a href=http://maps.google.com/maps?hl=en&q=" . urlencode(strtolower($city).",".strtolower($state)) . ">$city, $state, $country</a>";
-	$date = $exif["Date/Time"];
-	array_push($keys, "Location"); array_push($values, $loc);
-//	array_push($keys, "Airport"); array_push($values, get_airport($city, $state, $country));
-//	array_push($keys, "Weather"); array_push($values, get_weather($date, $city, $state, $country));
+	array_push($keys, "Resolution"); array_push($values, $exif["ExifImageWidth"] . "x" . $exif["ExifImageLength"]);
+	array_push($keys, "Date/Time"); array_push($values, $exif["DateTimeOriginal"]);
+	array_push($keys, "Camera model"); array_push($values, $exif["Model"]);
 
 	print("<table border=0 cellspacing=5><tr valign=top><td>");
 	print("<table border=0 cellspacing=2>");
@@ -734,7 +719,7 @@ function print_exif_data($path_to_picture, $description) {
 		print_data_cell($keys[$i], $values[$i]);
 	}
 	print("</table></td><td>");
-	$keys = array("Flash used", "Focal length", "Exposure time", "Aperture", "ISO equiv.", "Whitebalance", "Metering Mode", "Exposure");
+	$keys = array("Flash", "FocalLength", "ExposureTime", "ApertureValue", "ISOSpeedRatings", "WhiteBalance", "MeteringMode");
 	print("<table border=0 cellspacing=2>");
 	for ($i=0; $i<sizeof($keys); $i++) {
 		print_data_cell($keys[$i], $exif[$keys[$i]]);
