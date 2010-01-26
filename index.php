@@ -27,7 +27,6 @@ $picture   = sanity_check($_REQUEST["picture"]);
 $width     = sanity_check($_REQUEST["width"]);
 $rotate    = sanity_check($_REQUEST["rotate"]);
 $base      = sanity_check($_REQUEST["base"]);
-$search    = sanity_check($_REQUEST["search"]);
 $thumbs    = sanity_check($_REQUEST["thumbs"]);
 $slideshow = sanity_check($_REQUEST["slideshow"]);
 $write	   = sanity_check($_REQUEST["write"]);
@@ -298,110 +297,6 @@ $LICENSE<br>
 /****************************************************************************/
 
 
-/****************************************************************************/
-/* Print search form */
-function print_search_form() {
-	global $base;
-	print("
-<table align=center>
-  <tr>
-    <td align=center>
-      <form method=post>
-        <input type=text name=search>
-        <input type=submit name=find value=find>
-	<input type=hidden base='$base'>
-      </form>
-    </td>
-  </tr>
-</table>
-	");
-}
-/****************************************************************************/
-
-function search_albums($dir, $str) {
-	$matches = array();
-	if (is_dir($dir)) {
-		if ($dh = @opendir($dir)) {
-			while ($i = readdir($dh)) {
-				if (is_dir("$dir/$i") && $i != "." && $i != "..") {
-					if (preg_match("/$str/", $i)) {
-						array_push($matches, "$dir/$i");
-					}
-					@array_combine($matches, match_dirs("$dir/$i", $str));
-				}
-			}
-		}
-	}
-	return $matches;
-}
-
-
-/****************************************************************************/
-/* Perform search and display results */
-function do_search($search) {
-	global $BASEDIR;
-	global $PICTURE_ROOT;
-
-	print("<table width=400 align=center><tr><td bgcolor=#FFFFFF>\n");
-	print("<center><b>Search Results</b><br>\n");
-	$terms = array();
-	$terms = preg_split("/\s+/", $search);
-	for ($i=0; $i<sizeof($terms); $i++) {
-		print($terms[$i]);
-		if ($i+1<sizeof($terms)) {
-			print(" AND ");
-		}
-	}
-	print("</center><br>\n");
-	// Find matches in paths
-
-	print("<hr><b>Matching Albums</b><br>\n");
-	$albums = search_albums($BASEDIR, $search);
-	for ($i=0; $i<sizeof($albums); $i++) {
-		$path = preg_replace("/^$PICTURE_ROOT\//", "", $albums[$i]);
-		print("<a href=?album=" . urlencode($path) . ">$path</a><br>\n");
-	}
-
-	// Find matches in descriptions
-	print("<br><hr><b>Matching Descriptions</b><br>\n");
-	$results = `find $BASEDIR -type f -name description.txt`;
-	$descriptions = array();
-	$descriptions = preg_split("/\n/", $results);
-	for ($i=0; $i<sizeof($descriptions); $i++) {
-		$escaped_descriptions[$i] = escapeshellarg($descriptions[$i]);
-	}
-	for ($i=0; $i<sizeof($terms); $i++) {
-		$terms[$i] = escapeshellarg($terms[$i]);
-	}
-	$x = 0;
-	print("<table cellspacing=6 border=0>\n");
-	for ($i=0; $i<sizeof($escaped_descriptions); $i++) {
-		$cmd = "grep -i $terms[0] $escaped_descriptions[$i]";
-		for ($j=1; $j<sizeof($terms); $j++) {
-			$cmd = $cmd . "  | grep -i $terms[$j]";
-		}
-		$results = `$cmd`;
-		$path = preg_replace("/description\.txt$/", "", $descriptions[$i]);
-		$path = preg_replace("/^$PICTURE_ROOT\//", "", $path);
-		$matches = array();
-		$matches = preg_split("/\n/", $results);
-		for ($j=0; $j<sizeof($matches); $j++) {
-			list ($file, $desc) = preg_split("/\t/", $matches[$j], 2);
-			if ($path && $file && $desc && file_exists("$PICTURE_ROOT/$path/$file")) {
-				if ($x % 3 == 0) { print("<tr>"); }
-				print("<td align=center>");
-				print_thumbnail($path, $file, "$path<br>$desc");
-				print("</td>");
-				if ($x % 3 == 2) { print("</tr>"); }
-				$x++;
-			}
-		}
-	}
-	print("</table></td></tr></table>");
-	//print_search_form();
-}
-/****************************************************************************/
-
 function rotate_if_necessary($input, $output) {
 	if ($exif = @exif_read_data($input)) {
 		if ($exif["Orientation"] == 6 || $exif["Orientation"] == 8) {
@@ -529,7 +424,6 @@ function do_list_albums($base) {
 		print("<br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre>");
                 exit;
 	}
-	//print_search_form();
 	// if only one option, go straight to it
 	if ($count == 1)
 		print("<meta http-equiv='refresh' content='0;url=$href'>");
@@ -986,8 +880,6 @@ if ($random) {
 print_header();
 if ($write) {
 	do_write_descriptions($album, $file, $desc);
-} elseif ($search) {
-	do_search($search);
 } elseif (!$album) {
 	do_list_albums($base);
 } elseif ($thumbs) {
