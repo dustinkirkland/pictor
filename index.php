@@ -279,14 +279,13 @@ body {
 /****************************************************************************/
 /* Print html footer information */
 function print_footer() {
-	global $PHOTOGRAPHER, $PHOTOGRAPHER_EMAIL;
+	global $LICENSE;
 	print("
 		<table width=600 border=0 cellspacing=0>
 		  <tr>
 		    <td bgcolor=#FFFFFF align=center><small>
-All images are Copyright &copy;1997-2009 <a href=mailto:$PHOTOGRAPHER_EMAIL>$PHOTOGRAPHER</a><br>
-The <a href=https://launchpad.net/pictor>Pictor Web Application</a> is free software under the <a href=agpl-3.0.txt>GNU AGPLv3</a>.<br>
-Copyright &copy; 2000-2009 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>.
+$LICENSE<br>
+<small>The <a href=https://launchpad.net/pictor>Pictor Album Viewer</a> is free software under the <a href=agpl-3.0.txt>GNU AGPLv3</a>, Copyright &copy; 1997-2010 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
