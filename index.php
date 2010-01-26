@@ -627,7 +627,7 @@ function build_rotate_form($album, $picture, $width, $rotate) {
 /* Print resize form */
 function build_resize_form($path_to_picture, $album, $picture, $width, $rotate) {
 	list($thiswidth, $thisheight, $thistype, $thisattr) = getimagesize($path_to_picture);
-	$sizearray = array("160", "400", "640", "800", "1024", "1280", $thiswidth);
+	$sizearray = array("160", "400", "640", "800", "1024", "1280", "1920", $thiswidth);
 	$form = "<form name=resizeform><select name=dest onchange=javascript:surf(this.form)>\n";
 	for ($i=0; $i<sizeof($sizearray); $i++) {
 		$thiswidth = $sizearray[$i];
