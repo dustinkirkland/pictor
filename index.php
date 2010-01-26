@@ -418,16 +418,20 @@ function rotate_if_necessary($input, $output) {
 	}
 }
 
+function get_cache_filename($filename, $dir) {
+	$md5 = md5($filename);
+	$cache_filename = "tmp/$dir/" . substr($md5, 0, 2);
+	@mkdir($cache_filename);
+	return "$cache_filename/$md5.jpg";
+}
+
 /****************************************************************************/
 /* Print single thumbnail */
 function print_thumbnail($path, $file, $desc) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
 	$filename = "$PICTURE_ROOT/$path/$file";
-	$md5 = md5($filename);
-	$thumbnail_name = "tmp/thumbnails/" . substr($md5, 0, 2);
-	@mkdir($thumbnail_name);
-	$thumbnail_name = "$thumbnail_name/$md5.jpg";
+	$thumbnail_name = get_cache_filename($filename, "thumbnail");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<table cellpadding=4><tr><td bgcolor=#000000 align=center><a href='$href'>");
 	if (is_image($file)) {
