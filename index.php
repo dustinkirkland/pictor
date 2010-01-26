@@ -19,7 +19,7 @@
  */
 
 /* Configurable options */
-include_once("settings.php");
+include_once("/etc/pictor/settings.php");
 
 /* variables that may come in through an http GET request */
 $album     = sanity_check($_REQUEST["album"]);
@@ -424,7 +424,7 @@ function do_list_albums($base) {
 	global $BASEDIR;
 	global $COLUMNS;
 
-	if ($dir = opendir("$BASEDIR")) {
+	if ($dir = @opendir("$BASEDIR")) {
 		$i = 0;
 		while (($file = readdir($dir)) !== false) {
 			$files[$i++] = $file;
@@ -480,6 +480,9 @@ function do_list_albums($base) {
   </tr>
 </table>
 		");
+	} else {
+		print("<br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre>");
+                exit;
 	}
 	//print_search_form();
 	// if only one option, go straight to it

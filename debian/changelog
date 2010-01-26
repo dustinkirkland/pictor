@@ -1,5 +1,9 @@
 pictor (2.0) UNRELEASED; urgency=low
 
   * Initial packaging
+  * settings.php: prep for installation to /etc/pictor
+  * debian/install: fix install typo
+  * index.php:
+    - print useful error message if no pictures are found
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 26 Jan 2010 23:40:48 -0600
