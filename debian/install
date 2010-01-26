@@ -1,0 +1,3 @@
+debian/apache.conf  etc/pictor
+index.php usr/share/pictor/index.php
+thumbs usr/lib/pictor

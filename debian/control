@@ -1,0 +1,22 @@
+Source: pictor
+Section: web
+Priority: optional
+Maintainer: Dustin Kirkland <kirkland@ubuntu.com>
+Standards-Version: 3.8.0
+Build-Depends: debhelper (>= 6.0)
+Homepage: http://launchpad.net/pictor
+Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/pictor/main
+
+Package: pictor
+Architecture: all
+Depends: debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5
+Description: a web application for browsing your pictures
+ Pictor is a simple web application for browsing your pictures in a
+ in a filesystem (without a complicated database schema).  Pictures
+ are organized in filesystem directories of any depth.  Albums are
+ directories that contain pictures.  Thumbnails are generated and
+ cached as necessary, and images are dynamically resized on the fly.
+ .
+ Pictor is useful as for low-traffic browsing of your pictures on
+ a local webserver, but is not necessarily recommended for high
+ traffic picture sharing.

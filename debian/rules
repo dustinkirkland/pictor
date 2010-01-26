@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+PACKAGE=pictor
+
+build:
+
+clean:
+	rm -rf debian/pictor debian/files debian/pictor.debhelper.log
+
+install:build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs -X.bzr
+	dh_install -X.bzr
+
+# Everything else is handled by dh_install
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs -X.bzr
+	dh_installdebconf
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_builddeb
+
+binary: binary-indep
+.PHONY: build clean binary-indep binary install
+
+binary-arch:

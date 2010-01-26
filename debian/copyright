@@ -1,0 +1,36 @@
+This package was debianized by Dustin Kirkland <dustin.kirkland@gmail.com>
+Fri, 18 Jul 2008 00:24:37 +0100
+
+It was downloaded from: http://launchpad.net/pictor
+
+Upstream Authors: Dustin Kirkland <dustin.kirkland@gmail.com>
+
+Copyright:
+ Copyright (C) 2002-2009 Dustin Kirkland <dustin.kirkland@gmail.com>
+ All rights reserved.
+
+License:
+
+  pictor: web application for browsing your pictures
+  Copyright (C) 2000-2010 Dustin Kirkland <dustin.kirkland@gmail.com>
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Affero General Public License as
+  published by the Free Software Foundation, version 3 of the
+  License.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Affero General Public License for more details.
+
+  You should have received a copy of the GNU Affero General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ The icons are licensed under the Creative Commons Attribution 2.5 license,
+ <http://creativecommons.org/licenses/by/2.5/>.  In accordance with CCA2.5,
+ the icons are available at <http://www.famfamfam.com/lab/icons/silk/>.
+
+The Ubuntu packaging:
+ Copyright (C) 2010 by Dustin Kirkland <dustin.kirkland@gmail.com>
+ released under the GPL-3.
