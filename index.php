@@ -206,6 +206,7 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 		}
 		$img->writeImage($tempfilename);
 		$img->destroy();
+		rotate_if_necessary($path_to_picture, $tempfilename);
 	}
 	return $tempfilename;
 }
@@ -401,6 +402,20 @@ function do_search($search) {
 }
 /****************************************************************************/
 
+function rotate_if_necessary($input, $output) {
+	$exif = exif_read_data($input);
+	if ($exif["Orientation"] == 6 || $exif["Orientation"] == 8) {
+		$img = new Imagick($output);
+		switch($exif["Orientation"]) {
+			case 6: $rotate = 90; break;
+			case 8: $rotate = -90; break;
+			default: $rotate = 0; break;
+		}
+		$img->rotateImage(new ImagickPixel(), $rotate);
+		$img->writeImage($output);
+		$img->destroy();
+	}
+}
 
 /****************************************************************************/
 /* Print single thumbnail */
@@ -429,6 +444,7 @@ function print_thumbnail($path, $file, $desc) {
 				$img->writeImage($thumbnail_name);
 				$img->destroy();
 			}
+			rotate_if_necessary($filename, $thumbnail_name);
 		}
 		print("<img border=0 src='$thumbnail_name'>");
 	} elseif (is_video($file)) {
@@ -700,18 +716,18 @@ function print_data_cell($key, $value) {
 /****************************************************************************/
 /* Print exif data */
 function print_exif_data($path_to_picture, $description) {
-	$exif = exif_read_data($path_to_picture, 0, false);
-//foreach ($exif as $key => $section) {
-//    echo "$key -- $section <br>";
-//}
-//return;
 	$keys = array();
 	$values = array();
 	array_push($keys, "File name"); array_push($values, basename($path_to_picture));
 	array_push($keys, "File size"); array_push($values, round(filesize($path_to_picture)/1024)." KB");
-	array_push($keys, "Resolution"); array_push($values, $exif["ExifImageWidth"] . "x" . $exif["ExifImageLength"]);
-	array_push($keys, "Date/Time"); array_push($values, $exif["DateTimeOriginal"]);
-	array_push($keys, "Camera model"); array_push($values, $exif["Model"]);
+	if ($exif = @exif_read_data($path_to_picture, 0, false)) {
+		array_push($keys, "Resolution"); array_push($values, $exif["ExifImageWidth"] . "x" . $exif["ExifImageLength"]);
+		array_push($keys, "Date/Time"); array_push($values, $exif["DateTimeOriginal"]);
+		array_push($keys, "Camera model"); array_push($values, $exif["Model"]);
+		//foreach ($exif as $key => $section) {
+		//    echo "$key -- $section <br>";
+		//}
+	}
 
 	print("<table border=0 cellspacing=5><tr valign=top><td>");
 	print("<table border=0 cellspacing=2>");

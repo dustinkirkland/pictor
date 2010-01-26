@@ -10,6 +10,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - replace album search with native php code, rather than shell find
     - deprecate old location method
     - use php's exif extractor
+    - get auto-rotate working for thumbnails and generated images
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:
