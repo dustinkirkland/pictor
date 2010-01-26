@@ -539,7 +539,7 @@ function print_thumbnails($album) {
 /* Write description file */
 /* Descriptions are typically written to description.txt
    Descriptions written via the web interface are written to
-   description.txt which must be chowned to apache:apache
+   description.txt which must be chowned to www-data:www-data
 */
 function do_write_descriptions($album, $file, $desc) {
 	print("<table bgcolor=white border=0><tr><td align=left><pre>\n");
@@ -939,14 +939,12 @@ function do_random() {
 		}
 		closedir($dh);
 	}
-	print("http://" . $_SERVER["HTTP_HOST"] .
-		"/" . $pictures[array_rand($pictures)]. "\n");
+	print("http://" . $_SERVER["HTTP_HOST"] .  "/" . $pictures[array_rand($pictures)]. "\n");
 }
 /****************************************************************************/
 
 
 
-/****************************************************************************/
 /****************************************************************************/
 /* Main */
 
@@ -971,6 +969,5 @@ if ($write) {
 	do_flipbook_page($album, $picture, $width, $rotate, $slideshow);
 }
 print_footer();
-/****************************************************************************/
 /****************************************************************************/
 ?>
