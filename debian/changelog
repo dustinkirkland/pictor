@@ -16,6 +16,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - move get_cache_filename() to a function
     - remove search capability for now, until we have a better way of
       handling it
+    - improve slideshow handling, dark background, resize form
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:

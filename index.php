@@ -227,7 +227,7 @@ function locate_index($needle, $haystack) {
 
 /****************************************************************************/
 /* Print html header information */
-function print_header() {
+function print_header($body=1) {
 	global $TITLE;
 	print("
 <html>
@@ -262,6 +262,9 @@ body {
 </style>
 <title>$TITLE</title>
 </head>
+	");
+	if ($body == 1) {
+		print("
 <body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#DDDDDD>
 <table width=100% height=100%><tr><td align=center valign=center>
 		<table width=600 border=0 cellspacing=0>
@@ -271,7 +274,8 @@ body {
 		    </td>
 		  </tr>
 		</table>
-	");
+		");
+	}
 }
 /****************************************************************************/
 
@@ -524,9 +528,9 @@ function build_rotate_form($album, $picture, $width, $rotate) {
 
 /****************************************************************************/
 /* Print resize form */
-function build_resize_form($path_to_picture, $album, $picture, $width, $rotate) {
+function build_resize_form($path_to_picture, $album, $picture, $width, $extra) {
 	list($thiswidth, $thisheight, $thistype, $thisattr) = getimagesize($path_to_picture);
-	$sizearray = array("160", "400", "640", "800", "1024", "1280", "1920", $thiswidth);
+	$sizearray = array("160", "400", "640", "800", "1024", "1920", $thiswidth);
 	$form = "<form name=resizeform><select name=dest onchange=javascript:surf(this.form)>\n";
 	for ($i=0; $i<sizeof($sizearray); $i++) {
 		$thiswidth = $sizearray[$i];
@@ -534,7 +538,7 @@ function build_resize_form($path_to_picture, $album, $picture, $width, $rotate) 
 		if ($width == $thiswidth) {
 			$form .= "<option selected value>$width" . "x" ."$height</option>\n";
 		} else {
-			$form .= "<option value='?album=" . urlencode($album) . "&picture=" . urlencode($picture) . "&width=" . urlencode($thiswidth) . "'>$thiswidth" . "x" . "$height</option>\n";
+			$form .= "<option value='?album=" . urlencode($album) . "&picture=" . urlencode($picture) . "&width=" . urlencode($thiswidth) . "&$extra'>$thiswidth" . "x" . "$height</option>\n";
 		}
 	}
 	$form .= "</select></form>";
@@ -838,11 +842,14 @@ function do_slideshow_page($album, $picture, $width, $slideshow) {
 	$path_to_picture = preg_replace("/\/+/", "/", "$path_to_picture");
 	clean_tmp("tmp/");
 	$tempfilename = do_resize_picture($path_to_picture, $width, $height, $rotate);
+	print_header(0);
+	print("<body bgcolor=#000000 topmargin=0 leftmargin=0><center><table height=100% cellpadding=0 cellspacing=0><tr><td>");
 	print_picture($path_to_picture, $tempfilename, $height, $alt);
 	$currentindex = locate_index($picture, $pictures);
 	$next = $pictures[$currentindex+1];
 	$url = "?album=" . urlencode($album) . "&picture=" . urlencode($next) . "&width=$width";
-	print("<meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'>\n");
+	$resizeform = build_resize_form($path_to_picture, $album, $picture, $width, "slideshow=$slideshow");
+	print("</td></tr><tr><td align=center valign=top>$resizeform</td></tr></table></center><meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'></body></html>\n");
 }
 /****************************************************************************/
 
