@@ -22,6 +22,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - beautify table printing
     - update cache cleaning
     - add a way to change the delay on the slideshow
+    - change copyright working, remove my email address
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:

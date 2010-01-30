@@ -293,7 +293,7 @@ function print_footer() {
 		  <tr>
 		    <td bgcolor=white align=center><small>
 $LICENSE<br>
-<small><a href=https://launchpad.net/pictor>Pictor</a> is free software under the <a href=agpl-3.0.txt>AGPLv3</a>, Copyright &copy; 1997-2010 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>.</small>
+<small><a href=https://launchpad.net/pictor>Pictor</a> is <a href=agpl-3.0.txt>AGPLv3</a> free software, Copyright &copy; 1997-2010 <a href=http://blog.dustinkirkland.com>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
