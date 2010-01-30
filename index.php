@@ -233,7 +233,7 @@ function print_header($body=1) {
 <html>
 <head>
 <script>
-function surf(form) {
+function goto(form) {
 	var myindex = form.dest.selectedIndex;
 	window.open(form.dest.options[myindex].value, \"_self\");
 }
@@ -408,7 +408,7 @@ function do_list_albums($base) {
 					");
 				}
 				print("
-          <td bgcolor=#FFFFFF align=center><a href=$href>$file</a></td>
+          <td onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$url') align=center><a href=$href>$file</a></td>
 				");
 				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
@@ -511,7 +511,7 @@ function do_write_descriptions($album, $file, $desc) {
 /* Print rotate form */
 function build_rotate_form($album, $picture, $width, $rotate) {
 	$rotatearray = array("0", "90", "-90");
-	$form = "<form name=rotateform><select name=dest onchange=javascript:surf(this.form)>\n";
+	$form = "<form name=rotateform><select name=dest onchange=javascript:goto(this.form)>\n";
 	for ($i=0; $i<sizeof($rotatearray); $i++) {
 		$thisrotate = $rotatearray[$i];
 		if ($rotate == $thisrotate) {
@@ -531,7 +531,7 @@ function build_rotate_form($album, $picture, $width, $rotate) {
 function build_resize_form($path_to_picture, $album, $picture, $width, $extra) {
 	list($thiswidth, $thisheight, $thistype, $thisattr) = getimagesize($path_to_picture);
 	$sizearray = array("160", "400", "640", "800", "1024", "1920", $thiswidth);
-	$form = "<form name=resizeform><select name=dest onchange=javascript:surf(this.form)>\n";
+	$form = "<form name=resizeform><select name=dest onchange=javascript:goto(this.form)>\n";
 	for ($i=0; $i<sizeof($sizearray); $i++) {
 		$thiswidth = $sizearray[$i];
 		$height = $thiswidth * 3 / 4;
@@ -551,7 +551,7 @@ function build_resize_form($path_to_picture, $album, $picture, $width, $extra) {
 /* Print picture form */
 function build_picture_form($album, $picture, $width, $slideshow, $pictures, $description) {
 	global $BASEDIR;
-	$form = "<form name=picform><select name=dest size=1 onchange=javascript:surf(this.form)>\n";
+	$form = "<form name=picform><select name=dest size=1 onchange=javascript:goto(this.form)>\n";
 	if (is_dir("$BASEDIR/$album")) {
 		$i = 0;
 		for ($i=0; $i<sizeof($pictures); $i++) {

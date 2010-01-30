@@ -17,6 +17,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - remove search capability for now, until we have a better way of
       handling it
     - improve slideshow handling, dark background, resize form
+    - index.php: color cells light blue on hover, s/surf/goto/g
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:
