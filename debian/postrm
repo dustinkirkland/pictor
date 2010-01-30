@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+package="pictor"
+
+case "$1" in
+	purge)
+		rm -rf  /var/cache/$package
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

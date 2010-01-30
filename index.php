@@ -195,6 +195,7 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 	$path_parts = preg_split("/\//", $path_to_picture);
 	$file = array_pop($path_parts);
 	$tempfilename = "tmp/$height" . "_" . $rotate . "_" . $file;
+        $tempfilename = get_cache_filename($filename, "resize");
 	if ( ! file_exists($tempfilename) && is_image($path_to_picture) ) {
 		$size = $width . "x" . $height;
 		$input = escapeshellarg($path_to_picture);
