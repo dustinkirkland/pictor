@@ -2,7 +2,9 @@ pictor (2.0) UNRELEASED; urgency=low
 
   * Initial packaging
   * settings.php: prep for installation to /etc/pictor
-  * debian/install: fix install typo
+  * debian/install:
+    - fix install typo
+    - deprecate thumbs script
   * index.php:
     - print useful error message if no pictures are found
     - generate/cache thumbnails
