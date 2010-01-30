@@ -194,8 +194,7 @@ function clean_tmp($dirname) {
 function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 	$path_parts = preg_split("/\//", $path_to_picture);
 	$file = array_pop($path_parts);
-	$tempfilename = "tmp/$height" . "_" . $rotate . "_" . $file;
-        $tempfilename = get_cache_filename($filename, "resize");
+        $tempfilename = get_cache_filename($height . "_" . $rotate . "_" . $file, "resize");
 	if ( ! file_exists($tempfilename) && is_image($path_to_picture) ) {
 		$size = $width . "x" . $height;
 		$input = escapeshellarg($path_to_picture);
@@ -242,7 +241,7 @@ function goto(form) {
 <style>
 td {
 	text-decoration: none;
-	font-size: 10px
+	font-size: 8px
 	border: 1px black;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -255,10 +254,10 @@ a:hover {
 	text-decoration: underline;
 }
 body {
-	font-size: 10px;
+	font-size: 8px;
 	font-family: verdana,arial,helvetica,sans-serif;
 	font-weight: 400;
-	color: #000000;
+	color: black;
 }
 </style>
 <title>$TITLE</title>
@@ -266,15 +265,8 @@ body {
 	");
 	if ($body == 1) {
 		print("
-<body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#DDDDDD>
+<body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#555555>
 <table width=100% height=100%><tr><td align=center valign=center>
-		<table width=600 border=0 cellspacing=0>
-		  <tr>
-		    <td bgcolor=#FFFFFF align=center>
-<a href=/><big><b>$TITLE</b><big></a>
-		    </td>
-		  </tr>
-		</table>
 		");
 	}
 }
@@ -288,7 +280,7 @@ function print_footer() {
 	print("
 		<table width=600 border=0 cellspacing=0>
 		  <tr>
-		    <td bgcolor=#FFFFFF align=center><small>
+		    <td bgcolor=white align=center><small>
 $LICENSE<br>
 <small><a href=https://launchpad.net/pictor>Pictor</a> is free software under the <a href=agpl-3.0.txt>AGPLv3</a>, Copyright &copy; 1997-2010 <a href=mailto:dustin.kirkland@gmail.com>Dustin Kirkland</a>.</small>
 		    </small></td>
@@ -333,7 +325,7 @@ function print_thumbnail($path, $file, $desc) {
 	$filename = "$PICTURE_ROOT/$path/$file";
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
-	print("<table cellpadding=4><tr><td bgcolor=#000000 align=center><a href='$href'>");
+	print("<table cellpadding=4><tr><td bgcolor=black align=center><a href='$href'>");
 	if (is_image($file)) {
 		if (! file_exists($thumbnail_name)) {
 			// No thumbnail in cache.
@@ -382,6 +374,7 @@ function do_list_albums($base) {
 		} else {
 			$header = "All Albums";
 		}
+		print_upper_banner("", "", 600);
 		print("
 <table border=0 cellspacing=0 cellpadding=10 align=center>
   <tr>
@@ -409,7 +402,7 @@ function do_list_albums($base) {
 					");
 				}
 				print("
-          <td onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$url') align=center><a href=$href>$file</a></td>
+          <td bgcolor=white onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$url') align=center><a href=$href>$file</a></td>
 				");
 				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
@@ -446,7 +439,7 @@ function print_thumbnails($album) {
 	$pictures = get_pictures_from_album($album);
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
-	print("<table><tr><td bgcolor=#EEEEEE><center>\n");
+	print("<table><tr><td bgcolor=white><center>\n");
 	if ($EDIT == 1) {
 		print("<table><form method=post><input type=hidden name=write value=1>\n");
 		$i = sizeof($pictures);
@@ -590,7 +583,7 @@ function get_next_link($album, $width, $pictures, $currentindex, $slideshow) {
 	if ($slideshow > 0) {
 		print("<meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'>\n");
 	}
-	$next = "<table border=0><tr><td bgcolor=#FFFFFF><a href='$url'><b>Next &gt;</b></a></td></tr></table>";
+	$next = "<table border=0><tr><td bgcolor=white><a href='$url'><b>Next &gt;</b></a></td></tr></table>";
 	return $next;
 }
 
@@ -598,7 +591,7 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 	if ($currentindex != 0) {
 		$back = $pictures[$currentindex-1];
 		$url = "?album=" . urlencode($album) . "&picture=" . urlencode($back) . "&width=$width";
-		$back = "<table border=0><tr><td bgcolor=#FFFFFF><a href='$url'><b>&lt; Back</b></a></td></tr></table>";
+		$back = "<table border=0><tr><td bgcolor=white><a href='$url'><b>&lt; Back</b></a></td></tr></table>";
 		return $back;
 	} else {
 		return "&nbsp;";
@@ -611,7 +604,7 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 /* Print data cell */
 function print_data_cell($key, $value) {
 	if ($value) {
-		print("<tr><td bgcolor=#EEEEEE><small>$key</small></td><td bgcolor=white><small>$value</small></td></tr>");
+		print("<tr><td bgcolor=#DDDDDD><small><small>$key</small></small></td><td bgcolor=white><small><small>$value</small></small></td></tr>");
 	}
 }
 /****************************************************************************/
@@ -633,6 +626,7 @@ function print_exif_data($path_to_picture, $description) {
 		//}
 	}
 
+	print("<center>");
 	print("<table border=0 cellspacing=5><tr valign=top><td>");
 	print("<table border=0 cellspacing=2>");
 	for ($i=0; $i<sizeof($keys); $i++) {
@@ -640,11 +634,11 @@ function print_exif_data($path_to_picture, $description) {
 	}
 	print("</table></td><td>");
 	$keys = array("Flash", "FocalLength", "ExposureTime", "ApertureValue", "ISOSpeedRatings", "WhiteBalance", "MeteringMode");
-	print("<table border=0 cellspacing=2>");
+	print("<table border=0 cellspacing=1>");
 	for ($i=0; $i<sizeof($keys); $i++) {
 		print_data_cell($keys[$i], $exif[$keys[$i]]);
 	}
-	print("</table></td></tr></table>");
+	print("</table></td></tr></table></center>");
 }
 /****************************************************************************/
 
@@ -689,6 +683,7 @@ function print_picture_details($path_to_picture, $currentindex, $total, $width, 
 /****************************************************************************/
 /* Print upper banner */
 function print_upper_banner($album, $description, $width) {
+	global $TITLE;
 	$descr = preg_replace("/^\//", "", $album);
 	$path_parts = preg_split("/\/+/", $descr);
 	$descr = "";
@@ -701,12 +696,14 @@ function print_upper_banner($album, $description, $width) {
 	if ($description) {
 		$descr .= " - $description";
 	}
-	print("
-		<table border=0 cellpadding=0 cellspacing=0 align=center width=$width>
-		  <tr align=center>
-		    <td bgcolor=#FFFFFF><b>$descr</b></td>
-		  </tr>
-		</table>
+	print("<table border=0 cellpadding=0 cellspacing=0 align=center width=$width><tr><td bgcolor=white>
+		  <table border=0 cellpadding=0 cellspacing=0 align=center width=100%><tr><td>
+                   <table border=0 cellpadding=0 cellspacing=0 align=center width=100%>
+		    <tr>
+		     <td colspan=3>
+		      <p align=center><big><b>$TITLE</b></big><br><b>$descr</b></p>
+		     </td>
+		    </tr>
 	");
 }
 /****************************************************************************/
@@ -717,18 +714,18 @@ function print_upper_banner($album, $description, $width) {
 function print_upper_toolbar($album, $description, $back, $next, $width) {
 	print_upper_banner($album, $description, $width);
 	print("
-		<table border=0 cellspacing=0 cellpadding=0 align=center width=100%>
 		  <tr align=center>
-		    <td width=20% align=right>$back</td>
-		    <td width=60%><table border=0 width=100% cellspacing=0><tr><td align=center bgcolor=#FFFFFF>
+		    <td width=20% align=left>$back</td>
+		    <td width=60%>
 		      <a href=" . $_SERVER[PHP_SELF] . ">index</a> |
 		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> |
 		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a>
-		      </td></tr></table>
 		    </td>
-		    <td width=20% align=left>$next</td>
+		    <td width=20% align=right bgcolor=white>$next</td>
 		  </tr>
-		</table>
+		 </table>
+		</td></tr></table>
+	      </td></tr></table>
 	");
 }
 /****************************************************************************/
@@ -755,7 +752,7 @@ function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 	print("
 		<table border=0><tr><td><table border=0 cellspacing=0 cellpadding=6 align=center>
 		  <tr>
-		    <td bgcolor=#000000>
+		    <td bgcolor=black>
 	");
 	print_picture($path_to_picture, $temp, $height, $alt);
 	print("
@@ -771,13 +768,13 @@ function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 /* Print lower toolbar */
 function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 	print("
-		<table><tr><td bgcolor=#FFFFFF><table border=0 align=center width=$width>
+		<table><tr><td bgcolor=white><table border=0 align=center width=$width>
 		  <tr align=center>
 		    <td width=33%>$resizeform</td>
 		    <td width=34%>$picform</td>
 		    <td width=33%>$rotateform</td>
 		  </tr>
-		</table></td></tr></table>
+		</table>
 	");
 }
 
@@ -844,7 +841,7 @@ function do_slideshow_page($album, $picture, $width, $slideshow) {
 	clean_tmp("tmp/");
 	$tempfilename = do_resize_picture($path_to_picture, $width, $height, $rotate);
 	print_header(0);
-	print("<body bgcolor=#000000 topmargin=0 leftmargin=0><center><table height=100% cellpadding=0 cellspacing=0><tr><td>");
+	print("<body bgcolor=black topmargin=0 leftmargin=0><center><table height=100% cellpadding=0 cellspacing=0><tr><td>");
 	print_picture($path_to_picture, $tempfilename, $height, $alt);
 	$currentindex = locate_index($picture, $pictures);
 	$next = $pictures[$currentindex+1];
