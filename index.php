@@ -190,10 +190,10 @@ function clean_tmp($dirname) {
 			}
 			$filename = "$subdirname/$j";
 			if ( is_file("$filename") ) {
-				unlink("$filename");
+				@unlink("$filename");
 			}
 		}
-		rmdir("$subdirname");
+		@rmdir("$subdirname");
 	}
 	closedir($dir);
 }
