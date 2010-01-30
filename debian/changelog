@@ -21,6 +21,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - use /var/cache/pictor/resize dir
     - beautify table printing
     - update cache cleaning
+    - add a way to change the delay on the slideshow
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:

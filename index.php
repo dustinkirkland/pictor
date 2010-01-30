@@ -553,6 +553,24 @@ function build_resize_form($path_to_picture, $album, $picture, $width, $extra) {
 
 
 /****************************************************************************/
+/* Print delay form */
+function build_delay_form($path_to_picture, $album, $picture, $width, $delay) {
+//	$form = "<form name=delayform><select name=delay onchange=javascript:goto(this.form)>\n";
+	$form = "<form name=delayform><select name=dest onchange=javascript:goto(this.form)\n";
+	for ($i=0; $i<10; $i++) {
+		if ($i == $delay) {
+			$form .= "<option selected value='?album=" . urlencode($album) . "&picture=" . urlencode($picture) . "&width=" . urlencode($width) . "&slideshow=$i'>$i</option>\n";
+		} else {
+			$form .= "<option value='?album=" . urlencode($album) . "&picture=" . urlencode($picture) . "&width=" . urlencode($width) . "&slideshow=$i'>$i</option>\n";
+		}
+	}
+	$form .= "</select></form>";
+	return $form;
+}
+/****************************************************************************/
+
+
+/****************************************************************************/
 /* Print picture form */
 function build_picture_form($album, $picture, $width, $slideshow, $pictures, $description) {
 	global $BASEDIR;
@@ -856,7 +874,8 @@ function do_slideshow_page($album, $picture, $width, $slideshow) {
 	$next = $pictures[$currentindex+1];
 	$url = "?album=" . urlencode($album) . "&picture=" . urlencode($next) . "&width=$width";
 	$resizeform = build_resize_form($path_to_picture, $album, $picture, $width, "slideshow=$slideshow");
-	print("</td></tr><tr><td align=center valign=top>$resizeform</td></tr></table></center><meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'></body></html>\n");
+	$delayform = build_delay_form($path_to_picture, $album, $picture, $width, $slideshow);
+	print("</td></tr><tr><td align=center><table><tr><td align=center>$delayform</td><td align=center>$resizeform</td></tr></table></td></tr></table></center><meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'></body></html>\n");
 }
 /****************************************************************************/
 
