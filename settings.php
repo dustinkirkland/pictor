@@ -3,7 +3,7 @@
 // Edit this file to your liking
 
 // Title your viewer
-$TITLE = "My Albums";
+$TITLE = "Pictor";
 
 // Add a license footer to your pages
 //$LICENSE = "All images are Copyright (C) 2000-2010 Your Name &lt;yourname@example.com&gt;";
