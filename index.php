@@ -172,18 +172,28 @@ function get_pictures_from_album($album) {
 /****************************************************************************/
 
 /****************************************************************************/
-/* Remove temporary images older than 15 minutes */
+/* Remove temporary directories older than $max_age seconds */
+/* Ideally, we'd support a cap size of the cache and enforce that */
 function clean_tmp($dirname) {
+	$max_age = 60*60;
 	$dir = opendir($dirname);
-	while (($file = readdir($dir)) !== false) {
-		// delete temp images that have not been accessed in the last 15 minutes
-		if (
-			is_file("tmp/$file") &&
-			is_image($file) &&
-			(date("U") - date("U", fileatime("tmp/$file")) > 15*60)
-		) {
-			unlink("tmp/$file");
+	while (($i = readdir($dir)) != false) {
+		if ($i == "." || $i == "..") {
+			continue;
 		}
+		// delete temp images that have not been accessed in the last $max_age seconds
+		$subdirname = "$dirname/$i";
+		$subdir = opendir($subdirname);
+		while (($j = readdir($subdir)) !== false) {
+			if ($j == "." || $j == ".." || (date("U") - date("U", fileatime("$subdirname")) < $max_age)) {
+				continue;
+			}
+			$filename = "$subdirname/$j";
+			if ( is_file("$filename") ) {
+				unlink("$filename");
+			}
+		}
+		rmdir("$subdirname");
 	}
 	closedir($dir);
 }
@@ -207,6 +217,7 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 		$img->destroy();
 		rotate_if_necessary($path_to_picture, $tempfilename);
 	}
+	clean_tmp("tmp/resize");
 	return $tempfilename;
 }
 /****************************************************************************/
@@ -809,7 +820,6 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	$rotateform = build_rotate_form($album, $picture, $width, $rotate);
 	$resizeform = build_resize_form($path_to_picture, $album, $picture, $width, $rotate);
 
-	clean_tmp("tmp/");
 	$tempfilename = do_resize_picture($path_to_picture, $width, $height, $rotate);
 	$currentindex = locate_index($picture, $pictures);
 	$total = sizeof($pictures);
@@ -838,7 +848,6 @@ function do_slideshow_page($album, $picture, $width, $slideshow) {
 	if (!$picture) { $picture = $pictures[0]; }
 	$path_to_picture = $BASEDIR . "/" . $album . "/" . $picture;
 	$path_to_picture = preg_replace("/\/+/", "/", "$path_to_picture");
-	clean_tmp("tmp/");
 	$tempfilename = do_resize_picture($path_to_picture, $width, $height, $rotate);
 	print_header(0);
 	print("<body bgcolor=black topmargin=0 leftmargin=0><center><table height=100% cellpadding=0 cellspacing=0><tr><td>");

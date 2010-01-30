@@ -20,6 +20,7 @@ pictor (2.0) UNRELEASED; urgency=low
     - index.php: color cells light blue on hover, s/surf/goto/g
     - use /var/cache/pictor/resize dir
     - beautify table printing
+    - update cache cleaning
   * debian/rules, debian/dirs, debian/links: add support for a thumbnail
     cache dir
   * debian/control:
