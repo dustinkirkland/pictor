@@ -1,4 +1,4 @@
-pictor (2.0) UNRELEASED; urgency=low
+pictor (2.0) lucid; urgency=low
 
   * Initial packaging
   * settings.php: prep for installation to /etc/pictor
@@ -37,4 +37,4 @@ pictor (2.0) UNRELEASED; urgency=low
     cache resize dir, remove cache on purge, use links file
 
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 26 Jan 2010 23:40:48 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jan 2010 19:29:47 -0800
