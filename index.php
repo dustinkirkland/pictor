@@ -24,15 +24,15 @@ include_once("/etc/pictor/settings.php");
 /* variables that may come in through an http GET request */
 $album     = sanity_check($_REQUEST["album"]);
 $picture   = sanity_check($_REQUEST["picture"]);
-$width     = sanity_check($_REQUEST["width"]);
-$rotate    = sanity_check($_REQUEST["rotate"]);
+$width     = sanity_check_number($_REQUEST["width"]);
+$rotate    = sanity_check_number($_REQUEST["rotate"]);
 $base      = sanity_check($_REQUEST["base"]);
-$thumbs    = sanity_check($_REQUEST["thumbs"]);
-$slideshow = sanity_check($_REQUEST["slideshow"]);
+$thumbs    = sanity_check_number($_REQUEST["thumbs"]);
+$slideshow = sanity_check_number($_REQUEST["slideshow"]);
 $write	   = sanity_check($_REQUEST["write"]);
 $file	   = sanity_check_array($_REQUEST["file"]);
 $desc	   = sanity_check_array($_REQUEST["desc"]);
-$random	   = sanity_check($_REQUEST["random"]);
+$random	   = sanity_check_number($_REQUEST["random"]);
 $edit	   = sanity_check($_REQUEST["edit"]);
 
 $EDIT = 0;
@@ -57,6 +57,17 @@ function sanity_check($string) {
     exit;
   }
   return $decoded;
+}
+/****************************************************************************/
+
+/****************************************************************************/
+/* Ensure input is a number, and non-malicious */
+function sanity_check_number($input) {
+  $input = sanity_check($input);
+  if (! is_int($input)) {
+    exit;
+  }
+  return $input;
 }
 /****************************************************************************/
 
