@@ -672,35 +672,6 @@ function print_exif_data($path_to_picture, $description) {
 }
 /****************************************************************************/
 
-function get_airport($city, $state="", $country="") {
-	include_once("codes.php");
-	if (!$country && !$state) { $country = "USA"; $state = "TX"; }
-	$city = strtoupper($city);
-	$state = strtoupper($state);
-	$country = strtoupper($country);
-	return $code["$country"]["$state"]["$city"];
-}
-
-function get_weather($date, $city, $state="", $country="") {
-	$airport = "K" . get_airport($city, $state, $country);
-	list($date, $time) = preg_split("/\s+/", $date);
-	$date = preg_replace("/:/", "-", $date);
-	if (!preg_match("/[A-Za-z]/", $date) && $airport) {
-		switch (sizeof(preg_split("/[\-:]/", $date))) {
-			case 3:
-				$history = "DailyHistory.html";
-				break;
-			case 2:
-				$history = "01/MonthlyHistory.html";
-				break;
-		}
-		if ($history) {
-			$weatherhref = "http://www.wunderground.com/history/airport/" . $airport . "/" . preg_replace("/\-/", "/", $date) . "/$history";
-			return "<a href='$weatherhref'>$date</a>";
-		}
-	}
-}
-
 
 /****************************************************************************/
 /* Print picture details */
