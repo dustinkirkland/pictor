@@ -5,6 +5,7 @@ pictor (2.0ubuntu1) UNRELEASED; urgency=low
     - quote href's
     - use htmlspecialchars judiciously
     - deprecate weather and airport support (for now)
+    - don't hardcode lower footer width
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Feb 2010 16:32:15 -0800
 

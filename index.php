@@ -289,7 +289,7 @@ body {
 function print_footer() {
 	global $LICENSE;
 	print("
-		<table width=600 border=0 cellspacing=0>
+		<table border=0 cellspacing=0>
 		  <tr>
 		    <td bgcolor=white align=center><small>
 $LICENSE<br>
