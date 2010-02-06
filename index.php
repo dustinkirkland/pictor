@@ -293,7 +293,7 @@ function print_footer() {
 		  <tr>
 		    <td bgcolor=white align=center><small>
 $LICENSE<br>
-<small><a href=https://launchpad.net/pictor>Pictor</a> is <a href=agpl-3.0.txt>AGPLv3</a> free software, Copyright &copy; 1997-2010 <a href=http://blog.dustinkirkland.com>Dustin Kirkland</a>.</small>
+<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-2010 <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
@@ -413,7 +413,7 @@ function do_list_albums($base) {
 					");
 				}
 				print("
-          <td bgcolor=white onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$url') align=center><a href=$href>$file</a></td>
+          <td bgcolor=white onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$url') align=center><a href='$href'>" . htmlspecialchars($file) . "</a></td>
 				");
 				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
@@ -507,7 +507,7 @@ function do_write_descriptions($album, $file, $desc) {
 	}
 	fclose($fh);
 	print("</pre></td></tr></table>");
-	print("<br><a href=?>index</a> | <a href=?thumbs=1&album=". urlencode($album) . ">thumbs</a> | <a href=?album=" . urlencode($album) . ">flipbook</a><br><br>");
+	print("<br><a href='?'>index</a> | <a href='?thumbs=1&album=". urlencode($album) . "'>thumbs</a> | <a href='?album=" . urlencode($album) . "'>flipbook</a><br><br>");
 }
 /****************************************************************************/
 
@@ -695,7 +695,7 @@ function get_weather($date, $city, $state="", $country="") {
 		}
 		if ($history) {
 			$weatherhref = "http://www.wunderground.com/history/airport/" . $airport . "/" . preg_replace("/\-/", "/", $date) . "/$history";
-			return "<a href=$weatherhref>$date</a>";
+			return "<a href='$weatherhref'>$date</a>";
 		}
 	}
 }
@@ -718,10 +718,10 @@ function print_upper_banner($album, $description, $width) {
 	$descr = "";
 	for ($i=0; $i<sizeof($path_parts)-1; $i++) {
 		$subalbum .= "/" . $path_parts[$i];
-		$descr .= "<a href=?base=" . urlencode($subalbum) . ">$path_parts[$i]</a> - ";
+		$descr .= "<a href='?base=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
 	}
 	$subalbum .= "/" . $path_parts[$i];
-	$descr .= "<a href=?album=" . urlencode($subalbum) . ">$path_parts[$i]</a>";
+	$descr .= "<a href='?album=" . urlencode($subalbum) . "'>$path_parts[$i]</a>";
 	if ($description) {
 		$descr .= " - $description";
 	}
@@ -746,7 +746,7 @@ function print_upper_toolbar($album, $description, $back, $next, $width) {
 		  <tr align=center>
 		    <td width=20% align=left>$back</td>
 		    <td width=60%>
-		      <a href=" . $_SERVER[PHP_SELF] . ">index</a> |
+		      <a href='" . $_SERVER[PHP_SELF] . "'>index</a> |
 		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> |
 		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a>
 		    </td>
