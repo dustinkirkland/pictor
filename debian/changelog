@@ -1,4 +1,4 @@
-pictor (2.0ubuntu1) UNRELEASED; urgency=low
+pictor (2.1) lucid; urgency=low
 
   * debian/apache.conf: turn off indexes
   * index.php:
@@ -7,7 +7,7 @@ pictor (2.0ubuntu1) UNRELEASED; urgency=low
     - deprecate weather and airport support (for now)
     - don't hardcode lower footer width
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Feb 2010 16:32:15 -0800
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Feb 2010 17:25:54 -0800
 
 pictor (2.0) lucid; urgency=low
 
