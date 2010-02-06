@@ -6,7 +6,7 @@ pictor (2.1) lucid; urgency=low
     - use htmlspecialchars judiciously
     - deprecate weather and airport support (for now)
     - don't hardcode lower footer width
-    - sanity check numbers
+    - sanity check numbers a bit better
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Feb 2010 17:25:54 -0800
 

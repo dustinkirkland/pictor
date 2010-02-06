@@ -64,10 +64,13 @@ function sanity_check($string) {
 /* Ensure input is a number, and non-malicious */
 function sanity_check_number($input) {
   $input = sanity_check($input);
-  if (! is_int($input)) {
-    exit;
+  if (empty($input)) {
+    return "";
   }
-  return $input;
+  if (is_numeric($input)) {
+    return intval($input);
+  }
+  exit;
 }
 /****************************************************************************/
 
