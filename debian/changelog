@@ -1,7 +1,9 @@
 pictor (2.0ubuntu1) UNRELEASED; urgency=low
 
   * debian/apache.conf: turn off indexes
-  * index.php: quote href's
+  * index.php:
+    - quote href's
+    - use htmlspecialchars judiciously
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 05 Feb 2010 16:32:15 -0800
 

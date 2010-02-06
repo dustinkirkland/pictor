@@ -585,6 +585,7 @@ function build_picture_form($album, $picture, $width, $slideshow, $pictures, $de
 				$clean = preg_replace("/\.jpg$/i", "", $file);
 				$clean = preg_replace("/[\-\_]/", " ", $clean);
 				$clean = preg_replace("/&/", " and ", $clean);
+				$clean = htmlspecialchars($clean);
 			}
 			if ($file == $picture) {
 				$currentindex = $i;
@@ -633,7 +634,7 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 /* Print data cell */
 function print_data_cell($key, $value) {
 	if ($value) {
-		print("<tr><td bgcolor=#DDDDDD><small><small>$key</small></small></td><td bgcolor=white><small><small>$value</small></small></td></tr>");
+		print("<tr><td bgcolor=#DDDDDD><small><small>" . htmlspecialchars($key) . "</small></small></td><td bgcolor=white><small><small>" . htmlspecialchars($value) . "</small></small></td></tr>");
 	}
 }
 /****************************************************************************/
