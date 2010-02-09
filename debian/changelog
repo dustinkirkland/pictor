@@ -1,8 +1,8 @@
-pictor (2.3) unreleased; urgency=low
+pictor (2.3-0ubuntu1) lucid; urgency=low
 
   * index.php: center license text
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:09:38 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 20:08:54 -0600
 
 pictor (2.2-0ubuntu1) lucid; urgency=low
 
