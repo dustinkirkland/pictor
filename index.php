@@ -303,7 +303,7 @@ body {
 function print_footer() {
 	global $LICENSE;
 	print("
-		<table border=0 cellspacing=0>
+		<table border=0 cellspacing=0 width='100%'>
 		  <tr>
 		    <td bgcolor=white align=center><small>
 $LICENSE<br>

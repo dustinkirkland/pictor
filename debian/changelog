@@ -1,6 +1,6 @@
 pictor (2.3) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: center license text
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:09:38 -0600
 
