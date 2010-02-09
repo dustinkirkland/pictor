@@ -1,3 +1,9 @@
+pictor (2.3) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:09:38 -0600
+
 pictor (2.2-0ubuntu1) lucid; urgency=low
 
   * rebuild using better tools, and prepare for PPA uploads backported to
