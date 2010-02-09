@@ -1,3 +1,9 @@
+pictor (2.5) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 09 Feb 2010 11:40:50 -0600
+
 pictor (2.4-0ubuntu1) lucid; urgency=low
 
   * index.php: use a backward compatible scaleImage() invocation that works
