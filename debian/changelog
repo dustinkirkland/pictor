@@ -1,6 +1,7 @@
 pictor (2.4) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: use a backward compatible scaleImage() invocation that works
+    with Hardy's php
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 20:09:00 -0600
 
