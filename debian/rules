@@ -1,11 +1,5 @@
 #!/usr/bin/make -f
 
-PKG=pictor
-VER=`head -n 1 debian/changelog | sed 's/^.*(//' | sed 's/).*//' | sed 's/-.*//'`
-
-get-orig-source:
-	bzr export ../${PKG}_${VER}.orig.tar.gz
-
 build:
 
 clean:

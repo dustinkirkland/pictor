@@ -2,6 +2,8 @@ pictor (2.2) UNRELEASED; urgency=low
 
   * rebuild using better tools, and prepare for PPA uploads backported to
     older Ubuntu releases
+  * debian/rules: drop get-orig-source, no longer needed, handled by my
+    own scripts
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:06:31 -0600
 
