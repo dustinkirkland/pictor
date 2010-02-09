@@ -1,3 +1,10 @@
+pictor (2.2) UNRELEASED; urgency=low
+
+  * rebuild using better tools, and prepare for PPA uploads backported to
+    older Ubuntu releases
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 08 Feb 2010 19:06:31 -0600
+
 pictor (2.1) lucid; urgency=low
 
   * debian/apache.conf: turn off indexes
