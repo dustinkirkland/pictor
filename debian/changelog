@@ -1,8 +1,8 @@
-pictor (2.5) unreleased; urgency=low
+pictor (2.5-0ubuntu1) lucid; urgency=low
 
   * index.php: use exif data to determine if image, catch imagick exceptions
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 09 Feb 2010 11:40:50 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 10 Feb 2010 11:46:06 -0600
 
 pictor (2.4-0ubuntu1) lucid; urgency=low
 
