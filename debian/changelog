@@ -1,6 +1,6 @@
 pictor (2.5) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: use exif data to determine if image, catch imagick exceptions
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 09 Feb 2010 11:40:50 -0600
 

@@ -140,7 +140,8 @@ function get_description($path) {
 /****************************************************************************/
 /* Given a filename, return true if has an image file extension */
 function is_image($file) {
-	if (	!preg_match("/^[\._]/", $file) &&
+	if (	exif_imagetype($file) &&
+		!preg_match("/^[\._]/", $file) &&
 		( preg_match("/\.jpg$/i", $file) ||
 		preg_match("/\.jpeg$/i", $file) )
 	) {
@@ -175,7 +176,7 @@ function get_pictures_from_album($album) {
 	assert_path_ok("$BASEDIR/$album");
         if ($dir = opendir("$BASEDIR/$album")) {
 		while (($file = readdir($dir)) !== false) {
-			if (is_image($file) || is_video($file)) {
+			if (is_image("$BASEDIR/$album/$file") || is_video("$BASEDIR/$album/$file")) {
 				array_push($pictures, $file);
 			}
 		}
@@ -222,14 +223,19 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 	if ( ! file_exists($tempfilename) && is_image($path_to_picture) ) {
 		$size = $width . "x" . $height;
 		$input = escapeshellarg($path_to_picture);
-		$img = new Imagick($path_to_picture);
-		$img->scaleImage($width, $height);
-		if ($rotate != 0) {
-			$img->rotateImage(new ImagickPixel(), $rotate);
+		try {
+			$img = new Imagick($path_to_picture);
+			$img->scaleImage($width, $height);
+			if ($rotate != 0) {
+				$img->rotateImage(new ImagickPixel(), $rotate);
+			}
+			$img->writeImage($tempfilename);
+			$img->destroy();
+			rotate_if_necessary($path_to_picture, $tempfilename);
+		} catch (Exception $e) {
+			$tempfilename = "";
 		}
-		$img->writeImage($tempfilename);
-		$img->destroy();
-		rotate_if_necessary($path_to_picture, $tempfilename);
+
 	}
 	clean_tmp("tmp/resize");
 	return $tempfilename;
@@ -351,7 +357,7 @@ function print_thumbnail($path, $file, $desc) {
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<table cellpadding=4><tr><td bgcolor=black align=center><a href='$href'>");
-	if (is_image($file)) {
+	if (is_image($filename)) {
 		if (! file_exists($thumbnail_name)) {
 			// No thumbnail in cache.
 			if ($img = @exif_thumbnail($filename)) {
@@ -360,11 +366,15 @@ function print_thumbnail($path, $file, $desc) {
 				fwrite($fh, $img);
 				fclose($fh);
 			} else {
-				// Otherwise, use Imagick.
-				$img = new Imagick($filename);
-				$img->scaleImage(150, 150);
-				$img->writeImage($thumbnail_name);
-				$img->destroy();
+				try {
+					// Otherwise, try Imagick.
+					$img = new Imagick($filename);
+					$img->scaleImage(150, 150);
+					$img->writeImage($thumbnail_name);
+					$img->destroy();
+				} catch (Exception $e) {
+					print("");
+				}
 			}
 			rotate_if_necessary($filename, $thumbnail_name);
 		}
@@ -873,7 +883,7 @@ function do_random() {
 	for ($i=0; $i<sizeof($RAND_ALBUMS); $i++) {
 		$dh = opendir($RAND_ALBUMS[$i]);
 		while (($file = readdir($dh)) !== false) {
-			if (is_image($file)) {
+			if (is_image("$RAND_ALBUMS[$i]/$file")) {
 				array_push($pictures, "$RAND_ALBUMS[$i]/$file");
 			}
 		}
