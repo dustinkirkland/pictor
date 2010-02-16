@@ -1,8 +1,8 @@
-pictor (2.6) unreleased; urgency=low
+pictor (2.6-0ubuntu1) lucid; urgency=low
 
-  * UNRELEASED
+  * index.php: scale images to bestfit=true
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 10 Feb 2010 11:46:12 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Feb 2010 19:37:24 -0600
 
 pictor (2.5-0ubuntu1) lucid; urgency=low
 

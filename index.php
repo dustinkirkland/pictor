@@ -225,7 +225,7 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 		$input = escapeshellarg($path_to_picture);
 		try {
 			$img = new Imagick($path_to_picture);
-			$img->scaleImage($width, $height);
+			$img->scaleImage($width, $height, true);
 			if ($rotate != 0) {
 				$img->rotateImage(new ImagickPixel(), $rotate);
 			}
@@ -369,7 +369,7 @@ function print_thumbnail($path, $file, $desc) {
 				try {
 					// Otherwise, try Imagick.
 					$img = new Imagick($filename);
-					$img->scaleImage(150, 150);
+					$img->scaleImage(150, 150, true);
 					$img->writeImage($thumbnail_name);
 					$img->destroy();
 				} catch (Exception $e) {
