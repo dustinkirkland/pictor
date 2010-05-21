@@ -726,7 +726,7 @@ function print_upper_banner($album, $description, $width) {
                    <table border=0 cellpadding=0 cellspacing=0 align=center width=100%>
 		    <tr>
 		     <td colspan=3>
-		      <p align=center><big><b>$TITLE</b></big><br><b>$descr</b></p>
+		      <p align=center><b>$descr</b></p>
 		     </td>
 		    </tr>
 	");

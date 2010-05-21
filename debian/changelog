@@ -1,6 +1,6 @@
 pictor (2.7) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: drop the unecessary title at the top
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Feb 2010 19:37:29 -0600
 
