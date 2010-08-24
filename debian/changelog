@@ -1,3 +1,9 @@
+pictor (2.8) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 24 Aug 2010 15:29:04 -0400
+
 pictor (2.7-0ubuntu1) maverick; urgency=low
 
   * index.php: drop the unecessary title at the top
