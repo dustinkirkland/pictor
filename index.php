@@ -637,7 +637,7 @@ function get_next_link($album, $width, $pictures, $currentindex, $slideshow) {
 	if ($slideshow > 0) {
 		print("<meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'>\n");
 	}
-	$next = "<table border=0><tr><td bgcolor=white><a href='$url'><b>Next &gt;</b></a></td></tr></table>";
+	$next = "<table border=0><tr><td bgcolor=white><a href='$url'><b>Next <img src=/next.png></b></a></td></tr></table>";
 	return $next;
 }
 
@@ -645,7 +645,7 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 	if ($currentindex != 0) {
 		$back = $pictures[$currentindex-1];
 		$url = "?album=" . urlencode($album) . "&picture=" . urlencode($back) . "&width=$width";
-		$back = "<table border=0><tr><td bgcolor=white><a href='$url'><b>&lt; Back</b></a></td></tr></table>";
+		$back = "<table border=0><tr><td bgcolor=white><a href='$url'><b><img src=/prev.png> Back</b></a></td></tr></table>";
 		return $back;
 	} else {
 		return "&nbsp;";

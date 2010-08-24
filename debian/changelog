@@ -1,6 +1,9 @@
 pictor (2.7) unreleased; urgency=low
 
   * index.php: drop the unecessary title at the top
+  * camera.png, debian/copyright, debian/install, favicon.ico, index.php,
+    next.png, prev.png: add a favicon, next and previous buttons, update
+    copyright to add famfamfam
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Feb 2010 19:37:29 -0600
 
