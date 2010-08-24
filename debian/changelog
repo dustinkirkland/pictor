@@ -1,11 +1,11 @@
-pictor (2.7) unreleased; urgency=low
+pictor (2.7-0ubuntu1) maverick; urgency=low
 
   * index.php: drop the unecessary title at the top
   * camera.png, debian/copyright, debian/install, favicon.ico, index.php,
     next.png, prev.png: add a favicon, next and previous buttons, update
     copyright to add famfamfam
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 15 Feb 2010 19:37:29 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 24 Aug 2010 15:28:58 -0400
 
 pictor (2.6-0ubuntu1) lucid; urgency=low
 
