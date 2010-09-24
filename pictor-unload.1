@@ -1,0 +1,27 @@
+.TH pictor\-unload 1 "24 Sep 2010" pictor "pictor"
+.SH NAME
+pictor\-unload \- unload pictures from a SOURCE removable media to DESTINATION directory, and rename each file, prepending the timestamp
+
+.SH SYNOPSIS
+.BI "pictor\-unload" SOURCE DESTINATION
+
+.SH DESCRIPTION
+The \fBpictor\-unload\fP utility is useful for unloading pictures from removable media, collating, and interleaving them with other pictures.
+
+The tool takes two arguments, the SOURCE directory, and the DESTINATION directory.
+
+Each file in the SOURCE directory is copied (preserving all attributes) to the DESTINATION directory.  At the destination, the file is renamed, prepending a timestamp in the form of "YYYY-MM-DD_HH:MM:SS__" to the beginning of the filename.  The timestamp is taken to be that of the file's original modification time, as determined by the \fBstat\fP(1) utility.  A "double-underscore", ie, "__" separates the timestamp from the original filename.  File permissions at the destination are also adjusted, removing the executable bit which is typically set in the source, since the source is usually a VFAT filesystem.
+
+If you perfectly synchronize the embedded clock on each of several cameras, you can use \fBpictor\-unload\fP to conveniently combine and interleave pictures from these cameras.
+
+The SOURCE directory is renamed, appending the current timestamp to the folder, thus noting "when" these pictures were unloaded.  Your camera will create a new directory on the media when you take a new picture.  \fBpictor\-unload\fP assumes that it is your right and responsibility to delete pictures from the media or reformat the card.
+
+Finally, if the source directory is in /media, then you are prompted, asking if you want to unmount the source filesystem.  Note that this will required root privileges via \fBsudo\fP(8).
+
+.SH SEE ALSO
+\fBstat\fP(1), \fBsudo\fP(8)
+
+.SH AUTHOR
+This manpage and the utility were written by Dustin Kirkland <kirkland@canonical.com> for Ubuntu systems (but may be used by others).  Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 published by the Free Software Foundation.
+
+On Debian systems, the complete text of the GNU General Public License can be found in /usr/share/common-licenses/GPL.

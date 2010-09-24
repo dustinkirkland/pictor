@@ -4,3 +4,4 @@ index.php usr/share/pictor
 favicon.ico usr/share/pictor
 next.png usr/share/pictor
 prev.png usr/share/pictor
+pictor-unload usr/bin
