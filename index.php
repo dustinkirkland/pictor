@@ -35,6 +35,10 @@ $desc	   = sanity_check_array($_REQUEST["desc"]);
 $random	   = sanity_check_number($_REQUEST["random"]);
 $edit	   = sanity_check($_REQUEST["edit"]);
 
+if ($thumbs > 1) {
+	$THUMB_COLUMNS = $thumbs;
+}
+
 $EDIT = 0;
 if ((strlen($EDIT_PW) > 0) && ($edit == $EDIT_PW)) {
 	$EDIT = 1;
