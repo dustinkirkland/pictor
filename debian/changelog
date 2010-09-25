@@ -1,3 +1,9 @@
+pictor (2.9) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 25 Sep 2010 11:38:23 -0700
+
 pictor (2.8-0ubuntu1) maverick; urgency=low
 
   * debian/install, pictor-unload, pictor-unload.1: add a script that
