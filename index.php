@@ -849,8 +849,8 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	$next = get_next_link($album, $width, $pictures, $currentindex, $slideshow);
 	$back = get_back_link($album, $width, $pictures, $currentindex);
 
-	print_upper_toolbar($album, $descriptions[$picture], $back, $next, $width);
 	print_picture_in_table($path_to_picture, $tempfilename, $height, $alt);
+	print_upper_toolbar($album, $descriptions[$picture], $back, $next, $width);
 	print_lower_toolbar($resizeform, $picform, $rotateform, $width);
 	print_picture_details($path_to_picture, $currentindex, $total, $width, $descriptions);
 }
