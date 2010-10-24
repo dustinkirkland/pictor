@@ -44,6 +44,10 @@ if ((strlen($EDIT_PW) > 0) && ($edit == $EDIT_PW)) {
 	$EDIT = 1;
 }
 
+if (!isset($DEFAULT_WIDTH)) {
+	$DEFAULT_WIDTH = 800;
+}
+
 /* check for malicious .. in $base input */
 $PICTURE_ROOT = "pictures";
 $BASEDIR = $PICTURE_ROOT . "/" . $base;
@@ -814,12 +818,12 @@ function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 /****************************************************************************/
 /* Display the flipbook page with the picture and all navigation tools */
 function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
-	global $_SERVER, $BASEDIR;
+	global $_SERVER, $BASEDIR, $DEFAULT_WIDTH;
 	if (!$width) {
 		if ( $_SERVER["HTTP_UA_PIXELS"] ) {
 			list ($width, $trash) = preg_split("/x/", $_SERVER["HTTP_UA_PIXELS"], 2);
 		} else {
-			$width = "640";
+			$width = $DEFAULT_WIDTH;
 		}
 	}
 	$height = 3/4 * $width;

@@ -1,6 +1,7 @@
 pictor (2.9) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php, settings.php: change default flipbook image size from
+    640 to 800; add a configurable variable to control this
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 25 Sep 2010 11:38:23 -0700
 
