@@ -3,7 +3,7 @@ pictor (2.9) unreleased; urgency=low
   * index.php, settings.php: change default flipbook image size from
     640 to 800; add a configurable variable to control this
   * index.php: move upper bar to just below picture, to try and get more
-    of the image on the first page
+    of the image on the first page; darken the background color
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 25 Sep 2010 11:38:23 -0700
 

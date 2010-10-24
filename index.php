@@ -305,7 +305,7 @@ body {
 	");
 	if ($body == 1) {
 		print("
-<body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#555555>
+<body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#101010>
 <table width=100% height=100%><tr><td align=center valign=center>
 		");
 	}
