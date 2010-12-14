@@ -1,3 +1,9 @@
+pictor (2.10) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 14 Dec 2010 11:48:03 -0600
+
 pictor (2.9-0ubuntu1) natty; urgency=low
 
   * index.php, settings.php: change default flipbook image size from
