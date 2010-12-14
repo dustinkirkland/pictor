@@ -6,6 +6,7 @@ pictor (2.9) unreleased; urgency=low
     of the image on the first page; darken the background color
   * debian/control, debian/copyright, debian/install, debian/links,
     index.php, next.png, prev.png: use the new famfamfam-silk package
+  * debian/control, debian/copyright: fix lintian warnings
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 25 Sep 2010 11:38:23 -0700
 
