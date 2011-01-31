@@ -26,6 +26,8 @@ Description: a web application for browsing your pictures
 Package: pictor-unload
 Architecture: all
 Depends: ${misc:Depends}
+Breaks: pictor (<< 2.10)
+Replaces: pictor (<< 2.10)
 Description: a tool for unloading and renaming pictures from flash media
  Pictor-unload is a tool for unloading pictures from one directory
  to another, and renaming them with their timestamp for ordering and
