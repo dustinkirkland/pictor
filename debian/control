@@ -10,6 +10,7 @@ Vcs-Bzr: http://bazaar.launchpad.net/~kirkland/pictor/main
 Package: pictor
 Architecture: all
 Depends: ${misc:Depends}, debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5, php5-imagick, famfamfam-silk
+Recommends: pictor-unload
 Description: a web application for browsing your pictures
  Pictor is a simple web application for browsing your pictures in a
  in a filesystem (without a complicated database schema).  Pictures
@@ -21,3 +22,11 @@ Description: a web application for browsing your pictures
  a local webserver, but is not necessarily recommended for high
  traffic picture sharing, as Pictor's dynamic image scaling can
  be cpu-intensive.
+
+Package: pictor-unload
+Architecture: all
+Depends: ${misc:Depends}
+Description: a tool for unloading and renaming pictures from flash media
+ Pictor-unload is a tool for unloading pictures from one directory
+ to another, and renaming them with their timestamp for ordering and
+ interleaving.

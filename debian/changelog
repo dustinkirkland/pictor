@@ -1,6 +1,11 @@
 pictor (2.10) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control, debian/dirs => debian/pictor.dirs, debian/install =>
+    debian/pictor.install, debian/links => debian/pictor.links,
+    debian/pictor-unload.install, debian/pictor-unload.manpages,
+    debian/postinst => debian/pictor.postinst, debian/postrm =>
+    debian/pictor.postrm:
+    - separate pictor-unload to a separate, stand-alone package
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 14 Dec 2010 11:48:03 -0600
 

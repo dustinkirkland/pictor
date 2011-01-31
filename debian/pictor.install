@@ -2,4 +2,3 @@ debian/apache.conf  etc/pictor
 settings.php etc/pictor
 index.php usr/share/pictor
 favicon.ico usr/share/pictor
-pictor-unload usr/bin
