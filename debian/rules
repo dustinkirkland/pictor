@@ -12,6 +12,7 @@ install:build
 	dh_installdirs -X.bzr
 	dh_link
 	dh_install -X.bzr
+	dh_installmanpages
 
 # Everything else is handled by dh_install
 
