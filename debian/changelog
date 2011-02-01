@@ -1,4 +1,4 @@
-pictor (2.10) unreleased; urgency=low
+pictor (2.10-0ubuntu1) natty; urgency=low
 
   * debian/control, debian/dirs => debian/pictor.dirs, debian/install =>
     debian/pictor.install, debian/links => debian/pictor.links,
@@ -10,7 +10,7 @@ pictor (2.10) unreleased; urgency=low
   * debian/control, debian/rules: migrate to debhelper 7
   * pictor-unload.1: fix formatting
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 14 Dec 2010 11:48:03 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 31 Jan 2011 18:03:16 -0600
 
 pictor (2.9-0ubuntu1) natty; urgency=low
 
