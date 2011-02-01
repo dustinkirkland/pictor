@@ -1,3 +1,9 @@
+pictor (2.11) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 31 Jan 2011 18:03:20 -0600
+
 pictor (2.10-0ubuntu1) natty; urgency=low
 
   * debian/control, debian/dirs => debian/pictor.dirs, debian/install =>
