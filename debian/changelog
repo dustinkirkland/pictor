@@ -1,6 +1,7 @@
 pictor (2.12) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/pictor.links, index.php: rename "assets" to "silk"; gives some
+    credit to the silk project and perhaps less generic than "assets"
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 02 Feb 2011 09:22:45 -0800
 
