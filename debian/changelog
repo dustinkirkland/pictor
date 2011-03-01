@@ -1,3 +1,9 @@
+pictor (2.13) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Mar 2011 03:12:28 -0600
+
 pictor (2.12-0ubuntu1) natty; urgency=low
 
   * debian/pictor.links, index.php: rename "assets" to "silk"; gives some
