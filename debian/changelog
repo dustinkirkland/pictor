@@ -1,9 +1,10 @@
-pictor (2.12) unreleased; urgency=low
+pictor (2.12-0ubuntu1) natty; urgency=low
 
   * debian/pictor.links, index.php: rename "assets" to "silk"; gives some
     credit to the silk project and perhaps less generic than "assets"
+  * index.php: fix back/next links in table
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 02 Feb 2011 09:22:45 -0800
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Mar 2011 03:12:25 -0600
 
 pictor (2.11-0ubuntu1) natty; urgency=low
 

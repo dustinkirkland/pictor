@@ -272,6 +272,9 @@ function print_header($body=1) {
 <html>
 <head>
 <script>
+function gotourl(url) {
+	window.open(url, \"_self\");
+}
 function goto(form) {
 	var myindex = form.dest.selectedIndex;
 	window.open(form.dest.options[myindex].value, \"_self\");
@@ -637,24 +640,26 @@ function build_picture_form($album, $picture, $width, $slideshow, $pictures, $de
 /****************************************************************************/
 /* Determine the link to the next picture in the flipbook */
 function get_next_link($album, $width, $pictures, $currentindex, $slideshow) {
+	global $NEXT;
 	if ($currentindex == sizeof($pictures) - 1) {
 		return "&nbsp;";
 	} else {
 		$next = $pictures[$currentindex+1];
-		$url = "?album=" . urlencode($album) . "&picture=" . urlencode($next) . "&width=$width";
+		$NEXT = "?album=" . urlencode($album) . "&picture=" . urlencode($next) . "&width=$width";
 	}
 	if ($slideshow > 0) {
-		print("<meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'>\n");
+		print("<meta http-equiv='refresh' content='$slideshow;url=$NEXT&slideshow=$slideshow'>\n");
 	}
-	$next = "<table border=0><tr><td bgcolor=white><a href='$url'><b>Next <img src=silk/resultset_next.png></b></a></td></tr></table>";
+	$next = "<table border=0><tr><td bgcolor=white><a href='$NEXT'><b>Next <img src=silk/resultset_next.png></b></a></td></tr></table>";
 	return $next;
 }
 
 function get_back_link($album, $width, $pictures, $currentindex) {
+	global $BACK;
 	if ($currentindex != 0) {
 		$back = $pictures[$currentindex-1];
-		$url = "?album=" . urlencode($album) . "&picture=" . urlencode($back) . "&width=$width";
-		$back = "<table border=0><tr><td bgcolor=white><a href='$url'><b><img src=silk/resultset_previous.png> Back</b></a></td></tr></table>";
+		$BACK = "?album=" . urlencode($album) . "&picture=" . urlencode($back) . "&width=$width";
+		$back = "<table border=0><tr><td bgcolor=white><a href='$BACK'><b><img src=silk/resultset_previous.png> Back</b></a></td></tr></table>";
 		return $back;
 	} else {
 		return "&nbsp;";
@@ -783,14 +788,17 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 /****************************************************************************/
 /* Print picture img */
 function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
+	global $BACK, $NEXT;
 	print("
-		<table border=0><tr><td><table border=0 cellspacing=0 cellpadding=6 align=center>
+		<table border=0 width=100%><tr><td><table border=0 width=100% cellspacing=0 cellpadding=6 align=center>
 		  <tr>
-		    <td bgcolor=black>
+		    <td width=33% onClick=javascript:gotourl('$BACK')>&nbsp;</td>
+		    <td bgcolor=black><center>
 	");
 	print_picture($path_to_picture, $temp, $height, $alt);
 	print("
-		    </td>
+		    </center></td>
+		    <td width=33% onClick=javascript:gotourl('$NEXT')>&nbsp;</td>
 		  </tr>
 		</table></td></tr></table>
 	");
