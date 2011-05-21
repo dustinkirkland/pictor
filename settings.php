@@ -17,7 +17,6 @@ $RAND_ALBUMS = array();
 
 // Set the default columns
 $ALBUM_COLUMNS = 6;
-$THUMB_COLUMNS = 4;
 
 // Set the default width, should be one of [160, 400, 640, 800, 1024, 1920]
 $DEFAULT_WIDTH = 800;

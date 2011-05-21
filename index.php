@@ -35,10 +35,6 @@ $desc	   = sanity_check_array($_REQUEST["desc"]);
 $random	   = sanity_check_number($_REQUEST["random"]);
 $edit	   = sanity_check($_REQUEST["edit"]);
 
-if ($thumbs > 1) {
-	$THUMB_COLUMNS = $thumbs;
-}
-
 $EDIT = 0;
 if ((strlen($EDIT_PW) > 0) && ($edit == $EDIT_PW)) {
 	$EDIT = 1;
@@ -479,7 +475,6 @@ function do_list_albums($base) {
 /* Print album thumbails */
 function print_thumbnails($album) {
 	global $BASEDIR, $EDIT;
-	global $THUMB_COLUMNS;
 	print_upper_banner($album, "", "98%");
 	print("<br>\n");
 	$pictures = get_pictures_from_album($album);

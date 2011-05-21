@@ -5,6 +5,8 @@ pictor (2.13) unreleased; urgency=low
     - make the thumbnails view full screen
     - use a film icon for video clips
     - update copyright
+  * index.php, settings.php:
+    - eliminate THUMB_COLUMNS global
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Mar 2011 03:12:28 -0600
 
