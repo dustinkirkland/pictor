@@ -325,7 +325,7 @@ function print_footer() {
 		  <tr>
 		    <td bgcolor=white align=center><small>
 $LICENSE<br>
-<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-2010 <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
+<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-2011 <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
@@ -368,7 +368,7 @@ function print_thumbnail($path, $file, $desc) {
 	$filename = "$PICTURE_ROOT/$path/$file";
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
-	print("<table cellpadding=4><tr><td bgcolor=black align=center><a href='$href'>");
+	print("<a href='$href'>");
 	if (is_image($filename)) {
 		if (! file_exists($thumbnail_name)) {
 			// No thumbnail in cache.
@@ -390,11 +390,10 @@ function print_thumbnail($path, $file, $desc) {
 			}
 			rotate_if_necessary($filename, $thumbnail_name);
 		}
-		print("<img border=0 src='$thumbnail_name'>");
+		print("<img align=center border=0 src='$thumbnail_name'></a>&nbsp;");
 	} elseif (is_video($file)) {
-		print("<big>video clip</big><br>" . round(filesize("$PICTURE_ROOT/$path/$file")/1024) . " KB");
+		print("<img width=32 src=silk/film.png>");
 	}
-	print("</td></tr></table>");
 	if ($desc) {
 		print("<table><tr><td align=center>$desc</a></td></tr></table>");
 	}
@@ -481,12 +480,12 @@ function do_list_albums($base) {
 function print_thumbnails($album) {
 	global $BASEDIR, $EDIT;
 	global $THUMB_COLUMNS;
-	print_upper_banner($album, "", 600);
+	print_upper_banner($album, "", "98%");
 	print("<br>\n");
 	$pictures = get_pictures_from_album($album);
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
-	print("<table><tr><td bgcolor=white><center>\n");
+	print("<table><tr><td bgcolor=black><center>\n");
 	if ($EDIT == 1) {
 		print("<table><form method=post><input type=hidden name=write value=1>\n");
 		$i = sizeof($pictures);
@@ -501,19 +500,13 @@ function print_thumbnails($album) {
 	} else {
 		$edit = "";
 	}
-	print("<table cellspacing=6>\n");
 	for ($i=0; $i<sizeof($pictures); $i++) {
 		$desc = $description[$pictures[$i]];
-		if ($i % $THUMB_COLUMNS == 0) { print("<tr>"); }
 		if ($EDIT == 1) {
 			$edit = "<br><input type=hidden name=file[$i] value='$pictures[$i]'><input type=text size=20 value='$desc' name=desc[$i] tabindex=$tab>"; $tab++;
 		}
-		print("<td align=center>");
 		print_thumbnail($album, $pictures[$i], $EDIT ? 0 : $desc);
-		print("$edit</td>");
-		if ($i % $THUMB_COLUMNS == ($THUMB_COLUMNS-1)) { print("</tr>"); }
 	}
-	print("</table>");
 	if ($EDIT == 1) {
 		print("<input type=submit value=Submit tabindex=$tab></form>");
 	}
@@ -779,7 +772,7 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 	if (is_image($path_to_picture)) {
 		print("<img border=0 src='$temp' alt='$alt'>");
 	} elseif (is_video($path_to_picture)) {
-		print("<embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
+		print("Play<embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
 	}
 	print("</a>");
 }
