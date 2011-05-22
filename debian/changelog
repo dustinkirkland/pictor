@@ -7,6 +7,7 @@ pictor (2.13) unreleased; urgency=low
     - update copyright
   * index.php, settings.php:
     - eliminate THUMB_COLUMNS global
+  * settings.php: up the default width do 1024
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Mar 2011 03:12:28 -0600
 
