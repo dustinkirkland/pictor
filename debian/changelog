@@ -1,4 +1,4 @@
-pictor (2.13) unreleased; urgency=low
+pictor (2.13-0ubuntu1) oneiric; urgency=low
 
   * index.php:
     - remove table borders around thumbnails
@@ -9,7 +9,7 @@ pictor (2.13) unreleased; urgency=low
     - eliminate THUMB_COLUMNS global
   * settings.php: up the default width do 1024
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 01 Mar 2011 03:12:28 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 02 Jun 2011 18:19:30 -0400
 
 pictor (2.12-0ubuntu1) natty; urgency=low
 
