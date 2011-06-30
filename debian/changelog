@@ -1,9 +1,9 @@
-pictor (2.14) unreleased; urgency=low
+pictor (2.14-0ubuntu1) oneiric; urgency=low
 
   * pictor-unload:
     - automatically unmount if run with root perms, else prompt via sudo
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 02 Jun 2011 18:19:37 -0400
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 30 Jun 2011 21:44:28 +0000
 
 pictor (2.13-0ubuntu1) oneiric; urgency=low
 
