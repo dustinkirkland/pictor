@@ -20,7 +20,7 @@
 
 SOURCE=$(echo "$1" | sed -e "s:/\+$::")
 DEST=$(echo "$2" | sed -e "s:/\+$::")
-TIMESTAMP=$(date +%Y%m%d%H%M%S)
+TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
 if df -h -P "$SOURCE" | grep -qs "/media/"; then
 	# If source is on a /media device, offer to unmount when done
 	MOUNT=$(df -h -P "$SOURCE" | tail -n1 | awk '{print $1}')
@@ -32,7 +32,7 @@ for i in "$SOURCE"/*; do
 	cp -av "$i" "$DEST"/"$t$b"
 	chmod -x "$DEST"/"$t$b"
 done
-mv -v "$SOURCE" "$SOURCE"."$TIMESTAMP"
+mv -v "$SOURCE" "$SOURCE.$TIMESTAMP"
 sync
 
 if [ -b "$MOUNT" ]; then
