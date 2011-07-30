@@ -386,7 +386,7 @@ function print_thumbnail($path, $file, $desc) {
 			}
 			rotate_if_necessary($filename, $thumbnail_name);
 		}
-		print("<img align=center border=0 src='$thumbnail_name'></a>&nbsp;");
+		print("<img height=130 align=center border=0 src='$thumbnail_name'></a>&nbsp;");
 	} elseif (is_video($file)) {
 		print("<img width=32 src=silk/film.png>");
 	}

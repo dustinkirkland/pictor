@@ -2,6 +2,8 @@ pictor (2.15) unreleased; urgency=low
 
   * pictor-unload:
     - fix timestamps for vfat filesystems :-(
+  * index.php:
+    - standardize thumbnail height
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 30 Jun 2011 21:44:31 +0000
 
