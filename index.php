@@ -33,6 +33,7 @@ $write	   = sanity_check($_REQUEST["write"]);
 $file	   = sanity_check_array($_REQUEST["file"]);
 $desc	   = sanity_check_array($_REQUEST["desc"]);
 $random	   = sanity_check_number($_REQUEST["random"]);
+$screensaver = sanity_check_number($_REQUEST["screensaver"]);
 $edit	   = sanity_check($_REQUEST["edit"]);
 
 $EDIT = 0;
@@ -746,7 +747,8 @@ function print_upper_toolbar($album, $description, $back, $next, $width) {
 		    <td width=60%>
 		      <a href='" . $_SERVER[PHP_SELF] . "'>index</a> |
 		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> |
-		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a>
+		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a> |
+		      <a href='?album=" . urlencode($album) . "&width=$width&screensaver=1'>screensaver</a>
 		    </td>
 		    <td width=20% align=right bgcolor=white>$next</td>
 		  </tr>
@@ -895,8 +897,64 @@ function do_random() {
 		closedir($dh);
 	}
 	print("http://" . $_SERVER["HTTP_HOST"] .  "/" . $pictures[array_rand($pictures)]. "\n");
+	print("<script>alert(screen.height)</script>");
 }
 /****************************************************************************/
+
+function screensaver($album) {
+	global $BASEDIR, $_SERVER;
+	$pictures = get_pictures_from_album($album);
+	$url = preg_replace("/screensaver=./", "screensaver=0", $_SERVER["REQUEST_URI"]);
+	shuffle($pictures);
+	print("
+                <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js'></script>
+                <script type='text/javascript' src='kenburns.js'></script>
+                <script type='text/javascript'>
+                        \$(function(){
+                                \$('#kenburns').kenburns({
+                                        images:[");
+	for ($i=0; $i<sizeof($pictures); $i++) {
+		$path_to_picture = $BASEDIR . "/" . $album . "/" . $pictures[$i];
+		$path_to_picture = preg_replace("/\/+/", "/", "$path_to_picture");
+		print("'$path_to_picture',");
+	}
+	print("],
+                                        frames_per_second: 20,
+                                        display_time: 10000,
+                                        fade_time: 1000,
+                                        zoom: 3,
+                                        background_color:'#ffffff',
+                                        post_render_callback:function(\$canvas, context) {
+                                                context.save();
+                                                context.fillStyle = '#000';
+                                                context.font = 'bold 20px sans-serif';
+                                                var width = \$canvas.width();
+                                                var height = \$canvas.height();
+                                                var text = 'Pictor';
+                                                var metric = context.measureText(text);
+                                                context.fillStyle = '#fff';
+                                                context.shadowOffsetX = 3;
+                                                context.shadowOffsetY = 3;
+                                                context.shadowBlur = 4;
+                                                context.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                                                context.fillText(text, width - metric.width - 8, height - 8);
+                                                context.restore();
+                                        }
+                                });
+                        });
+                </script>
+                <a href='$url'>
+                        <canvas id='kenburns'>
+                                <p>Your browser doesn't support canvas!</p>
+                        </canvas>
+                </a>
+                <script type='text/javascript'>
+			var c = document.getElementById('kenburns');
+			c.width = document.width - 10;
+			c.height = document.height - 10;
+                </script>
+");
+}
 
 
 
@@ -912,7 +970,10 @@ if ($random) {
 }
 
 print_header();
-if ($write) {
+if ($screensaver) {
+	screensaver($album);
+	exit;
+} elseif ($write) {
 	do_write_descriptions($album, $file, $desc);
 } elseif (!$album) {
 	do_list_albums($base);

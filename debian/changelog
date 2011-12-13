@@ -1,6 +1,7 @@
-pictor (2.16) unreleased; urgency=low
+pictor (2.16-0ubuntu1) precise; urgency=low
 
-  * UNRELEASED
+  * debian/copyright, index.php, kenburns.js:
+    - add the kenburns effect for a screensaver mode
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jul 2011 11:14:44 -0500
 
