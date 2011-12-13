@@ -3,7 +3,7 @@ pictor (2.16-0ubuntu1) precise; urgency=low
   * debian/copyright, index.php, kenburns.js:
     - add the kenburns effect for a screensaver mode
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 30 Jul 2011 11:14:44 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 12 Dec 2011 21:51:34 -0600
 
 pictor (2.15-0ubuntu1) oneiric; urgency=low
 
