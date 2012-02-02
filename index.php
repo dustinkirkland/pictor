@@ -148,7 +148,9 @@ function is_image($file) {
 	if (	exif_imagetype($file) &&
 		!preg_match("/^[\._]/", $file) &&
 		( preg_match("/\.jpg$/i", $file) ||
-		preg_match("/\.jpeg$/i", $file) )
+		  preg_match("/\.png$/i", $file) ||
+		  preg_match("/\.jpeg$/i", $file)
+		)
 	) {
 		return 1;
 	}
