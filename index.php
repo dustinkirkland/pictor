@@ -144,14 +144,24 @@ function get_description($path) {
 
 /****************************************************************************/
 /* Given a filename, return true if has an image file extension */
-function is_image($file) {
-	if (	exif_imagetype($file) &&
+function is_image_filename($file) {
+	if (
 		!preg_match("/^[\._]/", $file) &&
 		( preg_match("/\.jpg$/i", $file) ||
 		  preg_match("/\.png$/i", $file) ||
 		  preg_match("/\.jpeg$/i", $file)
 		)
 	) {
+		return 1;
+	}
+	return 0;
+}
+/****************************************************************************/
+
+/****************************************************************************/
+/* Given a filename, return true if file is an image according to exif data */
+function is_image($file) {
+	if (is_image_filename($file) && exif_imagetype($file)) {
 		return 1;
 	}
 	return 0;
@@ -183,7 +193,7 @@ function get_pictures_from_album($album) {
 	assert_path_ok("$BASEDIR/$album");
         if ($dir = opendir("$BASEDIR/$album")) {
 		while (($file = readdir($dir)) !== false) {
-			if (is_image("$BASEDIR/$album/$file") || is_video("$BASEDIR/$album/$file")) {
+			if (is_image_filename("$BASEDIR/$album/$file") || is_video("$BASEDIR/$album/$file")) {
 				array_push($pictures, $file);
 			}
 		}
@@ -368,7 +378,7 @@ function print_thumbnail($path, $file, $desc) {
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<a href='$href'>");
-	if (is_image($filename)) {
+	if (is_image_filename($filename)) {
 		if (! file_exists($thumbnail_name)) {
 			// No thumbnail in cache.
 			if ($img = @exif_thumbnail($filename)) {
@@ -391,7 +401,7 @@ function print_thumbnail($path, $file, $desc) {
 		}
 		print("<img height=130 align=center border=0 src='$thumbnail_name'></a>&nbsp;");
 	} elseif (is_video($file)) {
-		print("<img width=32 src=silk/film.png>");
+		print("<img width=32 height=32 src=silk/film.png>");
 	}
 	if ($desc) {
 		print("<table><tr><td align=center>$desc</a></td></tr></table>");

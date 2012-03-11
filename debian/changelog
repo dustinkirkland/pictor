@@ -1,6 +1,8 @@
 pictor (2.18) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php: LP: #952186
+    - split is_image() to a fast version that doesn't read exif data;
+      use this one when processing multiple files (thumbnails view)
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 02 Feb 2012 13:54:16 -0600
 
