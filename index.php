@@ -22,24 +22,18 @@
 include_once("/etc/pictor/settings.php");
 
 /* variables that may come in through an http GET request */
-$album     = sanity_check($_REQUEST["album"]);
-$picture   = sanity_check($_REQUEST["picture"]);
-$width     = sanity_check_number($_REQUEST["width"]);
-$rotate    = sanity_check_number($_REQUEST["rotate"]);
-$base      = sanity_check($_REQUEST["base"]);
-$thumbs    = sanity_check_number($_REQUEST["thumbs"]);
-$slideshow = sanity_check_number($_REQUEST["slideshow"]);
-$write	   = sanity_check($_REQUEST["write"]);
-$file	   = sanity_check_array($_REQUEST["file"]);
-$desc	   = sanity_check_array($_REQUEST["desc"]);
-$random	   = sanity_check_number($_REQUEST["random"]);
-$screensaver = sanity_check_number($_REQUEST["screensaver"]);
-$edit	   = sanity_check($_REQUEST["edit"]);
-
-$EDIT = 0;
-if ((strlen($EDIT_PW) > 0) && ($edit == $EDIT_PW)) {
-	$EDIT = 1;
-}
+$album       = sanity_check("album");
+$picture     = sanity_check("picture");
+$width       = sanity_check_number("width");
+$rotate      = sanity_check_number("rotate");
+$base        = sanity_check("base");
+$thumbs      = sanity_check_number("thumbs");
+$slideshow   = sanity_check_number("slideshow");
+$write       = sanity_check("write");
+$file        = sanity_check_array("file");
+$desc        = sanity_check_array("desc");
+$random      = sanity_check_number("random");
+$screensaver = sanity_check_number("screensaver");
 
 if (!isset($DEFAULT_WIDTH)) {
 	$DEFAULT_WIDTH = 800;
@@ -54,38 +48,42 @@ $THUMB_ROOT = $PICTURE_ROOT;
 /****************************************************************************/
 /* Check input for malicious intentions */
 function sanity_check($string) {
-  $decoded = urldecode($string);
-  if (preg_match("/\.\./", $decoded)) {
-    exit;
-  }
-  if (preg_match("/[;<>]/", $decoded)) {
-    exit;
-  }
-  return $decoded;
+	global $_REQUEST;
+	$decoded = "";
+	if (isset($_REQUEST[$string])) {
+		$decoded = urldecode($_REQUEST[$string]);
+	}
+	if (preg_match("/\.\./", $decoded)) {
+		exit;
+	}
+	if (preg_match("/[;<>]/", $decoded)) {
+		exit;
+	}
+	return $decoded;
 }
 /****************************************************************************/
 
 /****************************************************************************/
 /* Ensure input is a number, and non-malicious */
 function sanity_check_number($input) {
-  $input = sanity_check($input);
-  if (empty($input)) {
-    return "";
-  }
-  if (is_numeric($input)) {
-    return intval($input);
-  }
-  exit;
+	$input = sanity_check($input);
+	if (empty($input)) {
+		return "";
+	}
+	if (is_numeric($input)) {
+		return intval($input);
+	}
+	exit;
 }
 /****************************************************************************/
 
 /****************************************************************************/
 /* Call the sanity_check() function on everything in an array */
 function sanity_check_array($array) {
-  for ($i=0; $i<sizeof($array); $i++) {
-    $array[$i] = sanity_check($array[$i]);
-  }
-  return $array;
+	for ($i=0; $i<sizeof($array); $i++) {
+		$array[$i] = sanity_check($array[$i]);
+	}
+	return $array;
 }
 /****************************************************************************/
 
@@ -101,13 +99,14 @@ function assert_path_ok($dir) {
 
 
 /****************************************************************************/
-/* Allow for nesting albums, determing if this dir has non-hidden subdirs */
-function has_subdir($dir) {
+/* Allow for nesting albums, determing if this dir has non-hidden images */
+function has_images($dir) {
 	assert_path_ok($dir);
 	if (is_dir($dir)) {
 		if ($dh = opendir($dir)) {
 			while (($file = readdir($dh)) !== false) {
-			        if (is_dir("$dir/$file") && !preg_match("/^[_\.]/", $file)) {
+				if (is_image_filename("$dir/$file")) {
+					closedir($dh);
 					return 1;
 				}
 			}
@@ -415,7 +414,6 @@ function print_thumbnail($path, $file, $desc) {
 function do_list_albums($base) {
 	global $BASEDIR;
 	global $ALBUM_COLUMNS;
-
 	if ($dir = @opendir("$BASEDIR")) {
 		$i = 0;
 		while (($file = readdir($dir)) !== false) {
@@ -442,14 +440,11 @@ function do_list_albums($base) {
 		$count = 0;
 		for ($i=0; $i<sizeof($files); $i++) {
 			$file = $files[$i];
-			if (
-					is_dir("$BASEDIR/$file") &&
-					(!preg_match("/^[_\.]/", $file))
-			   ) {
-				if (has_subdir("$BASEDIR/$file")) {
-					$href = "?base=" . urlencode("$base/$file");
-				} else {
+			if ( is_dir("$BASEDIR/$file") && (!preg_match("/^[_\.]/", $file))) {
+				if (has_images("$BASEDIR/$file")) {
 					$href = "?album=" . urlencode("$base/$file") . "&thumbs=1";
+				} else {
+					$href = "?base=" . urlencode("$base/$file");
 				}
 				if ( ($count % $ALBUM_COLUMNS) == 0 ) {
 					print("
@@ -457,7 +452,7 @@ function do_list_albums($base) {
 					");
 				}
 				print("
-          <td bgcolor=white onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$url') align=center><a href='$href'>" . htmlspecialchars($file) . "</a></td>
+          <td bgcolor=white onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$href') align=center><a href='$href'>" . htmlspecialchars($file) . "</a></td>
 				");
 				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
@@ -487,36 +482,20 @@ function do_list_albums($base) {
 /****************************************************************************/
 /* Print album thumbails */
 function print_thumbnails($album) {
-	global $BASEDIR, $EDIT;
+	global $BASEDIR;
 	print_upper_banner($album, "", "98%");
 	print("<br>\n");
 	$pictures = get_pictures_from_album($album);
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
 	print("<table><tr><td bgcolor=black><center>\n");
-	if ($EDIT == 1) {
-		print("<table><form method=post><input type=hidden name=write value=1>\n");
-		$i = sizeof($pictures);
-		print("<tr><td><b>Title</b><td><input type=hidden name=file[$i] value=description><input type=text size=30 name=desc[$i] value='$description[description]' tabindex=$tab></td></tr>\n"); $tab++;
-		$i++;
-		print("<tr><td><b>City</b><td><input type=hidden name=file[$i] value=city><input type=text size=30 name=desc[$i] value='$description[city]' tabindex=$tab></td></tr>\n"); $tab++;
-		$i++;
-		print("<tr><td><b>State</b><td><input type=hidden name=file[$i] value=state><input type=text size=30 name=desc[$i] value='$description[state]' tabindex=$tab></td></tr>\n"); $tab++;
-		$i++;
-		print("<tr><td><b>Country</b><td><input type=hidden name=file[$i] value=country><input type=text size=30 name=desc[$i] value='$description[country]' tabindex=$tab></td></tr>\n"); $tab++;
-		print("</table>");
-	} else {
-		$edit = "";
-	}
 	for ($i=0; $i<sizeof($pictures); $i++) {
-		$desc = $description[$pictures[$i]];
-		if ($EDIT == 1) {
-			$edit = "<br><input type=hidden name=file[$i] value='$pictures[$i]'><input type=text size=20 value='$desc' name=desc[$i] tabindex=$tab>"; $tab++;
+		if (isset($description[$pictures[$i]])) {
+			$desc = $description[$pictures[$i]];
+		} else {
+			$desc = "";
 		}
-		print_thumbnail($album, $pictures[$i], $EDIT ? 0 : $desc);
-	}
-	if ($EDIT == 1) {
-		print("<input type=submit value=Submit tabindex=$tab></form>");
+		print_thumbnail($album, $pictures[$i], $desc);
 	}
 	print("</center></td></tr></table>");
 }
@@ -616,7 +595,7 @@ function build_picture_form($album, $picture, $width, $slideshow, $pictures, $de
 		$i = 0;
 		for ($i=0; $i<sizeof($pictures); $i++) {
 			$file = $pictures[$i];
-			if ($description[$file]) {
+			if (isset($description[$file])) {
 				$clean = substr($description[$file], 0, round($width/13));
 			} else {
 				$clean = preg_replace("/\.jpg$/i", "", $file);
@@ -705,7 +684,9 @@ function print_exif_data($path_to_picture, $description) {
 	$keys = array("Flash", "FocalLength", "ExposureTime", "ApertureValue", "ISOSpeedRatings", "WhiteBalance", "MeteringMode");
 	print("<table border=0 cellspacing=1>");
 	for ($i=0; $i<sizeof($keys); $i++) {
-		print_data_cell($keys[$i], $exif[$keys[$i]]);
+		if (isset($keys[$i]) && isset($exif[$keys[$i]])) {
+			print_data_cell($keys[$i], $exif[$keys[$i]]);
+		}
 	}
 	print("</table></td></tr></table></center>");
 }
@@ -727,6 +708,7 @@ function print_upper_banner($album, $description, $width) {
 	$descr = preg_replace("/^\//", "", $album);
 	$path_parts = preg_split("/\/+/", $descr);
 	$descr = "";
+	$subalbum = "";
 	for ($i=0; $i<sizeof($path_parts)-1; $i++) {
 		$subalbum .= "/" . $path_parts[$i];
 		$descr .= "<a href='?base=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
@@ -757,7 +739,7 @@ function print_upper_toolbar($album, $description, $back, $next, $width) {
 		  <tr align=center>
 		    <td width=20% align=left>$back</td>
 		    <td width=60%>
-		      <a href='" . $_SERVER[PHP_SELF] . "'>index</a> |
+		      <a href='" . $_SERVER["PHP_SELF"] . "'>index</a> |
 		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> |
 		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a> |
 		      <a href='?album=" . urlencode($album) . "&width=$width&screensaver=1'>screensaver</a>
@@ -830,7 +812,7 @@ function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	global $_SERVER, $BASEDIR, $DEFAULT_WIDTH;
 	if (!$width) {
-		if ( $_SERVER["HTTP_UA_PIXELS"] ) {
+		if ( isset($_SERVER["HTTP_UA_PIXELS"]) ) {
 			list ($width, $trash) = preg_split("/x/", $_SERVER["HTTP_UA_PIXELS"], 2);
 		} else {
 			$width = $DEFAULT_WIDTH;
@@ -858,6 +840,10 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	$total = sizeof($pictures);
 	$next = get_next_link($album, $width, $pictures, $currentindex, $slideshow);
 	$back = get_back_link($album, $width, $pictures, $currentindex);
+	$alt = "";
+	if (! isset($descriptions[$picture])) {
+		$descriptions[$picture] = "";
+	}
 
 	print_picture_in_table($path_to_picture, $tempfilename, $height, $alt);
 	print_upper_toolbar($album, $descriptions[$picture], $back, $next, $width);

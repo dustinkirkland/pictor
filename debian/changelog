@@ -1,6 +1,22 @@
 pictor (2.19) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - fix some whitespace
+    - deprecate $EDIT editing descriptions
+      + this never worked terribly well, and required www-data have
+        write permissions on the file, which was messy
+    - move the has_subdir() functionality to actually test if a directory
+      has images; this is much more efficient, as a directory that has
+      1000 files would have to scan all of those to see if any of those
+      was a subdirectory; instead, just see if any one of those is an
+      image, and if so, we'll assume its an album
+      + LP: #952588
+    - fix a broken reference to $url, should be $href
+    - use isset() to test the existence of various variables and keys
+      + LP: #952587
+      + this should clean up a LOT of noise in /var/log/apache2/error
+        and improve performance
+      + define a couple of variables to prevent errors in apache logs
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 07:10:44 -0500
 
