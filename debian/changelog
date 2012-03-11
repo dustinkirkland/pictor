@@ -1,4 +1,4 @@
-pictor (2.19) unreleased; urgency=low
+pictor (2.19-0ubuntu1) precise; urgency=low
 
   * index.php:
     - fix some whitespace
@@ -18,7 +18,7 @@ pictor (2.19) unreleased; urgency=low
         and improve performance
       + define a couple of variables to prevent errors in apache logs
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 07:10:44 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 17:23:29 -0500
 
 pictor (2.18-0ubuntu1) precise; urgency=low
 
