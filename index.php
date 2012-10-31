@@ -469,7 +469,7 @@ function do_list_albums($base) {
 </table>
 		");
 	} else {
-		print("<br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre>");
+		print("<table cellpadding=20><tr><td bgcolor=#EEEEEE><br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre></td></tr></table>");
                 exit;
 	}
 	// if only one option, go straight to it

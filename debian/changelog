@@ -1,6 +1,7 @@
 pictor (2.20) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - ensure error message is visible
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 17:23:31 -0500
 
