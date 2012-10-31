@@ -1,9 +1,9 @@
-pictor (2.20) unreleased; urgency=low
+pictor (2.20-0ubuntu1) raring; urgency=low
 
   * index.php:
     - ensure error message is visible
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 11 Mar 2012 17:23:31 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:14:48 +0100
 
 pictor (2.19-0ubuntu1) precise; urgency=low
 
