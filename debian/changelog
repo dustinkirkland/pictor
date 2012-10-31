@@ -1,6 +1,7 @@
 pictor (2.21) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control:
+    - fix lintian warnings
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:14:50 +0100
 

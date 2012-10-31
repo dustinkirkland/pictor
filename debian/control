@@ -11,7 +11,7 @@ Package: pictor
 Architecture: all
 Depends: ${misc:Depends}, debconf (>= 0.5) | debconf-2.0, apache2, libapache2-mod-php5, php5-imagick, famfamfam-silk
 Recommends: pictor-unload
-Description: a web application for browsing your pictures
+Description: web application for browsing your pictures
  Pictor is a simple web application for browsing your pictures in a
  in a filesystem (without a complicated database schema).  Pictures
  are organized in filesystem directories of any depth.  Albums are
@@ -28,7 +28,7 @@ Architecture: all
 Depends: ${misc:Depends}
 Breaks: pictor (<< 2.10)
 Replaces: pictor (<< 2.10)
-Description: a tool for unloading and renaming pictures from flash media
+Description: tool for unloading and renaming pictures from flash media
  Pictor-unload is a tool for unloading pictures from one directory
  to another, and renaming them with their timestamp for ordering and
  interleaving.
