@@ -1,9 +1,9 @@
-pictor (2.22) unreleased; urgency=low
+pictor (2.22-0ubuntu1) raring; urgency=low
 
   * index.php:
     - auto resize image to the size of browser window, using javascript
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:30:12 +0100
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 05 Jan 2013 11:09:34 -0600
 
 pictor (2.21-0ubuntu1) raring; urgency=low
 
