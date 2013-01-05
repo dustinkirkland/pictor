@@ -1,3 +1,9 @@
+pictor (2.23) unreleased; urgency=low
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 05 Jan 2013 11:09:36 -0600
+
 pictor (2.22-0ubuntu1) raring; urgency=low
 
   * index.php:
