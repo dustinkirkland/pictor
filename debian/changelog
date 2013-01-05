@@ -1,6 +1,7 @@
 pictor (2.22) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - auto resize image to the size of browser window, using javascript
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 31 Oct 2012 17:30:12 +0100
 

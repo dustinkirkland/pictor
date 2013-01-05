@@ -761,7 +761,15 @@ function print_picture($path_to_picture, $temp, $height, $alt) {
 	}
 	print("<a href='$path_to_picture'>");
 	if (is_image($path_to_picture)) {
-		print("<img border=0 src='$temp' alt='$alt'>");
+		print("
+<script>
+if (window.innerHeight > window.innerWidth) {
+	document.write('<img border=0 src=" . $temp . " width=' + (window.innerWidth-20) + ' alt=\"" . $alt . "\">');
+} else {
+	document.write('<img border=0 src=" . $temp . " height=' + (window.innerHeight-20) + '>');
+}
+</script>
+");
 	} elseif (is_video($path_to_picture)) {
 		print("Play<embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
 	}
