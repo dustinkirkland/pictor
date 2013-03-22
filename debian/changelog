@@ -1,4 +1,4 @@
-pictor (2.23) unreleased; urgency=low
+pictor (2.23-0ubuntu1) raring; urgency=low
 
   * index.php:
     - center footer table
@@ -6,7 +6,7 @@ pictor (2.23) unreleased; urgency=low
     - move descriptions to titles
     - support listing albums and thumbnails in the same directory
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 05 Jan 2013 11:09:36 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 21 Mar 2013 23:59:12 -0500
 
 pictor (2.22-0ubuntu1) raring; urgency=low
 
