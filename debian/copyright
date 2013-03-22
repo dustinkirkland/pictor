@@ -6,14 +6,14 @@ It was downloaded from: http://launchpad.net/pictor
 Upstream Authors: Dustin Kirkland <dustin.kirkland@gmail.com>
 
 Copyright:
- Copyright (C) 2000-2011 Dustin Kirkland <dustin.kirkland@gmail.com>
+ Copyright (C) 1997-2013 Dustin Kirkland <dustin.kirkland@gmail.com>
  Copyright (C) 2011 Will McGugan http://www.willmcgugan.com
  All rights reserved.
 
 License:
 
   pictor: web application for browsing your pictures
-  Copyright (C) 2000-2011 Dustin Kirkland <dustin.kirkland@gmail.com>
+  Copyright (C) 1997-2013 Dustin Kirkland <dustin.kirkland@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as
@@ -46,7 +46,7 @@ License:
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 The Ubuntu packaging:
- Copyright (C) 2010 by Dustin Kirkland <dustin.kirkland@gmail.com>
+ Copyright (C) 2010-2013 by Dustin Kirkland <dustin.kirkland@gmail.com>
  released under the GPL-3.
 
  On Debian systems, the complete text of the GNU General Public

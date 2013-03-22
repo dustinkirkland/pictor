@@ -2,7 +2,7 @@
 
 /*
  *  pictor: a web application for sharing, viewing, and organizing pictures
- *  Copyright (C) 2000-2009 Dustin Kirkland <dustin.kirkland@gmail.com>
+ *  Copyright (C) 1997-2013 Dustin Kirkland <dustin.kirkland@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published by
@@ -183,7 +183,6 @@ function is_video($file) {
 }
 /****************************************************************************/
 
-
 /****************************************************************************/
 /* Given an album, get a listing of the jpg's in that album */
 function get_pictures_from_album($album) {
@@ -329,11 +328,11 @@ body {
 function print_footer() {
 	global $LICENSE;
 	print("
-		<table border=0 cellspacing=0 width='100%'>
+		<table border=0 cellspacing=0 width=400 align=center>
 		  <tr>
-		    <td bgcolor=white align=center><small>
+		    <td bgcolor=#FFFFFF align=center><small>
 $LICENSE<br>
-<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-2011 <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
+<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-2013 <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
@@ -376,7 +375,7 @@ function print_thumbnail($path, $file, $desc) {
 	$filename = "$PICTURE_ROOT/$path/$file";
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
-	print("<a href='$href'>");
+	print("<a title='$desc' href='$href'>");
 	if (is_image_filename($filename)) {
 		if (! file_exists($thumbnail_name)) {
 			// No thumbnail in cache.
@@ -400,10 +399,7 @@ function print_thumbnail($path, $file, $desc) {
 		}
 		print("<img height=130 align=center border=0 src='$thumbnail_name'></a>&nbsp;");
 	} elseif (is_video($file)) {
-		print("<img width=32 height=32 src=silk/film.png>");
-	}
-	if ($desc) {
-		print("<table><tr><td align=center>$desc</a></td></tr></table>");
+		print("<img width=32 src=silk/film.png>");
 	}
 }
 /****************************************************************************/
@@ -414,7 +410,7 @@ function print_thumbnail($path, $file, $desc) {
 function do_list_albums($base) {
 	global $BASEDIR;
 	global $ALBUM_COLUMNS;
-	if ($dir = @opendir("$BASEDIR")) {
+	if ($dir = @opendir($BASEDIR . "/" . $base)) {
 		$i = 0;
 		while (($file = readdir($dir)) !== false) {
 			$files[$i++] = $file;
@@ -426,8 +422,8 @@ function do_list_albums($base) {
 			$header = preg_replace("/\//", " - ", $header);
 		} else {
 			$header = "All Albums";
+			print_upper_banner("", "", 600);
 		}
-		print_upper_banner("", "", 600);
 		print("
 <table border=0 cellspacing=0 cellpadding=10 align=center>
   <tr>
@@ -440,12 +436,8 @@ function do_list_albums($base) {
 		$count = 0;
 		for ($i=0; $i<sizeof($files); $i++) {
 			$file = $files[$i];
-			if ( is_dir("$BASEDIR/$file") && (!preg_match("/^[_\.]/", $file))) {
-				if (has_images("$BASEDIR/$file")) {
-					$href = "?album=" . urlencode("$base/$file") . "&thumbs=1";
-				} else {
-					$href = "?base=" . urlencode("$base/$file");
-				}
+			if ( is_dir("$BASEDIR/$base/$file") && (!preg_match("/^[_\.]/", $file))) {
+				$href = "?album=" . urlencode("$base/$file") . "&thumbs=1";
 				if ( ($count % $ALBUM_COLUMNS) == 0 ) {
 					print("
         <tr>
@@ -483,12 +475,12 @@ function do_list_albums($base) {
 /* Print album thumbails */
 function print_thumbnails($album) {
 	global $BASEDIR;
-	print_upper_banner($album, "", "98%");
 	print("<br>\n");
 	$pictures = get_pictures_from_album($album);
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
-	print("<table><tr><td bgcolor=black><center>\n");
+	do_list_albums($album);
+	print("<table align=center><tr><td bgcolor=#888888><center>\n");
 	for ($i=0; $i<sizeof($pictures); $i++) {
 		if (isset($description[$pictures[$i]])) {
 			$desc = $description[$pictures[$i]];
@@ -711,7 +703,7 @@ function print_upper_banner($album, $description, $width) {
 	$subalbum = "";
 	for ($i=0; $i<sizeof($path_parts)-1; $i++) {
 		$subalbum .= "/" . $path_parts[$i];
-		$descr .= "<a href='?base=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
+		$descr .= "<a href='?thumbs=1&album=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
 	}
 	$subalbum .= "/" . $path_parts[$i];
 	$descr .= "<a href='?album=" . urlencode($subalbum) . "'>$path_parts[$i]</a>";
@@ -771,7 +763,7 @@ if (window.innerHeight > window.innerWidth) {
 </script>
 ");
 	} elseif (is_video($path_to_picture)) {
-		print("Play<embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
+		print("Play <embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
 	}
 	print("</a>");
 }

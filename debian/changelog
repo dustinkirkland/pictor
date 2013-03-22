@@ -1,6 +1,10 @@
 pictor (2.23) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - center footer table
+    - update copyright to 2013
+    - move descriptions to titles
+    - support listing albums and thumbnails in the same directory
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 05 Jan 2013 11:09:36 -0600
 
