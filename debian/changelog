@@ -1,6 +1,17 @@
 pictor (2.24) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/control, debian/pictor-unload.install, debian/pictor-
+    unload.manpages, pictor-rename, pictor-rename.1, pictor-unload:
+    - depend on fdupes, to remove duplicate files
+    - depend on libimage-exiftool-perl for exiftool
+    - add a new tool, pictor-rename, and its manpage
+      + rename pictures with a prepended timestamp, YYYY-MM-DD_HH-MM-SS__*
+      + use dashes instead of colons in time for compatibility with
+        Mac OS X and Windows
+    - drastically simplify pictor-unload
+      + move naming logic to pictor-rename
+      + use fdupes to sensibly remove duplicate images
+      + drop card unmounting logic
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 21 Mar 2013 23:59:14 -0500
 

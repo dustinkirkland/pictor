@@ -20,30 +20,16 @@
 
 SOURCE=$(echo "$1" | sed -e "s:/\+$::")
 DEST=$(echo "$2" | sed -e "s:/\+$::")
-TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
-if df -h -P "$SOURCE" | grep -qs "/media/"; then
-	# If source is on a /media device, offer to unmount when done
-	MOUNT=$(df -h -P "$SOURCE" | tail -n1 | awk '{print $1}')
-fi
 
-for i in "$SOURCE"/*; do
-	t=$(stat "$i" | grep "^Modify: " | awk '{print $2 "_" $3}' | sed -e "s/\..*/__/")
-	b=$(basename "$i")
-	cp -av "$i" "$DEST"/"$t$b"
-	chmod -x "$DEST"/"$t$b"
-done
-mv -v "$SOURCE" "$SOURCE.$TIMESTAMP"
+# Clean up file names
+pictor-rename "$SOURCE/"*
+# Copy pictures over, incrementally
+echo "INFO: Copying images..."
+rsync -aP "$SOURCE"/ "$DEST"/
+# Remove any duplicates
+echo "INFO: Removing duplicates..."
+fdupes -m "$DEST"
+fdupes -r -N "$DEST"
+# Ensure picture names are clean
+pictor-rename "$DEST/"*
 sync
-
-if [ -b "$MOUNT" ]; then
-	if [ "$(id -u)" = "0" ]; then
-		sudo umount -v "$MOUNT"
-	else
-		echo -n "Do you want to unmount the source media on [$MOUNT]? [y/N] "
-		unmount=$(head -n 1)
-		if [ "$unmount" = "Y" ] || [ "$unmount" = "y" ]; then
-			sudo umount -v "$MOUNT"
-		fi
-	fi
-fi
-echo "Success!"

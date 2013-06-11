@@ -25,7 +25,7 @@ Description: web application for browsing your pictures
 
 Package: pictor-unload
 Architecture: all
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, fdupes, libimage-exiftool-perl
 Breaks: pictor (<< 2.10)
 Replaces: pictor (<< 2.10)
 Description: tool for unloading and renaming pictures from flash media

@@ -1,0 +1,21 @@
+.TH pictor\-rename 1 "19 May 2013" pictor "pictor"
+.SH NAME
+pictor\-rename \- rename pictures sensibly, prepending the timestamp in YYYY-MM-DD_HH:MM:SS__* form
+
+.SH SYNOPSIS
+.BI "pictor\-unload FILE1 [FILE2 FILE3 FILE4 ...]"
+
+.SH DESCRIPTION
+The \fBpictor\-rename\fP utility is useful for renaming pictures, in the order of their creation timestamps.
+
+If you perfectly synchronize the embedded clock on each of several cameras, you can use \fBpictor\-rename\fP to conveniently combine and interleave pictures from these cameras.
+
+This utility will attempt to use \fBexiftool\fP(1) to read the file creation time from the picture's exif headers.  If that fails, then it will use the file modification time as specified by \fBstat\fP(1).
+
+.SH SEE ALSO
+\fBstat\fP(1), \fBexiftool\fP(1)
+
+.SH AUTHOR
+This manpage and the utility were written by Dustin Kirkland <dustin.kirkland@gmail.com> for Ubuntu systems (but may be used by others).  Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 3 published by the Free Software Foundation.
+
+On Debian systems, the complete text of the GNU General Public License can be found in /usr/share/common-licenses/GPL.
