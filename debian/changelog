@@ -12,6 +12,8 @@ pictor (2.24) unreleased; urgency=low
       + move naming logic to pictor-rename
       + use fdupes to sensibly remove duplicate images
       + drop card unmounting logic
+  * debian/control, pictor-rename:
+    - bump standards
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 21 Mar 2013 23:59:14 -0500
 

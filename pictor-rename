@@ -58,6 +58,9 @@ for i in $@; do
 	if [ "${file}" = "." ] || [ "$file" = ".." ]; then
 		progress ${j} $#
 		continue
+	elif [ ! -f "${dir}/${file}" ]; then
+		progress ${j} $#
+		continue
 	elif echo "${file}" | grep -qs "^[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}_[0-9]\{2\}-[0-9]\{2\}-[0-9]\{2\}__"; then
 		progress ${j} $#
 		continue
