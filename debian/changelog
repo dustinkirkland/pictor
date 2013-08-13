@@ -1,4 +1,4 @@
-pictor (2.24) unreleased; urgency=low
+pictor (2.24-0ubuntu1) saucy; urgency=low
 
   * debian/control, debian/pictor-unload.install, debian/pictor-
     unload.manpages, pictor-rename, pictor-rename.1, pictor-unload:
@@ -15,7 +15,7 @@ pictor (2.24) unreleased; urgency=low
   * debian/control, pictor-rename:
     - bump standards
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Thu, 21 Mar 2013 23:59:14 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 13 Aug 2013 09:04:09 -0500
 
 pictor (2.23-0ubuntu1) raring; urgency=low
 
