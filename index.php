@@ -24,6 +24,7 @@ include_once("/etc/pictor/settings.php");
 /* variables that may come in through an http GET request */
 $album       = sanity_check("album");
 $picture     = sanity_check("picture");
+$FILTER      = sanity_check("filter");
 $width       = sanity_check_number("width");
 $rotate      = sanity_check_number("rotate");
 $base        = sanity_check("base");
@@ -186,13 +187,15 @@ function is_video($file) {
 /****************************************************************************/
 /* Given an album, get a listing of the jpg's in that album */
 function get_pictures_from_album($album) {
-	global $BASEDIR;
+	global $BASEDIR, $FILTER;
 	$pictures = array();
 	assert_path_ok("$BASEDIR/$album");
         if ($dir = opendir("$BASEDIR/$album")) {
 		while (($file = readdir($dir)) !== false) {
 			if (is_image_filename("$BASEDIR/$album/$file") || is_video("$BASEDIR/$album/$file")) {
-				array_push($pictures, $file);
+				if (preg_match("/$FILTER/", $file)) {
+					array_push($pictures, $file);
+				}
 			}
 		}
 		sort($pictures);

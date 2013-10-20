@@ -1,6 +1,11 @@
 pictor (2.25) unreleased; urgency=low
 
-  * UNRELEASED
+  * index.php:
+    - support a "filter" parameter, to filter on filenames
+    - useful on a thumbnails page for an album, where you
+      only want to see a subset of the pictures in the album,
+      perhaps those matching a certain date
+    - currently implemented as a global, which is kind of messy...
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 13 Aug 2013 09:04:12 -0500
 
