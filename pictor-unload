@@ -33,3 +33,5 @@ fdupes -r -N "$DEST"
 # Ensure picture names are clean
 pictor-rename "$DEST/"*
 sync
+# Rename SOURCE to mark as unloaded
+mv -f "${SOURCE}" "${SOURCE}".$(date +%Y-%m-%d_%H-%M-%S)
