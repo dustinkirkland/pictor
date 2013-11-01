@@ -1,4 +1,4 @@
-pictor (2.25) unreleased; urgency=low
+pictor (2.25-0ubuntu1) trusty; urgency=low
 
   * index.php:
     - support a "filter" parameter, to filter on filenames
@@ -9,7 +9,7 @@ pictor (2.25) unreleased; urgency=low
   * pictor-unload:
     - restore functionality that moves the source out of the way, to mark as unloaded
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 13 Aug 2013 09:04:12 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 01 Nov 2013 13:46:42 -0500
 
 pictor (2.24-0ubuntu1) saucy; urgency=low
 
