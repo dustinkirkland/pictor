@@ -1,6 +1,8 @@
 pictor (2.26) unreleased; urgency=low
 
-  * UNRELEASED
+  * debian/pictor.postrm:
+    - improve our postrm, disabling the site safely, cleaning up after
+      ourselves
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 01 Nov 2013 13:46:45 -0500
 

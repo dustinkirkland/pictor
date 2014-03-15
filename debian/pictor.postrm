@@ -2,11 +2,17 @@
 
 set -e
 
-package="pictor"
+PKG="pictor"
 
 case "$1" in
+	remove)
+		if [ -e "/etc/apache2/sites-enabled/${PKG}.conf" ]; then
+			a2dissite $PKG
+		fi
+	;;
 	purge)
-		rm -rf  /var/cache/$package
+		rm -rf /var/lib/$PKG/* /etc/$PKG/apache.conf /var/cache/$PKG
+		[ -h /usr/share/$PKG/music ] && rm -f /usr/share/$PKG/music || true
 	;;
 esac
 
