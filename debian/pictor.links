@@ -1,3 +1,2 @@
 var/cache/pictor usr/share/pictor/tmp
-etc/pictor/apache.conf etc/apache2/sites-available/pictor
 usr/share/icons/silk/16x16 usr/share/pictor/silk

@@ -2,13 +2,13 @@
 
 set -e
 
-package="pictor"
+PKG="pictor"
 webserver="apache2"
 
 case "$1" in
 	configure)
-		chown www-data:www-data /var/cache/$package /var/cache/$package/thumbnails /var/cache/$package/resize
-		a2ensite $package
+		chown www-data:www-data /var/cache/$PKG /var/cache/$PKG/thumbnails /var/cache/$PKG/resize
+		a2ensite $PKG
 		invoke-rc.d $webserver reload
 	;;
 	abort-upgrade|abort-remove|abort-deconfigure)

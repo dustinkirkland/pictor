@@ -11,7 +11,7 @@ case "$1" in
 		fi
 	;;
 	purge)
-		rm -rf /var/lib/$PKG/* /etc/$PKG/apache.conf /var/cache/$PKG
+		rm -rf /var/lib/$PKG/* /etc/$PKG/apache.conf /var/cache/$PKG /etc/$PKG/
 		[ -h /usr/share/$PKG/music ] && rm -f /usr/share/$PKG/music || true
 	;;
 esac
