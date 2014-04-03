@@ -1,6 +1,8 @@
 pictor (2.27) unreleased; urgency=medium
 
-  * UNRELEASED
+  * === added directory img, img/pictor_14.png, img/pictor_192.png,
+    img/pictor_64.png, img/pictor.png:
+    - add new pictor logo
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 15 Mar 2014 21:36:49 -0500
 
