@@ -12,7 +12,7 @@ case "$1" in
 	;;
 	purge)
 		rm -rf /var/lib/$PKG/* /etc/$PKG/apache.conf /var/cache/$PKG /etc/$PKG/
-		[ -h /usr/share/$PKG/music ] && rm -f /usr/share/$PKG/music || true
+		[ -h /usr/share/$PKG/pictures ] && rm -f /usr/share/$PKG/pictures || true
 	;;
 esac
 
