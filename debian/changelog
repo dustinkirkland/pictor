@@ -1,10 +1,10 @@
-pictor (2.28) unreleased; urgency=medium
+pictor (2.28-0ubuntu1) utopic; urgency=medium
 
   * img/pictor_14.png, img/pictor_192.png, img/pictor_64.png,
     img/pictor.png:
     - transparent background for logos
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 04 Apr 2014 14:34:02 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:52:40 -0700
 
 pictor (2.27-0ubuntu1) trusty; urgency=medium
 
