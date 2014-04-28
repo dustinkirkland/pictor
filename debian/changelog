@@ -1,3 +1,9 @@
+pictor (2.29) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:52:53 -0700
+
 pictor (2.28-0ubuntu1) utopic; urgency=medium
 
   * img/pictor_14.png, img/pictor_192.png, img/pictor_64.png,
