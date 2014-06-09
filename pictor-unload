@@ -32,6 +32,21 @@ fdupes -m "$DEST"
 fdupes -r -N "$DEST"
 # Ensure picture names are clean
 pictor-rename "$DEST/"*
+# Ensure permissions are sane
+echo "INFO: Fixing permissions..."
+find "$DEST" -type f -exec chmod 644 {} \;
+find "$DEST" -type d -exec chmod 755 {} \;
+echo "INFO: Syncing to disk..."
 sync
-# Rename SOURCE to mark as unloaded
-mv -f "${SOURCE}" "${SOURCE}".$(date +%Y-%m-%d_%H-%M-%S)
+d="$(date +%Y-%m-%d_%H-%M-%S)"
+echo
+echo -n "Do you want to rename [${SOURCE}] to [${SOURCE}.${d}]? [y/N]: "
+answer=$(head -n 1)
+case "$answer" in
+	y*|Y*)
+		# Rename SOURCE to mark as unloaded
+		mv -f "${SOURCE}" "${SOURCE}.${d}"
+	;;
+esac
+echo
+sync

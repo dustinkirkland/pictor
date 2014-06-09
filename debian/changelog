@@ -1,6 +1,8 @@
 pictor (2.29) unreleased; urgency=medium
 
-  * UNRELEASED
+  * pictor-unload:
+    - add a few more info messages
+    - fix file/directory permissions on unload
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:52:53 -0700
 
