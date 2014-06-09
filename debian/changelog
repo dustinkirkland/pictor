@@ -1,10 +1,10 @@
-pictor (2.29) unreleased; urgency=medium
+pictor (2.29-0ubuntu1) utopic; urgency=medium
 
   * pictor-unload:
     - add a few more info messages
     - fix file/directory permissions on unload
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 28 Apr 2014 09:52:53 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Jun 2014 11:11:32 -0700
 
 pictor (2.28-0ubuntu1) utopic; urgency=medium
 
