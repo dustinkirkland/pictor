@@ -262,6 +262,28 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 
 
 /****************************************************************************/
+/* Transcode a video, returns temp file name, depends on libav-tools */
+function do_transcode_video($path) {
+	$path_parts = preg_split("/\//", $path);
+	$file = array_pop($path_parts);
+        $tempfilename = get_cache_filename($file, "transcode");
+	if (is_video($path)) {
+		if (! file_exists($tempfilename)) {
+			$input = escapeshellarg($path);
+			try {
+				print("<meta http-equiv='refresh' content='20'>");
+				shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$path") . " -vcodec libx264 -strict experimental " . escapeshellarg("$tempfilename"));
+			} catch (Exception $e) {
+				$tempfilename = "";
+			}
+		}
+		//clean_tmp("tmp/transcode");
+		return $tempfilename;
+	}
+}
+/****************************************************************************/
+
+/****************************************************************************/
 /* Find the index of a given value in an array */
 function locate_index($needle, $haystack) {
 	for ($i=0; $i<sizeof($haystack); $i++) {
@@ -367,7 +389,11 @@ function get_cache_filename($filename, $dir) {
 	$md5 = md5($filename);
 	$cache_filename = "tmp/$dir/" . substr($md5, 0, 2);
 	@mkdir($cache_filename);
-	return "$cache_filename/$md5.jpg";
+	if ("$dir" == "transcode") {
+		return "$cache_filename/$md5.mp4";
+	} else {
+		return "$cache_filename/$md5.jpg";
+	}
 }
 
 /****************************************************************************/
@@ -766,7 +792,8 @@ if (window.innerHeight > window.innerWidth) {
 </script>
 ");
 	} elseif (is_video($path_to_picture)) {
-		print("Play <embed src='$path_to_picture' name='Video clip' loop='false' cache='true' width=400 height=300 controller='true' autoplay='true'></embed>");
+		$tempvideoname = do_transcode_video($path_to_picture);
+		print("<video width=400 height=300 controls><source src='$tempvideoname' type='video/mp4'></video>");
 	}
 	print("</a>");
 }

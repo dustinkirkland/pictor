@@ -1,2 +1,3 @@
 var/cache/pictor/thumbnails
 var/cache/pictor/resize
+var/cache/pictor/transcode

@@ -1,6 +1,11 @@
 pictor (2.30) unreleased; urgency=medium
 
-  * UNRELEASED
+  * debian/control, debian/pictor.dirs, debian/pictor.postinst,
+    index.php:
+    - add video transcoding support to pictor
+    - depend on libav-tools for avconv command
+    - improve video embedding support by transcoding to h264 and use the
+      html5 video element
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Jun 2014 11:11:37 -0700
 
