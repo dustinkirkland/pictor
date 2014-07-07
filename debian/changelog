@@ -6,6 +6,9 @@ pictor (2.30) unreleased; urgency=medium
     - depend on libav-tools for avconv command
     - improve video embedding support by transcoding to h264 and use the
       html5 video element
+  * index.php:
+    - extract the first image from a video and use it as a thumbnail
+    - overlay a film strip icon on the video thumbnail
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Jun 2014 11:11:37 -0700
 

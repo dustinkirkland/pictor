@@ -333,6 +333,16 @@ body {
 	font-weight: 400;
 	color: black;
 }
+div {
+	position:relative;
+	display:inline;
+}
+.vid {
+	position:absolute;
+	top:50%;
+	right:50%;
+}
+</style>
 </style>
 <title>$TITLE</title>
 <link rel='shortcut icon' href='/pictor/favicon.ico' type='image/x-icon'>
@@ -405,9 +415,9 @@ function print_thumbnail($path, $file, $desc) {
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<a title='$desc' href='$href'>");
-	if (is_image_filename($filename)) {
-		if (! file_exists($thumbnail_name)) {
-			// No thumbnail in cache.
+	if (! file_exists($thumbnail_name)) {
+		// No thumbnail in cache.
+		if (is_image_filename($filename)) {
 			if ($img = @exif_thumbnail($filename)) {
 				// Try to extract thumbnail from the image.
 				$fh = fopen($thumbnail_name, "w");
@@ -417,7 +427,7 @@ function print_thumbnail($path, $file, $desc) {
 				try {
 					// Otherwise, try Imagick.
 					$img = new Imagick($filename);
-					$img->scaleImage(150, 150, true);
+					$img->scaleImage(130, 130, true);
 					$img->writeImage($thumbnail_name);
 					$img->destroy();
 				} catch (Exception $e) {
@@ -425,10 +435,15 @@ function print_thumbnail($path, $file, $desc) {
 				}
 			}
 			rotate_if_necessary($filename, $thumbnail_name);
+		} elseif (is_video($filename)) {
+			shell_exec("HOME=/var/cache/pictor/ run-one avconv -ss 00:00:00 -i " . escapeshellarg("$filename") . " -vsync 1 -t 0.01 " . escapeshellarg("$thumbnail_name"));
 		}
-		print("<img height=130 align=center border=0 src='$thumbnail_name'></a>&nbsp;");
-	} elseif (is_video($file)) {
-		print("<img width=32 src=silk/film.png>");
+	} else {
+		print("<div><img height=130 align=center border=0 src='$thumbnail_name'>");
+		if (is_video($filename)) {
+			print("<img width=32 src='silk/film.png' class='vid'>");
+		}
+		print("</div></a>\n");
 	}
 }
 /****************************************************************************/
