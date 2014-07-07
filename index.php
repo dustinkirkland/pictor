@@ -269,7 +269,9 @@ function do_transcode_video($path) {
 	$file = array_pop($path_parts);
         $tempfilename = get_cache_filename($file, "transcode");
 	if (is_video($path)) {
-		if (! file_exists($tempfilename)) {
+		if (preg_match("/.*\.mp4$/i", $path)) {
+			return "$path";
+		} elseif (! file_exists($tempfilename)) {
 			$input = escapeshellarg($path);
 			try {
 				print("<meta http-equiv='refresh' content='20'>");
