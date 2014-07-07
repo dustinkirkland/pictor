@@ -9,6 +9,7 @@ pictor (2.30) unreleased; urgency=medium
   * index.php:
     - extract the first image from a video and use it as a thumbnail
     - overlay a film strip icon on the video thumbnail
+    - add support for mp4, use a "play" icon for video
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Jun 2014 11:11:37 -0700
 

@@ -175,6 +175,7 @@ function is_video($file) {
 	if (	!preg_match("/^[\._]/", $file) &&
 		(preg_match("/\.mpg$/i", $file) ||
 		preg_match("/\.mpeg$/i", $file) ||
+		preg_match("/\.mp4$/i", $file) ||
 		preg_match("/\.mov$/i", $file) ||
 		preg_match("/\.avi$/i", $file))
 	) {
@@ -339,8 +340,8 @@ div {
 }
 .vid {
 	position:absolute;
-	top:50%;
-	right:50%;
+	top:0;
+	right:0;
 }
 </style>
 </style>
@@ -441,7 +442,7 @@ function print_thumbnail($path, $file, $desc) {
 	} else {
 		print("<div><img height=130 align=center border=0 src='$thumbnail_name'>");
 		if (is_video($filename)) {
-			print("<img width=32 src='silk/film.png' class='vid'>");
+			print("<img width=64 src='silk/resultset_next.png' class='vid'>");
 		}
 		print("</div></a>\n");
 	}
