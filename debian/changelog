@@ -1,7 +1,7 @@
 pictor (2.31) unreleased; urgency=medium
 
   * debian/control:
-    - fix typo in dependency
+    - fix typo in dependency, move to suggests
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:41:46 -0500
 
