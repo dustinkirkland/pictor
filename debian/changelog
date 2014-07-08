@@ -1,3 +1,9 @@
+pictor (2.31) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:41:46 -0500
+
 pictor (2.30-0ubuntu1) utopic; urgency=medium
 
   * debian/control, debian/pictor.dirs, debian/pictor.postinst,
