@@ -1,4 +1,4 @@
-pictor (2.30) unreleased; urgency=medium
+pictor (2.30-0ubuntu1) utopic; urgency=medium
 
   * debian/control, debian/pictor.dirs, debian/pictor.postinst,
     index.php:
@@ -12,7 +12,7 @@ pictor (2.30) unreleased; urgency=medium
     - add support for mp4, use a "play" icon for video
     - no need to convert files that are already mp4
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Jun 2014 11:11:37 -0700
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:41:44 -0500
 
 pictor (2.29-0ubuntu1) utopic; urgency=medium
 
