@@ -1,6 +1,16 @@
 pictor (2.32) unreleased; urgency=medium
 
-  * UNRELEASED
+  * debian/control, debian/cron.hourly, index.php:
+    - add an hourly cronjob to generate thumbnails
+    - add a "batch" paramter to generate all thumbnails
+    - separate the new Imagick() and readImage() into separate calls
+      + this fixes some exceptions we were having with some thumbnails
+    - check if exif[Orientaion] is set before using it
+    - capture Imagick() exceptions
+    - when generating cache filenames, remove duplicated / in paths
+    - separate out generate_thumbnail() logic into its own function
+      separate from print_thumbnail()
+    - depend on php5-cli for the php5 command
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:50:18 -0500
 

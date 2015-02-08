@@ -45,6 +45,10 @@ $PICTURE_ROOT = "pictures";
 $BASEDIR = $PICTURE_ROOT . "/" . $base;
 assert_path_ok($BASEDIR);
 $THUMB_ROOT = $PICTURE_ROOT;
+$BATCH = false;
+if ($argv[1] == "batch") {
+	$BATCH = true;
+}
 
 /****************************************************************************/
 /* Check input for malicious intentions */
@@ -243,7 +247,8 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 		$size = $width . "x" . $height;
 		$input = escapeshellarg($path_to_picture);
 		try {
-			$img = new Imagick($path_to_picture);
+			$img = new Imagick();
+			$img->readImage($path_to_picture);
 			$img->scaleImage($width, $height, true);
 			if ($rotate != 0) {
 				$img->rotateImage(new ImagickPixel(), $rotate);
@@ -384,21 +389,26 @@ $LICENSE<br>
 
 function rotate_if_necessary($input, $output) {
 	if ($exif = @exif_read_data($input)) {
-		if ($exif["Orientation"] == 6 || $exif["Orientation"] == 8) {
-			$img = new Imagick($output);
-			switch($exif["Orientation"]) {
-				case 6: $rotate = 90; break;
-				case 8: $rotate = -90; break;
-				default: $rotate = 0; break;
+		if (isset($exif["Orientation"]) && ($exif["Orientation"] == 6 || $exif["Orientation"] == 8)) {
+			try {
+				$img = new Imagick($output);
+				switch($exif["Orientation"]) {
+					case 6: $rotate = 90; break;
+					case 8: $rotate = -90; break;
+					default: $rotate = 0; break;
+				}
+				$img->rotateImage(new ImagickPixel(), $rotate);
+				$img->writeImage($output);
+				$img->destroy();
+			} catch (Exception $e) {
+				print("");
 			}
-			$img->rotateImage(new ImagickPixel(), $rotate);
-			$img->writeImage($output);
-			$img->destroy();
 		}
 	}
 }
 
 function get_cache_filename($filename, $dir) {
+	$filename = preg_replace("/\/+/", "/", $filename);
 	$md5 = md5($filename);
 	$cache_filename = "tmp/$dir/" . substr($md5, 0, 2);
 	@mkdir($cache_filename);
@@ -411,6 +421,48 @@ function get_cache_filename($filename, $dir) {
 
 /****************************************************************************/
 /* Print single thumbnail */
+function generate_thumbnail($filename) {
+	global $BATCH;
+	// No thumbnail in cache.
+	$thumbnail_name = get_cache_filename($filename, "thumbnails");
+	if (file_exists($thumbnail_name) && filesize($thumbnail_name) > 0) {
+		return;
+	} elseif (is_image_filename($filename)) {
+		if ($img = @exif_thumbnail($filename)) {
+			// Try to extract thumbnail from the image.
+			if ($BATCH) {
+				echo "Extracting thumbnail [$filename] to [$thumbnail_name]...\n";
+			}
+			$fh = fopen($thumbnail_name, "w");
+			fwrite($fh, $img);
+			fclose($fh);
+		} else {
+			if ($BATCH) {
+				echo "Converting thumbnail [$filename] to [$thumbnail_name]...\n";
+			}
+			try {
+				// Otherwise, try Imagick.
+				$img = new Imagick();
+				$img->readImage($filename);
+				$img->scaleImage(130, 130, true);
+				$img->writeImage($thumbnail_name);
+				$img->destroy();
+			} catch (Exception $e) {
+				if ($BATCH) {
+					print($e);
+				}
+			}
+		}
+		rotate_if_necessary($filename, $thumbnail_name);
+	} elseif (is_video($filename)) {
+		//shell_exec("HOME=/var/cache/pictor/ run-one avconv -ss 00:00:00 -i " . escapeshellarg("$filename") . " -vsync 1 -t 0.01 " . escapeshellarg("$thumbnail_name"));
+		return;
+	}
+}
+/****************************************************************************/
+
+/****************************************************************************/
+/* Print single thumbnail */
 function print_thumbnail($path, $file, $desc) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
@@ -418,36 +470,12 @@ function print_thumbnail($path, $file, $desc) {
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
 	print("<a title='$desc' href='$href'>");
-	if (! file_exists($thumbnail_name)) {
-		// No thumbnail in cache.
-		if (is_image_filename($filename)) {
-			if ($img = @exif_thumbnail($filename)) {
-				// Try to extract thumbnail from the image.
-				$fh = fopen($thumbnail_name, "w");
-				fwrite($fh, $img);
-				fclose($fh);
-			} else {
-				try {
-					// Otherwise, try Imagick.
-					$img = new Imagick($filename);
-					$img->scaleImage(130, 130, true);
-					$img->writeImage($thumbnail_name);
-					$img->destroy();
-				} catch (Exception $e) {
-					print("");
-				}
-			}
-			rotate_if_necessary($filename, $thumbnail_name);
-		} elseif (is_video($filename)) {
-			shell_exec("HOME=/var/cache/pictor/ run-one avconv -ss 00:00:00 -i " . escapeshellarg("$filename") . " -vsync 1 -t 0.01 " . escapeshellarg("$thumbnail_name"));
-		}
-	} else {
-		print("<div><img height=130 align=center border=0 src='$thumbnail_name'>");
-		if (is_video($filename)) {
-			print("<img width=64 src='silk/resultset_next.png' class='vid'>");
-		}
-		print("</div></a>\n");
+	generate_thumbnail($filename);
+	print("<div><img height=130 align=center border=0 src='$thumbnail_name'>");
+	if (is_video($filename)) {
+		print("<img width=64 src='silk/resultset_next.png' class='vid'>");
 	}
+	print("</div></a>\n");
 }
 /****************************************************************************/
 
@@ -1012,6 +1040,13 @@ if ($random) {
 	exit;
 } elseif ($slideshow) {
 	do_slideshow_page($album, $picture, $width, $slideshow);
+	exit;
+} elseif ($BATCH) {
+	$dir_iterator = new RecursiveDirectoryIterator($BASEDIR);
+	$iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
+	foreach ($iterator as $file) {
+		generate_thumbnail($file);
+	}
 	exit;
 }
 

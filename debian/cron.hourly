@@ -1,0 +1,3 @@
+#!/bin/sh
+
+su -l www-data run-one php5 /usr/share/pictor/index.php batch
