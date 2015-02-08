@@ -14,6 +14,8 @@ pictor (2.32) unreleased; urgency=medium
   * debian/cron.hourly, index.php:
     - use sudo rather than su in cronjob
     - fix auto refresh into directories with other directories
+  * index.php:
+    - extract and scale thumbnail from videos
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:50:18 -0500
 
