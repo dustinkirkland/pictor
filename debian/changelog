@@ -11,6 +11,9 @@ pictor (2.32) unreleased; urgency=medium
     - separate out generate_thumbnail() logic into its own function
       separate from print_thumbnail()
     - depend on php5-cli for the php5 command
+  * debian/cron.hourly, index.php:
+    - use sudo rather than su in cronjob
+    - fix auto refresh into directories with other directories
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:50:18 -0500
 

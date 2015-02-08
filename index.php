@@ -539,9 +539,15 @@ function do_list_albums($base) {
 		print("<table cellpadding=20><tr><td bgcolor=#EEEEEE><br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre></td></tr></table>");
                 exit;
 	}
-	// if only one option, go straight to it
-	if ($count == 1)
+	// if only one option and no images, go straight to it
+	if ($count == 1) {
+		for ($i=0; $i<sizeof($files); $i++) {
+			if (is_image($files[$i]) || is_video($files[$i])) {
+				return;
+			}
+		}
 		print("<meta http-equiv='refresh' content='0;url=$href'>");
+	}
 }
 /****************************************************************************/
 
