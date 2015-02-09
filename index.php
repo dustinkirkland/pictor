@@ -448,6 +448,7 @@ function generate_thumbnail($filename) {
 				$img->writeImage($thumbnail_name);
 				$img->destroy();
 			} catch (Exception $e) {
+				symlink(getcwd() . "/pictor.jpg", $thumbnail_name);
 				if ($BATCH) {
 					print($e);
 				}
@@ -458,7 +459,9 @@ function generate_thumbnail($filename) {
 		if ($BATCH) {
 			echo "Rendering thumbnail [$filename] to [$thumbnail_name]...\n";
 		}
-		shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"));
+		if (! shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"))) {
+			symlink(getcwd() . "/pictor.jpg", $thumbnail_name);
+		}
 		return;
 	}
 }
