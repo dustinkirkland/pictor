@@ -16,6 +16,7 @@ pictor (2.32) unreleased; urgency=medium
     - fix auto refresh into directories with other directories
   * index.php:
     - extract and scale thumbnail from videos
+    - preserve aspect ratio when extracting video thumbnail
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:50:18 -0500
 
