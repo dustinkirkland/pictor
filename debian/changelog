@@ -1,4 +1,4 @@
-pictor (2.32) unreleased; urgency=medium
+pictor (2.32-0ubuntu1) vivid; urgency=medium
 
   * debian/control, debian/cron.hourly, index.php:
     - add an hourly cronjob to generate thumbnails
@@ -18,7 +18,7 @@ pictor (2.32) unreleased; urgency=medium
     - extract and scale thumbnail from videos
     - preserve aspect ratio when extracting video thumbnail
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Tue, 08 Jul 2014 17:50:18 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Feb 2015 10:17:29 -0600
 
 pictor (2.31-0ubuntu1) utopic; urgency=medium
 
