@@ -1,4 +1,4 @@
-pictor (2.33) unreleased; urgency=medium
+pictor (2.33-0ubuntu1) vivid; urgency=medium
 
   * debian/cron.hourly => debian/pictor.cron.hourly,
     debian/pictor.install, index.php, pictor.jpg:
@@ -6,7 +6,7 @@ pictor (2.33) unreleased; urgency=medium
       pictor logo image
     - this will save us from retrying a failed thumbnail repeatedly
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Feb 2015 10:17:32 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Feb 2015 19:46:03 -0600
 
 pictor (2.32-0ubuntu1) vivid; urgency=medium
 
