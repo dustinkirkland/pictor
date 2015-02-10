@@ -1,3 +1,9 @@
+pictor (2.34) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Feb 2015 19:46:05 -0600
+
 pictor (2.33-0ubuntu1) vivid; urgency=medium
 
   * debian/cron.hourly => debian/pictor.cron.hourly,
