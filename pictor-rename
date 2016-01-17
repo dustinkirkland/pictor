@@ -39,10 +39,16 @@ get_prefix() {
 	fi
 }
 
+get_suffix() {
+	_RET=$(echo "$1" | sed -e "s/^.*\.//g" | tr '[:upper:]' '[:lower:]')
+}
+
 repair() {
 	if [ "$2" != "$3" ]; then
 		mv "$2" "$3"
 	fi
+	get_suffix "$3"
+	rename "s/\.${_RET}$/\.${_RET}/i" "$3"
 }
 
 progress() {

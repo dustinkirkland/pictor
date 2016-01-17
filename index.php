@@ -46,7 +46,7 @@ $BASEDIR = $PICTURE_ROOT . "/" . $base;
 assert_path_ok($BASEDIR);
 $THUMB_ROOT = $PICTURE_ROOT;
 $BATCH = false;
-if ($argv[1] == "batch") {
+if (isset($argv) && $argv[1] == "batch") {
 	$BATCH = true;
 }
 
@@ -131,6 +131,7 @@ function get_description($path) {
 	$path .= "/";
 	$dirs = preg_split("/\//", $path);
 	$current = array_shift($dirs);
+	$description = array();
 	while (sizeof($dirs) > 0) {
 		if ( file_exists("$current/description.txt") ) {
 			$file = file("$current/description.txt");
