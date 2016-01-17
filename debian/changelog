@@ -1,4 +1,4 @@
-pictor (2.34) unreleased; urgency=medium
+pictor (2.34-0ubuntu1) xenial; urgency=medium
 
   * debian/control:
     - move deps to 1 per line
@@ -16,7 +16,7 @@ pictor (2.34) unreleased; urgency=medium
     - fix syntax error
     - nearly php7.0 compatible, just need imagick for 7.0
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Feb 2015 19:46:05 -0600
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 17 Jan 2016 13:53:49 +0100
 
 pictor (2.33-0ubuntu1) vivid; urgency=medium
 
