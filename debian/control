@@ -19,7 +19,7 @@ Depends: ${misc:Depends},
  run-one,
  libav-tools
 Suggests: libavcodec-extra-53,
- php5-imagick,
+ php5-imagick
 Recommends: pictor-unload
 Description: web application for browsing your pictures
  Pictor is a simple web application for browsing your pictures in a
