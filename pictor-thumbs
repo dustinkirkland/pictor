@@ -16,11 +16,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+find_binary() {
+	if command -v php; then
+		BINARY=php
+	elif command -v php5; then
+		BINARY=php5
+	elif command -v php.7.0; then
+		BINARY=php7.0
+	fi
+}
+
 if [ "$(id -un)" != "www-data" ]; then
 	exec sudo -u www-data "$0" "$@"
 else
 	cd /usr/share/pictor
 	find /var/cache/pictor -type l -delete
-	php5 /usr/share/pictor/index.php batch
+	$BINARY /usr/share/pictor/index.php batch
 	find /var/cache/pictor/ -empty -type f -delete
 fi

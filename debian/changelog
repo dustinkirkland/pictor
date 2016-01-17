@@ -11,6 +11,8 @@ pictor (2.34) unreleased; urgency=medium
     - check suffixes
   * pictor-thumbs:
     - create a new script to batch create thumbnails
+  * debian/control, pictor-thumbs:
+    - work toward php7.0 compatibility
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Mon, 09 Feb 2015 19:46:05 -0600
 
