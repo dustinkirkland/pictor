@@ -14,12 +14,12 @@ Depends: ${misc:Depends},
  apache2,
  libapache2-mod-php5 | libapache2-mod-php7.0,
  php5-cli | php7.0-cli,
+ php5-imagick,
  famfamfam-silk,
  rename,
  run-one,
  libav-tools
-Suggests: libavcodec-extra-53,
- php5-imagick
+Suggests: libavcodec-extra-53
 Recommends: pictor-unload
 Description: web application for browsing your pictures
  Pictor is a simple web application for browsing your pictures in a
