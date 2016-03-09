@@ -1,4 +1,4 @@
-pictor (2.35) unreleased; urgency=medium
+pictor (2.35-0ubuntu1) xenial; urgency=medium
 
   [ Nishanth Aravamudan ]
   * debian/control, index.php: LP: #1549942
@@ -8,7 +8,7 @@ pictor (2.35) unreleased; urgency=medium
   * debian/control:
     - maintain php5 compat for the php
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 17 Jan 2016 13:53:51 +0100
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 09 Mar 2016 18:14:44 -0500
 
 pictor (2.34-0ubuntu1) xenial; urgency=medium
 
