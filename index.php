@@ -239,7 +239,7 @@ function clean_tmp($dirname) {
 /****************************************************************************/
 
 /****************************************************************************/
-/* Resize an image, returns temp file name, depends on php5-imagick */
+/* Resize an image, returns temp file name, depends on php-imagick */
 function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 	$path_parts = preg_split("/\//", $path_to_picture);
 	$file = array_pop($path_parts);

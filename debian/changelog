@@ -1,6 +1,12 @@
 pictor (2.35) unreleased; urgency=medium
 
-  * UNRELEASED
+  [ Nishanth Aravamudan ]
+  * debian/control, index.php: LP: #1549942
+    - Update to PHP7.0 dependencies
+
+  [ Dustin Kirkland ]
+  * debian/control:
+    - maintain php5 compat for the php
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 17 Jan 2016 13:53:51 +0100
 
