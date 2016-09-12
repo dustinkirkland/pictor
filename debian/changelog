@@ -2,6 +2,8 @@ pictor (2.36) unreleased; urgency=medium
 
   * debian/pictor.install:
     - install /usr/bin/pictor-thumbs
+  * pictor-thumbs:
+    - make sure we find the right php binary
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 09 Mar 2016 18:14:47 -0500
 

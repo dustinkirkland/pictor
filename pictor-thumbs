@@ -26,6 +26,7 @@ find_binary() {
 	fi
 }
 
+find_binary
 if [ "$(id -un)" != "www-data" ]; then
 	exec sudo -u www-data "$0" "$@"
 else
