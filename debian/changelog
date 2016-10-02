@@ -1,3 +1,9 @@
+pictor (2.37) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:37:01 -0500
+
 pictor (2.36-0ubuntu1) yakkety; urgency=medium
 
   * debian/pictor.install:
