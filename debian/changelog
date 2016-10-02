@@ -1,4 +1,4 @@
-pictor (2.36) unreleased; urgency=medium
+pictor (2.36-0ubuntu1) yakkety; urgency=medium
 
   * debian/pictor.install:
     - install /usr/bin/pictor-thumbs
@@ -7,7 +7,7 @@ pictor (2.36) unreleased; urgency=medium
   * debian/pictor.cron.hourly => debian/pictor.cron.daily:
     - move the cronjob to daily, rather than hourly
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Wed, 09 Mar 2016 18:14:47 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:36:58 -0500
 
 pictor (2.35-0ubuntu1) xenial; urgency=medium
 
