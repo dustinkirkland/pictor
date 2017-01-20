@@ -3,6 +3,7 @@ pictor (2.37) unreleased; urgency=medium
   * index.php:
     - update copyright to 2017
     - dynamically generate copyright printed in footer
+    - move everything to the top, rather than center
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:37:01 -0500
 
