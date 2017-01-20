@@ -1,6 +1,8 @@
 pictor (2.37) unreleased; urgency=medium
 
-  * UNRELEASED
+  * index.php:
+    - update copyright to 2017
+    - dynamically generate copyright printed in footer
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:37:01 -0500
 

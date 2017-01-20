@@ -2,7 +2,7 @@
 
 /*
  *  pictor: a web application for sharing, viewing, and organizing pictures
- *  Copyright (C) 1997-2013 Dustin Kirkland <dustin.kirkland@gmail.com>
+ *  Copyright (C) 1997-2017 Dustin Kirkland <dustin.kirkland@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published by
@@ -376,7 +376,7 @@ function print_footer() {
 		  <tr>
 		    <td bgcolor=#FFFFFF align=center><small>
 $LICENSE<br>
-<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-2013 <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
+<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-" . date("Y") . " <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
 		    </small></td>
 		  </tr>
 		</table>
