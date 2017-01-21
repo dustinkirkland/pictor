@@ -505,7 +505,7 @@ function do_list_albums($album, $thumbs, $page) {
 		}
 		closedir($dir);
 		sort($files);
-		print_banner($album, $thumbs, $page, $picture);
+		print_banner($album, $thumbs, $page, "");
 		print("
 <table border=0 cellpadding=4 cellspacing=4 align=center bgcolor=#DDDDDD>
 ");
@@ -917,7 +917,7 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 		$descriptions[$picture] = "";
 	}
 	print_picture_in_table($path_to_picture, $tempfilename, $height, $alt);
-	print_banner($album, $thumbs, $page, $picture);
+	print_banner($album, "", "", $picture);
 	print_lower_toolbar($resizeform, $picform, $rotateform, $width);
 	print_picture_details($path_to_picture, $currentindex, $total, $width, $descriptions);
 }
