@@ -464,15 +464,12 @@ function generate_thumbnail($filename) {
 			}
 		}
 		rotate_if_necessary($filename, $thumbnail_name);
-	}/* elseif (is_video($filename)) {
-		if ($BATCH) {
-			echo "Skipping video transcoding [$filename]...\n";
-		} elseif (! shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"))) {
+	} elseif (is_video($filename)) {
+		if (! shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"))) {
 			symlink(getcwd() . "/pictor.jpg", $thumbnail_name);
 		}
 		return;
 	}
-	*/
 }
 /****************************************************************************/
 
@@ -564,7 +561,8 @@ function print_thumbnails($album, $thumbs, $page) {
 	do_list_albums($album, $thumbs, $page);
 	print("<table align=center><tr><td bgcolor=#888888><center>\n");
 	if ($page > 0) {
-		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1) . "> Previous " . (($page-1)*$thumbs+1) . "-" . $page*$thumbs . " of " . sizeof($pictures) . " images</a> ");
+		$url = "?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1);
+		print("<table border=0 align=left><tr><td width=300 height=50 bgcolor=#DDDDDD align=center onClick=javascript:gotourl('$url')><a href='$url'> Previous " . (($page-1)*$thumbs+1) . "-" . $page*$thumbs . " of " . sizeof($pictures) . " images</a></center></td></tr></table>");
 	}
 	$start = $page * $thumbs;
 	$stop = $start + $thumbs;
@@ -580,7 +578,8 @@ function print_thumbnails($album, $thumbs, $page) {
 		print_thumbnail($album, $pictures[$i], $desc);
 	}
 	if ($i < sizeof($pictures)) {
-		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "> Next ". (($page+1)*$thumbs+1) . "-" . min(($page+2)*$thumbs, sizeof($pictures)) . " of " . sizeof($pictures) . " images</a> ");
+		$url = "?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1);
+		print("<br><table border=0 align=right><tr><td width=300 height=50 bgcolor=#DDDDDD align=center onClick=javascript:gotourl('$url')><a href='$url'> Next ". (($page+1)*$thumbs+1) . "-" . min(($page+2)*$thumbs, sizeof($pictures)) . " of " . sizeof($pictures) . " images</a></td></tr></table>");
 	}
 	print("</center></td></tr></table>");
 	print_banner($album, $thumbs, $page, "");

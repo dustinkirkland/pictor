@@ -14,6 +14,7 @@ pictor (2.37) unreleased; urgency=medium
     - disable batch transcoding of video
     - disable video transcoding, not working well
     - fix counting of thumbnails, use min for last page
+    - improve the next/previous thumbnail buttons
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:37:01 -0500
 
