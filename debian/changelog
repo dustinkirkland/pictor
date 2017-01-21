@@ -4,6 +4,12 @@ pictor (2.37) unreleased; urgency=medium
     - update copyright to 2017
     - dynamically generate copyright printed in footer
     - move everything to the top, rather than center
+    - add thumbnail pagination support
+    - track the thumbnail "page" we're on
+    - track the number of thumbnails for page (50, by default)
+    - remove some unnecessary HTML, simplify tables
+    - display all exif data, rather than just some
+    - make our banner printing more consistent, navigable
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:37:01 -0500
 

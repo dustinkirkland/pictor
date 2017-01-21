@@ -29,6 +29,7 @@ $width       = sanity_check_number("width");
 $rotate      = sanity_check_number("rotate");
 $base        = sanity_check("base");
 $thumbs      = sanity_check_number("thumbs");
+$page        = sanity_check_number("page");
 $slideshow   = sanity_check_number("slideshow");
 $write       = sanity_check("write");
 $file        = sanity_check_array("file");
@@ -38,6 +39,13 @@ $screensaver = sanity_check_number("screensaver");
 
 if (!isset($DEFAULT_WIDTH)) {
 	$DEFAULT_WIDTH = 800;
+}
+
+if (!isset($thumbs) || $thumbs <= 1) {
+	$thumbs = 50;
+}
+if (!isset($page)) {
+	$page = 0;
 }
 
 /* check for malicious .. in $base input */
@@ -352,7 +360,6 @@ div {
 	right:0;
 }
 </style>
-</style>
 <title>$TITLE</title>
 <link rel='shortcut icon' href='/pictor/favicon.ico' type='image/x-icon'>
 </head>
@@ -360,7 +367,6 @@ div {
 	if ($body == 1) {
 		print("
 <body topmargin=0 leftmargin=0 rightmargin=0 bottommargin=0 bgcolor=#101010>
-<table width=100% height=100%><tr><td align=center valign=top>
 		");
 	}
 }
@@ -380,7 +386,6 @@ $LICENSE<br>
 		    </small></td>
 		  </tr>
 		</table>
-</td></tr></table>
 </body>
 </html>
 	");
@@ -489,37 +494,26 @@ function print_thumbnail($path, $file, $desc) {
 
 /****************************************************************************/
 /* List albums */
-function do_list_albums($base) {
+function do_list_albums($album, $thumbs, $page) {
 	global $BASEDIR;
 	global $ALBUM_COLUMNS;
-	if ($dir = @opendir($BASEDIR . "/" . $base)) {
+	$pictures = get_pictures_from_album($album);
+	if ($dir = @opendir($BASEDIR . "/" . $album)) {
 		$i = 0;
 		while (($file = readdir($dir)) !== false) {
 			$files[$i++] = $file;
 		}
 		closedir($dir);
 		sort($files);
-		if ($base) {
-			$header = preg_replace("/^\//", "", $base);
-			$header = preg_replace("/\//", " - ", $header);
-		} else {
-			$header = "All Albums";
-			print_upper_banner("", "", 600);
-		}
+		print_banner($album, $thumbs, $page, $picture);
 		print("
-<table border=0 cellspacing=0 cellpadding=10 align=center>
-  <tr>
-    <td bgcolor=#EEEEEE>
-      <table border=0 cellspacing=4 cellpadding=2 align=center>
-        <tr>
-          <td colspan=$ALBUM_COLUMNS bgcolor=#DDDDDD align='center'><b>$header</b></td>
-        </tr>
-		");
+<table border=0 cellpadding=4 cellspacing=4 align=center bgcolor=#DDDDDD>
+");
 		$count = 0;
 		for ($i=0; $i<sizeof($files); $i++) {
 			$file = $files[$i];
-			if ( is_dir("$BASEDIR/$base/$file") && (!preg_match("/^[_\.]/", $file))) {
-				$href = "?album=" . urlencode("$base/$file") . "&thumbs=1";
+			if (is_dir("$BASEDIR/$album/$file") && (!preg_match("/^[_\.]/", $file))) {
+				$href = "?album=" . urlencode("$album/$file") . "&thumbs=" . urlencode($thumbs);
 				if ( ($count % $ALBUM_COLUMNS) == 0 ) {
 					print("
         <tr>
@@ -537,14 +531,11 @@ function do_list_albums($base) {
 			}
 		}
 		print("
-      </table>
-    </td>
-  </tr>
 </table>
-		");
+");
 	} else {
 		print("<table cellpadding=20><tr><td bgcolor=#EEEEEE><br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre></td></tr></table>");
-                exit;
+		//exit;
 	}
 	// if only one option and no images, go straight to it
 	if ($count == 1) {
@@ -561,15 +552,23 @@ function do_list_albums($base) {
 
 /****************************************************************************/
 /* Print album thumbails */
-function print_thumbnails($album) {
+function print_thumbnails($album, $thumbs, $page) {
 	global $BASEDIR;
 	print("<br>\n");
 	$pictures = get_pictures_from_album($album);
 	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
-	do_list_albums($album);
+	do_list_albums($album, $thumbs, $page);
 	print("<table align=center><tr><td bgcolor=#888888><center>\n");
-	for ($i=0; $i<sizeof($pictures); $i++) {
+	if ($page > 0) {
+		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1) . "> Previous " . $thumbs . " of " . sizeof($pictures) . " images</a> ");
+	}
+	$start = $page * $thumbs;
+	$stop = $start + $thumbs;
+	for ($i=$start; $i<$stop; $i++) {
+		if (! isset($pictures[$i])) {
+			break;
+		}
 		if (isset($description[$pictures[$i]])) {
 			$desc = $description[$pictures[$i]];
 		} else {
@@ -577,10 +576,12 @@ function print_thumbnails($album) {
 		}
 		print_thumbnail($album, $pictures[$i], $desc);
 	}
+	if ($i < sizeof($pictures)) {
+		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "> Next ". $thumbs . " of " . sizeof($pictures) . " images</a> ");
+	}
 	print("</center></td></tr></table>");
+	print_banner($album, $thumbs, $page, "");
 }
-/****************************************************************************/
-
 
 /****************************************************************************/
 /* Write description file */
@@ -732,7 +733,13 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 /* Print data cell */
 function print_data_cell($key, $value) {
 	if ($value) {
-		print("<tr><td bgcolor=#DDDDDD><small><small>" . htmlspecialchars($key) . "</small></small></td><td bgcolor=white><small><small>" . htmlspecialchars($value) . "</small></small></td></tr>");
+		print("<tr><td bgcolor=#DDDDDD><small><small>" . htmlspecialchars($key) . "</small></small></td><td bgcolor=white><small><small>");
+		if (is_array($value)) {
+			print(htmlspecialchars(print_r($value)));
+		} else {
+			print(htmlspecialchars($value));
+		}
+		print("</small></small></td></tr>");
 	}
 }
 /****************************************************************************/
@@ -741,34 +748,14 @@ function print_data_cell($key, $value) {
 /****************************************************************************/
 /* Print exif data */
 function print_exif_data($path_to_picture, $description) {
-	$keys = array();
-	$values = array();
-	array_push($keys, "File name"); array_push($values, basename($path_to_picture));
-	array_push($keys, "File size"); array_push($values, round(filesize($path_to_picture)/1024)." KB");
 	if ($exif = @exif_read_data($path_to_picture, 0, false)) {
-		array_push($keys, "Resolution"); array_push($values, $exif["ExifImageWidth"] . "x" . $exif["ExifImageLength"]);
-		array_push($keys, "Date/Time"); array_push($values, $exif["DateTimeOriginal"]);
-		array_push($keys, "Camera model"); array_push($values, $exif["Model"]);
-		//foreach ($exif as $key => $section) {
-		//    echo "$key -- $section <br>";
-		//}
-	}
-
-	print("<center>");
-	print("<table border=0 cellspacing=5><tr valign=top><td>");
-	print("<table border=0 cellspacing=2>");
-	for ($i=0; $i<sizeof($keys); $i++) {
-		print_data_cell($keys[$i], $values[$i]);
-	}
-	print("</table></td><td>");
-	$keys = array("Flash", "FocalLength", "ExposureTime", "ApertureValue", "ISOSpeedRatings", "WhiteBalance", "MeteringMode");
-	print("<table border=0 cellspacing=1>");
-	for ($i=0; $i<sizeof($keys); $i++) {
-		if (isset($keys[$i]) && isset($exif[$keys[$i]])) {
-			print_data_cell($keys[$i], $exif[$keys[$i]]);
+		print("<center>");
+		print("<table border=0 cellspacing=2 cellpadding=2>");
+		foreach ($exif as $key => $section) {
+			print_data_cell($key, $section);
 		}
+		print("</table>");
 	}
-	print("</table></td></tr></table></center>");
 }
 /****************************************************************************/
 
@@ -782,56 +769,52 @@ function print_picture_details($path_to_picture, $currentindex, $total, $width, 
 
 
 /****************************************************************************/
-/* Print upper banner */
-function print_upper_banner($album, $description, $width) {
-	global $TITLE;
+/* Print banner */
+function print_banner($album, $thumbs, $page, $picture) {
+	global $TITLE, $BASEDIR;
+	$pictures = array();
+	$pictures = get_pictures_from_album($album);
 	$descr = preg_replace("/^\//", "", $album);
 	$path_parts = preg_split("/\/+/", $descr);
-	$descr = "";
+	$descr = "<a href='?album='>All Albums</a> - ";
 	$subalbum = "";
 	for ($i=0; $i<sizeof($path_parts)-1; $i++) {
 		$subalbum .= "/" . $path_parts[$i];
-		$descr .= "<a href='?thumbs=1&album=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
+		$descr .= "<a href='?thumbs=". urlencode($thumbs) . "&album=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
 	}
 	$subalbum .= "/" . $path_parts[$i];
 	$descr .= "<a href='?album=" . urlencode($subalbum) . "'>$path_parts[$i]</a>";
-	if ($description) {
-		$descr .= " - $description";
+	$prev = "&nbsp;";
+	$next = "&nbsp;";
+	if ($album && $page > 0) {
+		$prev = "<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1) . "><img src=silk/resultset_previous.png><b>Back</b></a>";
 	}
-	print("<table border=0 cellpadding=0 cellspacing=0 align=center width=$width><tr><td bgcolor=white>
-		  <table border=0 cellpadding=0 cellspacing=0 align=center width=100%><tr><td>
-                   <table border=0 cellpadding=0 cellspacing=0 align=center width=100%>
-		    <tr>
-		     <td colspan=3>
-		      <p align=center><b>$descr</b></p>
-		     </td>
-		    </tr>
-	");
-}
-/****************************************************************************/
-
-
-/****************************************************************************/
-/* Print upper toolbar */
-function print_upper_toolbar($album, $description, $back, $next, $width) {
-	print_upper_banner($album, $description, $width);
+	if ($album && sizeof($pictures) > $thumbs * ($page + 1)) {
+		$next = "<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "><b>Next</b> <img src=silk/resultset_next.png></a>";
+	}
+	if ($picture) {
+		$path_to_picture = $BASEDIR . "/" . $album . "/" . $picture;
+		$descr .= " - <a href='$path_to_picture'>$picture</a>";
+		$index = array_search($picture, $pictures);
+		if (isset($pictures[$index-1])) {
+			$prev = "<a href=?album=" . urlencode($album) . "&picture=" . $pictures[$index-1] . "><img src=silk/resultset_previous.png><b>Back</b></a>";
+		}
+		if (isset($pictures[$index+1])) {
+			$next = "<a href=?album=" . urlencode($album) . "&picture=" . $pictures[$index+1] . "><b>Next</b> <img src=silk/resultset_next.png></a>";
+		}
+	}
 	print("
-		  <tr align=center>
-		    <td width=20% align=left>$back</td>
-		    <td width=60%>
-		      <a href='" . $_SERVER["PHP_SELF"] . "'>index</a> |
-		      <a href='?album=" . urlencode($album) . "&thumbs=1'>thumbs</a> |
-		      <a href='?album=" . urlencode($album) . "&width=$width&slideshow=4'>slideshow</a> |
-		      <a href='?album=" . urlencode($album) . "&width=$width&screensaver=1'>screensaver</a>
-		    </td>
-		    <td width=20% align=right bgcolor=white>$next</td>
-		  </tr>
-		 </table>
-		</td></tr></table>
-	      </td></tr></table>
+<table border=0 cellpadding=0 cellspacing=0 align=center width=100% bgcolor=#DDDDDD>
+  <tr>
+    <td align=left width=50>$prev</td>
+    <td><p align=center><b>$descr</b></p></td>
+    <td align=right width=50>$next</td>
+  </tr>
+</table>
 	");
 }
 /****************************************************************************/
+
 
 /****************************************************************************/
 /* Print picture img */
@@ -883,7 +866,7 @@ function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 /* Print lower toolbar */
 function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 	print("
-		<table><tr><td bgcolor=white><table border=0 align=center width=$width>
+		<table align=center><tr><td bgcolor=white><table border=0 align=center width=$width>
 		  <tr align=center>
 		    <td width=33%>$resizeform</td>
 		    <td width=34%>$picform</td>
@@ -933,9 +916,8 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	if (! isset($descriptions[$picture])) {
 		$descriptions[$picture] = "";
 	}
-
 	print_picture_in_table($path_to_picture, $tempfilename, $height, $alt);
-	print_upper_toolbar($album, $descriptions[$picture], $back, $next, $width);
+	print_banner($album, $thumbs, $page, $picture);
 	print_lower_toolbar($resizeform, $picform, $rotateform, $width);
 	print_picture_details($path_to_picture, $currentindex, $total, $width, $descriptions);
 }
@@ -1068,13 +1050,13 @@ if ($screensaver) {
 	screensaver($album);
 	exit;
 } elseif ($write) {
-	do_write_descriptions($album, $file, $desc);
+	do_write_descriptions($album, $file, $desc, $thumbs);
 } elseif (!$album) {
-	do_list_albums($base);
-} elseif ($thumbs) {
-	print_thumbnails($album);
-} else {
+	do_list_albums($base, $thumbs, $page);
+} elseif ($picture) {
 	do_flipbook_page($album, $picture, $width, $rotate, $slideshow);
+} elseif ($thumbs) {
+	print_thumbnails($album, $thumbs, $page);
 }
 print_footer();
 /****************************************************************************/
