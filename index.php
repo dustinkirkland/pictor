@@ -580,7 +580,7 @@ function print_thumbnails($album, $thumbs, $page) {
 		print_thumbnail($album, $pictures[$i], $desc);
 	}
 	if ($i < sizeof($pictures)) {
-		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "> Next ". (($page+1)*$thumbs+1) . "-" . ($page+2)*$thumbs . " of " . sizeof($pictures) . " images</a> ");
+		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "> Next ". (($page+1)*$thumbs+1) . "-" . min(($page+2)*$thumbs, sizeof($pictures)) . " of " . sizeof($pictures) . " images</a> ");
 	}
 	print("</center></td></tr></table>");
 	print_banner($album, $thumbs, $page, "");
