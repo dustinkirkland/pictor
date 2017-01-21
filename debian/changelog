@@ -1,3 +1,9 @@
+pictor (2.38) unreleased; urgency=medium
+
+  * UNRELEASED
+
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 21 Jan 2017 09:23:08 -0500
+
 pictor (2.37-0ubuntu1) zesty; urgency=medium
 
   * index.php:
