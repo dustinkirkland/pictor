@@ -463,9 +463,8 @@ function generate_thumbnail($filename) {
 		rotate_if_necessary($filename, $thumbnail_name);
 	} elseif (is_video($filename)) {
 		if ($BATCH) {
-			echo "Rendering thumbnail [$filename] to [$thumbnail_name]...\n";
-		}
-		if (! shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"))) {
+			echo "Skipping video transcoding [$filename]...\n";
+		} elseif (! shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"))) {
 			symlink(getcwd() . "/pictor.jpg", $thumbnail_name);
 		}
 		return;
