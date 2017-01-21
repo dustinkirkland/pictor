@@ -279,6 +279,8 @@ function do_resize_picture($path_to_picture, $width, $height, $rotate) {
 /****************************************************************************/
 /* Transcode a video, returns temp file name, depends on libav-tools */
 function do_transcode_video($path) {
+	return $path;
+/*
 	$path_parts = preg_split("/\//", $path);
 	$file = array_pop($path_parts);
         $tempfilename = get_cache_filename($file, "transcode");
@@ -297,6 +299,7 @@ function do_transcode_video($path) {
 		//clean_tmp("tmp/transcode");
 		return $tempfilename;
 	}
+*/
 }
 /****************************************************************************/
 
@@ -461,7 +464,7 @@ function generate_thumbnail($filename) {
 			}
 		}
 		rotate_if_necessary($filename, $thumbnail_name);
-	} elseif (is_video($filename)) {
+	}/* elseif (is_video($filename)) {
 		if ($BATCH) {
 			echo "Skipping video transcoding [$filename]...\n";
 		} elseif (! shell_exec("HOME=/var/cache/pictor/ run-one avconv -i " . escapeshellarg("$filename") . " -r 1 -ss 00:00:10 -f image2 -vframes 1 -vf 'scale=130:trunc(ow/a/2)*2' -y " . escapeshellarg("$thumbnail_name"))) {
@@ -469,6 +472,7 @@ function generate_thumbnail($filename) {
 		}
 		return;
 	}
+	*/
 }
 /****************************************************************************/
 
@@ -560,7 +564,7 @@ function print_thumbnails($album, $thumbs, $page) {
 	do_list_albums($album, $thumbs, $page);
 	print("<table align=center><tr><td bgcolor=#888888><center>\n");
 	if ($page > 0) {
-		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1) . "> Previous " . $thumbs . " of " . sizeof($pictures) . " images</a> ");
+		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1) . "> Previous " . (($page-1)*$thumbs+1) . "-" . $page*$thumbs . " of " . sizeof($pictures) . " images</a> ");
 	}
 	$start = $page * $thumbs;
 	$stop = $start + $thumbs;
@@ -576,7 +580,7 @@ function print_thumbnails($album, $thumbs, $page) {
 		print_thumbnail($album, $pictures[$i], $desc);
 	}
 	if ($i < sizeof($pictures)) {
-		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "> Next ". $thumbs . " of " . sizeof($pictures) . " images</a> ");
+		print("<a href=?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1) . "> Next ". (($page+1)*$thumbs+1) . "-" . ($page+2)*$thumbs . " of " . sizeof($pictures) . " images</a> ");
 	}
 	print("</center></td></tr></table>");
 	print_banner($album, $thumbs, $page, "");

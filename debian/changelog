@@ -12,6 +12,8 @@ pictor (2.37) unreleased; urgency=medium
     - make our banner printing more consistent, navigable
     - fix a couple of undefined variable errors
     - disable batch transcoding of video
+    - disable video transcoding, not working well
+    - fix counting of thumbnails
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sun, 02 Oct 2016 15:37:01 -0500
 
