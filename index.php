@@ -341,6 +341,8 @@ div {
 	top:0;
 	right:0;
 }
+img {
+border-radius:10px
 </style>
 <title>$TITLE</title>
 <link rel='shortcut icon' href='/pictor/favicon.ico' type='image/x-icon'>

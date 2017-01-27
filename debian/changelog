@@ -4,6 +4,7 @@ pictor (2.38) unreleased; urgency=medium
     - remove description support; no longer relevant
     - fix formatting
     - pretty print tables
+    - nice little radius around pictures
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 21 Jan 2017 09:23:08 -0500
 
