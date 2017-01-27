@@ -33,7 +33,6 @@ $page        = sanity_check_number("page");
 $slideshow   = sanity_check_number("slideshow");
 $write       = sanity_check("write");
 $file        = sanity_check_array("file");
-$desc        = sanity_check_array("desc");
 $random      = sanity_check_number("random");
 $screensaver = sanity_check_number("screensaver");
 
@@ -129,28 +128,6 @@ function has_images($dir) {
 		return 0;
 	}
 	return 0;
-}
-/****************************************************************************/
-
-
-/****************************************************************************/
-/* Read and parse the description */
-function get_description($path) {
-	$path .= "/";
-	$dirs = preg_split("/\//", $path);
-	$current = array_shift($dirs);
-	$description = array();
-	while (sizeof($dirs) > 0) {
-		if ( file_exists("$current/description.txt") ) {
-			$file = file("$current/description.txt");
-			for ($i=0; $i<sizeof($file); $i++) {
-				$line = preg_split("/\t+/", $file[$i], 2);
-				$description[$line[0]] = rtrim($line[1]);
-			}
-		}
-		$current = $current . "/" . array_shift($dirs);
-	}
-	return $description;
 }
 /****************************************************************************/
 
@@ -335,7 +312,7 @@ function goto(form) {
 <style>
 td {
 	text-decoration: none;
-	font-size: 8px
+	font-size: 10px
 	border: 1px black;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -347,10 +324,12 @@ a {
 a:hover {
 	text-decoration: underline;
 }
+p {
+	font-size: 10px
+}
 body {
-	font-size: 8px;
-	font-family: verdana,arial,helvetica,sans-serif;
-	font-weight: 400;
+	font-family: Ubuntu,verdana,arial,helvetica,sans-serif;
+	font-size: 10px;
 	color: black;
 }
 div {
@@ -379,19 +358,18 @@ div {
 /****************************************************************************/
 /* Print html footer information */
 function print_footer() {
-	global $LICENSE;
 	print("
-		<table border=0 cellspacing=0 width=400 align=center>
-		  <tr>
-		    <td bgcolor=#FFFFFF align=center><small>
-$LICENSE<br>
-<small><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-" . date("Y") . " <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</small>
-		    </small></td>
-		  </tr>
-		</table>
+<br/>
+<table border=0 cellpadding=4 width=100% align=center>
+  <tr>
+    <td bgcolor=#DDDDDD align=center>
+      <p><a href='https://launchpad.net/pictor'>Pictor</a> is <a href='agpl-3.0.txt'>AGPLv3</a> free software, Copyright &copy; 1997-" . date("Y") . " <a href='http://blog.dustinkirkland.com'>Dustin Kirkland</a>.</p>
+    </td>
+  </tr>
+</table>
 </body>
 </html>
-	");
+");
 }
 /****************************************************************************/
 
@@ -475,13 +453,13 @@ function generate_thumbnail($filename) {
 
 /****************************************************************************/
 /* Print single thumbnail */
-function print_thumbnail($path, $file, $desc) {
+function print_thumbnail($path, $file) {
 	global $THUMB_ROOT;
 	global $PICTURE_ROOT;
 	$filename = "$PICTURE_ROOT/$path/$file";
 	$thumbnail_name = get_cache_filename($filename, "thumbnails");
 	$href = "?album=" . urlencode($path) . "&picture=" . urlencode($file);
-	print("<a title='$desc' href='$href'>");
+	print("<a href='$href'>");
 	generate_thumbnail($filename);
 	print("<div><img height=130 align=center border=0 src='$thumbnail_name'>");
 	if (is_video($filename)) {
@@ -507,8 +485,7 @@ function do_list_albums($album, $thumbs, $page) {
 		sort($files);
 		print_banner($album, $thumbs, $page, "");
 		print("
-<table border=0 cellpadding=4 cellspacing=4 align=center bgcolor=#DDDDDD>
-");
+<table border=0 cellpadding=4 cellspacing=4 align=center>");
 		$count = 0;
 		for ($i=0; $i<sizeof($files); $i++) {
 			$file = $files[$i];
@@ -516,16 +493,13 @@ function do_list_albums($album, $thumbs, $page) {
 				$href = "?album=" . urlencode("$album/$file") . "&thumbs=" . urlencode($thumbs);
 				if ( ($count % $ALBUM_COLUMNS) == 0 ) {
 					print("
-        <tr>
-					");
+  <tr>");
 				}
 				print("
-          <td bgcolor=white onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$href') align=center><a href='$href'>" . htmlspecialchars($file) . "</a></td>
-				");
+    <td bgcolor=#FFFFFF onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$href') align=center><a href='$href'>" . htmlspecialchars($file) . "</a></td>");
 				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
-        </tr>
-					");
+  </tr>");
 				}
 				$count++;
 			}
@@ -534,7 +508,15 @@ function do_list_albums($album, $thumbs, $page) {
 </table>
 ");
 	} else {
-		print("<table cellpadding=20><tr><td bgcolor=#EEEEEE><br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre></td></tr></table>");
+		print("
+<table border=0 cellpadding=20>
+  <tr>
+    <td bgcolor=#EEEEEE>
+      <br><b>ERROR</b><br>No pictures found.<br><br>Create a symlink to your pictures folder at<pre>" . dirname($_SERVER["SCRIPT_FILENAME"]) . "/pictures</pre>
+    </td>
+  </tr>
+</table>
+");
 		//exit;
 	}
 	// if only one option and no images, go straight to it
@@ -556,13 +538,24 @@ function print_thumbnails($album, $thumbs, $page) {
 	global $BASEDIR;
 	print("<br>\n");
 	$pictures = get_pictures_from_album($album);
-	$description = get_description("$BASEDIR/$album");
 	$tab = 1;
 	do_list_albums($album, $thumbs, $page);
-	print("<table align=center><tr><td bgcolor=#888888><center>\n");
+	print("
+<table border=0 align=center>
+  <tr>
+    <td bgcolor=#888888><center>
+\n");
 	if ($page > 0) {
 		$url = "?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page-1);
-		print("<table border=0 align=left><tr><td width=300 height=50 bgcolor=#DDDDDD align=center onClick=javascript:gotourl('$url')><a href='$url'> Previous " . (($page-1)*$thumbs+1) . "-" . $page*$thumbs . " of " . sizeof($pictures) . " images</a></center></td></tr></table>");
+		print("
+      <table border=0 align=left>
+        <tr>
+          <td width=300 height=50 bgcolor=#DDDDDD align=center onClick=javascript:gotourl('$url')>
+            <a href='$url'> Previous " . (($page-1)*$thumbs+1) . "-" . $page*$thumbs . " of " . sizeof($pictures) . " images</a></center>
+          </td>
+        </tr>
+      </table>
+");
 	}
 	$start = $page * $thumbs;
 	$stop = $start + $thumbs;
@@ -570,43 +563,28 @@ function print_thumbnails($album, $thumbs, $page) {
 		if (! isset($pictures[$i])) {
 			break;
 		}
-		if (isset($description[$pictures[$i]])) {
-			$desc = $description[$pictures[$i]];
-		} else {
-			$desc = "";
-		}
-		print_thumbnail($album, $pictures[$i], $desc);
+		print_thumbnail($album, $pictures[$i]);
 	}
 	if ($i < sizeof($pictures)) {
 		$url = "?album=" . urlencode($album) . "&thumbs=" . urlencode($thumbs) . "&page=" . urlencode($page+1);
-		print("<br><table border=0 align=right><tr><td width=300 height=50 bgcolor=#DDDDDD align=center onClick=javascript:gotourl('$url')><a href='$url'> Next ". (($page+1)*$thumbs+1) . "-" . min(($page+2)*$thumbs, sizeof($pictures)) . " of " . sizeof($pictures) . " images</a></td></tr></table>");
+		print("
+<br>
+      <table border=0 align=right>
+        <tr>
+          <td width=300 height=50 bgcolor=#DDDDDD align=center onClick=javascript:gotourl('$url')>
+            <a href='$url'> Next ". (($page+1)*$thumbs+1) . "-" . min(($page+2)*$thumbs, sizeof($pictures)) . " of " . sizeof($pictures) . " images</a>
+          </td>
+        </tr>
+      </table>
+");
 	}
-	print("</center></td></tr></table>");
+	print("
+</center>
+    </td>
+  </tr>
+</table>
+");
 	print_banner($album, $thumbs, $page, "");
-}
-
-/****************************************************************************/
-/* Write description file */
-/* Descriptions are typically written to description.txt
-   Descriptions written via the web interface are written to
-   description.txt which must be chowned to www-data:www-data
-*/
-function do_write_descriptions($album, $file, $desc) {
-	print("<table bgcolor=white border=0><tr><td align=left><pre>\n");
-	print("FILENAME: $album/description.txt<br><br>\n");
-	if (!$fh = fopen("pictures/$BASEDIR/$album/description.txt", "w")) {
-		print("Cannot open [$BASEDIR/$album/description.txt]\n");
-		exit;
-	}
-	for ($i=0; $i<sizeof($file); $i++) {
-		if ($desc[$i]) {
-			print("$file[$i]\t\t$desc[$i]\n");
-			fwrite($fh, "$file[$i]\t\t$desc[$i]\n");
-		}
-	}
-	fclose($fh);
-	print("</pre></td></tr></table>");
-	print("<br><a href='?'>index</a> | <a href='?thumbs=1&album=". urlencode($album) . "'>thumbs</a> | <a href='?album=" . urlencode($album) . "'>flipbook</a><br><br>");
 }
 /****************************************************************************/
 
@@ -671,21 +649,17 @@ function build_delay_form($path_to_picture, $album, $picture, $width, $delay) {
 
 /****************************************************************************/
 /* Print picture form */
-function build_picture_form($album, $picture, $width, $slideshow, $pictures, $description) {
+function build_picture_form($album, $picture, $width, $slideshow, $pictures) {
 	global $BASEDIR;
 	$form = "<form name=picform><select name=dest size=1 onchange=javascript:goto(this.form)>\n";
 	if (is_dir("$BASEDIR/$album")) {
 		$i = 0;
 		for ($i=0; $i<sizeof($pictures); $i++) {
 			$file = $pictures[$i];
-			if (isset($description[$file])) {
-				$clean = substr($description[$file], 0, round($width/13));
-			} else {
-				$clean = preg_replace("/\.jpg$/i", "", $file);
-				$clean = preg_replace("/[\-\_]/", " ", $clean);
-				$clean = preg_replace("/&/", " and ", $clean);
-				$clean = htmlspecialchars($clean);
-			}
+			$clean = preg_replace("/\.jpg$/i", "", $file);
+			$clean = preg_replace("/[\-\_]/", " ", $clean);
+			$clean = preg_replace("/&/", " and ", $clean);
+			$clean = htmlspecialchars($clean);
 			if ($file == $picture) {
 				$currentindex = $i;
 				$form .= "<option selected value>$clean</option>\n";
@@ -713,7 +687,14 @@ function get_next_link($album, $width, $pictures, $currentindex, $slideshow) {
 	if ($slideshow > 0) {
 		print("<meta http-equiv='refresh' content='$slideshow;url=$NEXT&slideshow=$slideshow'>\n");
 	}
-	$next = "<table border=0><tr><td bgcolor=white><a href='$NEXT'><b>Next <img src=silk/resultset_next.png></b></a></td></tr></table>";
+	$next = "
+<table border=0>
+  <tr>
+    <td bgcolor=white>
+      <a href='$NEXT'><b>Next <img src=silk/resultset_next.png></b></a>
+    </td>
+  </tr>
+</table>";
 	return $next;
 }
 
@@ -722,7 +703,15 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 	if ($currentindex != 0) {
 		$back = $pictures[$currentindex-1];
 		$BACK = "?album=" . urlencode($album) . "&picture=" . urlencode($back) . "&width=$width";
-		$back = "<table border=0><tr><td bgcolor=white><a href='$BACK'><b><img src=silk/resultset_previous.png> Back</b></a></td></tr></table>";
+		$back = "
+<table border=0>
+  <tr>
+    <td bgcolor=white>
+      <a href='$BACK'><b><img src=silk/resultset_previous.png> Back</b></a>
+    </td>
+  </tr>
+</table>
+";
 		return $back;
 	} else {
 		return "&nbsp;";
@@ -735,13 +724,13 @@ function get_back_link($album, $width, $pictures, $currentindex) {
 /* Print data cell */
 function print_data_cell($key, $value) {
 	if ($value) {
-		print("<tr><td bgcolor=#DDDDDD><small><small>" . htmlspecialchars($key) . "</small></small></td><td bgcolor=white><small><small>");
+		print("<tr><td bgcolor=#DDDDDD>" . htmlspecialchars($key) . "</td><td bgcolor=white>");
 		if (is_array($value)) {
 			print(htmlspecialchars(print_r($value)));
 		} else {
 			print(htmlspecialchars($value));
 		}
-		print("</small></small></td></tr>");
+		print("</td></tr>");
 	}
 }
 /****************************************************************************/
@@ -749,14 +738,18 @@ function print_data_cell($key, $value) {
 
 /****************************************************************************/
 /* Print exif data */
-function print_exif_data($path_to_picture, $description) {
+function print_exif_data($path_to_picture) {
 	if ($exif = @exif_read_data($path_to_picture, 0, false)) {
 		print("<center>");
-		print("<table border=0 cellspacing=2 cellpadding=2>");
+		print("
+<table border=0 cellspacing=2 cellpadding=2>
+");
 		foreach ($exif as $key => $section) {
 			print_data_cell($key, $section);
 		}
-		print("</table>");
+		print("
+</table>
+");
 	}
 }
 /****************************************************************************/
@@ -764,8 +757,8 @@ function print_exif_data($path_to_picture, $description) {
 
 /****************************************************************************/
 /* Print picture details */
-function print_picture_details($path_to_picture, $currentindex, $total, $width, $description) {
-	print_exif_data($path_to_picture, $description);
+function print_picture_details($path_to_picture, $currentindex, $total, $width) {
+	print_exif_data($path_to_picture);
 }
 /****************************************************************************/
 
@@ -776,16 +769,16 @@ function print_banner($album, $thumbs, $page, $picture) {
 	global $TITLE, $BASEDIR;
 	$pictures = array();
 	$pictures = get_pictures_from_album($album);
-	$descr = preg_replace("/^\//", "", $album);
-	$path_parts = preg_split("/\/+/", $descr);
-	$descr = "<a href='?album='>All Albums</a> - ";
+	$links = preg_replace("/^\//", "", $album);
+	$path_parts = preg_split("/\/+/", $links);
+	$links = "<a href='?album='>All Albums</a> - ";
 	$subalbum = "";
 	for ($i=0; $i<sizeof($path_parts)-1; $i++) {
 		$subalbum .= "/" . $path_parts[$i];
-		$descr .= "<a href='?thumbs=". urlencode($thumbs) . "&album=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
+		$links .= "<a href='?thumbs=". urlencode($thumbs) . "&album=" . urlencode($subalbum) . "'>$path_parts[$i]</a> - ";
 	}
 	$subalbum .= "/" . $path_parts[$i];
-	$descr .= "<a href='?album=" . urlencode($subalbum) . "'>$path_parts[$i]</a>";
+	$links .= "<a href='?album=" . urlencode($subalbum) . "'>$path_parts[$i]</a>";
 	$prev = "&nbsp;";
 	$next = "&nbsp;";
 	if ($album && $page > 0) {
@@ -796,7 +789,7 @@ function print_banner($album, $thumbs, $page, $picture) {
 	}
 	if ($picture) {
 		$path_to_picture = $BASEDIR . "/" . $album . "/" . $picture;
-		$descr .= " - <a href='$path_to_picture'>$picture</a>";
+		$links .= " - <a href='$path_to_picture'>$picture</a>";
 		$index = array_search($picture, $pictures);
 		if (isset($pictures[$index-1])) {
 			$prev = "<a href=?album=" . urlencode($album) . "&picture=" . $pictures[$index-1] . "><img src=silk/resultset_previous.png><b>Back</b></a>";
@@ -806,13 +799,20 @@ function print_banner($album, $thumbs, $page, $picture) {
 		}
 	}
 	print("
-<table border=0 cellpadding=0 cellspacing=0 align=center width=100% bgcolor=#DDDDDD>
+<table border=0 align=center width=100%>
   <tr>
-    <td align=left width=50>$prev</td>
-    <td><p align=center><b>$descr</b></p></td>
-    <td align=right width=50>$next</td>
+    <td bgcolor=#DDDDDD>
+      <table border=0 align=center width=100%>
+        <tr>
+          <td align=left width=50>$prev</td>
+          <td><p align=center><b>$links</b></p></td>
+          <td align=right width=50>$next</td>
+        </tr>
+      </table>
+    </td>
   </tr>
 </table>
+<br/>
 	");
 }
 /****************************************************************************/
@@ -848,18 +848,21 @@ if (window.innerHeight > window.innerWidth) {
 function print_picture_in_table($path_to_picture, $temp, $height, $alt) {
 	global $BACK, $NEXT;
 	print("
-		<table border=0 width=100%><tr><td><table border=0 width=100% cellspacing=0 cellpadding=6 align=center>
-		  <tr>
-		    <td width=33% onClick=javascript:gotourl('$BACK')>&nbsp;</td>
-		    <td bgcolor=black><center>
-	");
+		<table border=0 width=100%>
+                  <tr>
+                    <td>
+                      <table border=0 width=100% cellspacing=0 cellpadding=6 align=center>
+		        <tr>
+		          <td width=33% onClick=javascript:gotourl('$BACK')>&nbsp;</td>
+		          <td bgcolor=black><center>");
 	print_picture($path_to_picture, $temp, $height, $alt);
 	print("
-		    </center></td>
+		    </center>
+                    </td>
 		    <td width=33% onClick=javascript:gotourl('$NEXT')>&nbsp;</td>
 		  </tr>
 		</table></td></tr></table>
-	");
+");
 }
 /****************************************************************************/
 
@@ -875,7 +878,7 @@ function print_lower_toolbar($resizeform, $picform, $rotateform, $width) {
 		    <td width=33%>$rotateform</td>
 		  </tr>
 		</table>
-	");
+");
 }
 
 /****************************************************************************/
@@ -902,8 +905,7 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 		$picture = $pictures[0];
 	}
 
-	$descriptions = get_description("$BASEDIR/$album");
-	$picform = build_picture_form($album, $picture, $width, $slideshow, $pictures, $descriptions);
+	$picform = build_picture_form($album, $picture, $width, $slideshow, $pictures);
 	$path_to_picture = $BASEDIR . "/" . $album . "/" . $picture;
 	$path_to_picture = preg_replace("/\/+/", "/", "$path_to_picture");
 	$rotateform = build_rotate_form($album, $picture, $width, $rotate);
@@ -915,13 +917,10 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	$next = get_next_link($album, $width, $pictures, $currentindex, $slideshow);
 	$back = get_back_link($album, $width, $pictures, $currentindex);
 	$alt = "";
-	if (! isset($descriptions[$picture])) {
-		$descriptions[$picture] = "";
-	}
 	print_picture_in_table($path_to_picture, $tempfilename, $height, $alt);
 	print_banner($album, "", "", $picture);
 	print_lower_toolbar($resizeform, $picform, $rotateform, $width);
-	print_picture_details($path_to_picture, $currentindex, $total, $width, $descriptions);
+	print_picture_details($path_to_picture, $currentindex, $total, $width);
 }
 /****************************************************************************/
 
@@ -942,14 +941,37 @@ function do_slideshow_page($album, $picture, $width, $slideshow) {
 	$path_to_picture = preg_replace("/\/+/", "/", "$path_to_picture");
 	$tempfilename = do_resize_picture($path_to_picture, $width, $height, $rotate);
 	print_header(0);
-	print("<body bgcolor=black topmargin=0 leftmargin=0><center><table height=100% cellpadding=0 cellspacing=0><tr><td>");
+	print("
+<body bgcolor=black topmargin=0 leftmargin=0><center>
+<table height=100% cellpadding=0 cellspacing=0>
+  <tr>
+    <td>
+");
 	print_picture($path_to_picture, $tempfilename, $height, $alt);
 	$currentindex = locate_index($picture, $pictures);
 	$next = $pictures[$currentindex+1];
 	$url = "?album=" . urlencode($album) . "&picture=" . urlencode($next) . "&width=$width";
 	$resizeform = build_resize_form($path_to_picture, $album, $picture, $width, "slideshow=$slideshow");
 	$delayform = build_delay_form($path_to_picture, $album, $picture, $width, $slideshow);
-	print("</td></tr><tr><td align=center><table><tr><td align=center>$delayform</td><td align=center>$resizeform</td></tr></table></td></tr></table></center><meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'></body></html>\n");
+	print("
+    </td>
+  </tr>
+  <tr>
+    <td align=center>
+      <table>
+        <tr>
+          <td align=center>$delayform</td>
+          <td align=center>$resizeform</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</center>
+<meta http-equiv='refresh' content='$slideshow;url=$url&slideshow=$slideshow'>
+</body>
+</html>
+");
 }
 /****************************************************************************/
 
@@ -1051,8 +1073,6 @@ print_header();
 if ($screensaver) {
 	screensaver($album);
 	exit;
-} elseif ($write) {
-	do_write_descriptions($album, $file, $desc, $thumbs);
 } elseif (!$album) {
 	do_list_albums($base, $thumbs, $page);
 } elseif ($picture) {
