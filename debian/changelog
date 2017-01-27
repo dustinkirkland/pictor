@@ -1,4 +1,4 @@
-pictor (2.38) unreleased; urgency=medium
+pictor (2.38-0ubuntu1) zesty; urgency=medium
 
   * index.php:
     - remove description support; no longer relevant
@@ -7,7 +7,7 @@ pictor (2.38) unreleased; urgency=medium
     - nice little radius around pictures
     - ensure that batch jobs don't timeout; this was breaking our cronjob
 
- -- Dustin Kirkland <kirkland@ubuntu.com>  Sat, 21 Jan 2017 09:23:08 -0500
+ -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 27 Jan 2017 08:28:51 -0600
 
 pictor (2.37-0ubuntu1) zesty; urgency=medium
 
