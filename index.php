@@ -55,6 +55,7 @@ $THUMB_ROOT = $PICTURE_ROOT;
 $BATCH = false;
 if (isset($argv) && $argv[1] == "batch") {
 	$BATCH = true;
+	set_time_limit(0);
 }
 
 /****************************************************************************/
