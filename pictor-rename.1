@@ -10,7 +10,7 @@ The \fBpictor\-rename\fP utility is useful for renaming pictures, in the order o
 
 If you perfectly synchronize the embedded clock on each of several cameras, you can use \fBpictor\-rename\fP to conveniently combine and interleave pictures from these cameras.
 
-This utility will attempt to use \fBexiftool\fP(1) to read the file creation time from the picture's exif headers.  If that fails, then it will use the file modification time as specified by \fBstat\fP(1).
+This utility will attempt to use \fBexiftool\fP(1) to read the file creation time from the picture's exif headers.  If that fails, if will check if the file's parent directory is named YYYY-MM-DD, and will use that date.  Otherwise, it will use the file modification time as specified by \fBstat\fP(1).
 
 .SH SEE ALSO
 \fBstat\fP(1), \fBexiftool\fP(1)
