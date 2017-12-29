@@ -2,6 +2,7 @@ pictor (2.39) unreleased; urgency=medium
 
   * pictor-rename, pictor-rename.1:
     - use the parent directory's date, if it matches a YYYY-MM-DD pattern
+    - correctly handle names with whitespace
 
  -- Dustin Kirkland <kirkland@ubuntu.com>  Fri, 27 Jan 2017 08:28:53 -0600
 

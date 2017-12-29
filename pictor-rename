@@ -67,7 +67,7 @@ progress() {
 
 echo "INFO: Repairing file names..."
 j=0
-for i in $@; do
+for i in "$@"; do
 	j=$((j+1))
 	file=$(basename "${i}")
 	dir=$(dirname "${i}")
