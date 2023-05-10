@@ -2,7 +2,7 @@
 
 /*
  *  pictor: a web application for sharing, viewing, and organizing pictures
- *  Copyright (C) 1997-2018 Dustin Kirkland <dustin.kirkland@gmail.com>
+ *  Copyright (C) 1997-2023 Dustin Kirkland <dustin.kirkland@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published by
@@ -81,9 +81,8 @@ function sanity_check($string) {
 function sanity_check_number($input) {
 	$input = sanity_check($input);
 	if (empty($input)) {
-		return "";
-	}
-	if (is_numeric($input)) {
+		return intval("");
+	} elseif (is_numeric($input)) {
 		return intval($input);
 	}
 	exit;
@@ -93,10 +92,13 @@ function sanity_check_number($input) {
 /****************************************************************************/
 /* Call the sanity_check() function on everything in an array */
 function sanity_check_array($array) {
-	for ($i=0; $i<sizeof($array); $i++) {
-		$array[$i] = sanity_check($array[$i]);
+	if (is_array($array)) {
+		for ($i=0; $i<sizeof($array); $i++) {
+			$array[$i] = sanity_check($array[$i]);
+		}
+		return $array;
 	}
-	return $array;
+	return array();
 }
 /****************************************************************************/
 
@@ -923,7 +925,7 @@ function do_flipbook_page($album, $picture, $width, $rotate, $slideshow) {
 	$back = get_back_link($album, $width, $pictures, $currentindex);
 	$alt = "";
 	print_picture_in_table($path_to_picture, $tempfilename, $height, $alt);
-	print_banner($album, "", "", $picture);
+	print_banner($album, 50, 0, $picture);
 	print_lower_toolbar($resizeform, $picform, $rotateform, $width);
 	print_picture_details($path_to_picture, $currentindex, $total, $width);
 }
