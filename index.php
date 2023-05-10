@@ -2,7 +2,7 @@
 
 /*
  *  pictor: a web application for sharing, viewing, and organizing pictures
- *  Copyright (C) 1997-2017 Dustin Kirkland <dustin.kirkland@gmail.com>
+ *  Copyright (C) 1997-2018 Dustin Kirkland <dustin.kirkland@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published by
@@ -298,6 +298,7 @@ function locate_index($needle, $haystack) {
 /* Print html header information */
 function print_header($body=1) {
 	global $TITLE;
+	global $FONT_SIZE;
 	print("
 <html>
 <head>
@@ -313,24 +314,24 @@ function goto(form) {
 <style>
 td {
 	text-decoration: none;
-	font-size: 10px
+	font-size: $FONT_SIZE;
 	border: 1px black;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
 a {
 	text-decoration: none;
-	font-size: 10px
+	font-size: $FONT_SIZE;
 }
 a:hover {
 	text-decoration: underline;
 }
 p {
-	font-size: 10px
+	font-size: $FONT_SIZE
 }
 body {
 	font-family: Ubuntu,verdana,arial,helvetica,sans-serif;
-	font-size: 10px;
+	font-size: $FONT_SIZE;
 	color: black;
 }
 div {
@@ -478,6 +479,7 @@ function print_thumbnail($path, $file) {
 function do_list_albums($album, $thumbs, $page) {
 	global $BASEDIR;
 	global $ALBUM_COLUMNS;
+	$width_percentage = 100 / $ALBUM_COLUMNS;
 	$pictures = get_pictures_from_album($album);
 	if ($dir = @opendir($BASEDIR . "/" . $album)) {
 		$i = 0;
@@ -499,7 +501,7 @@ function do_list_albums($album, $thumbs, $page) {
   <tr>");
 				}
 				print("
-    <td bgcolor=#FFFFFF onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$href') align=center><a href='$href'>" . htmlspecialchars($file) . "</a></td>");
+    <td bgcolor=#FFFFFF onMouseOver=this.bgColor='lightblue' onMouseOut=this.bgColor='white' onClick=javascript:goto('$href') align=center width='$width_percentage%'><a href='$href'>" . htmlspecialchars($file) . "</a></td>");
 				if ( (($count+1) % $ALBUM_COLUMNS) == 0 ) {
 					print("
   </tr>");

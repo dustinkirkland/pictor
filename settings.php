@@ -16,9 +16,12 @@ $RAND_ALBUMS = array();
 //$EDIT_PW = "s0me_passw0rd";
 
 // Set the default columns
-$ALBUM_COLUMNS = 6;
+$ALBUM_COLUMNS = 8;
 
 // Set the default width, should be one of [160, 400, 640, 800, 1024, 1920]
 $DEFAULT_WIDTH = 1024;
+
+// Set the default font size
+$FONT_SIZE = "12px";
 
 ?>
